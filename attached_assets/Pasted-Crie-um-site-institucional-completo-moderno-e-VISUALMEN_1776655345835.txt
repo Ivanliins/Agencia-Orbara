@@ -1,0 +1,196 @@
+Crie um site institucional completo, moderno e VISUALMENTE IMPACTANTE para a agência de publicidade "Orbara".
+
+===========================
+SOBRE A ORBARA
+===========================
+A Orbara é uma agência boutique de publicidade focada em sites institucionais de alta conversão. Unimos Google Ads + SEO + copywriting estratégico para transformar o site do cliente em uma máquina silenciosa de vendas, aprimorando a comunicação entre o prestador de serviço e o cliente final.
+
+Tagline: "Onde marcas encontram sua gravidade."
+Posicionamento: boutique, ousada, confiante, cósmica.
+Inspiração estética: design bold contemporâneo com fontes gigantes, shapes arredondados (pill shapes), contraste brutal, estilo editorial moderno.
+
+===========================
+STACK TÉCNICA
+===========================
+- Next.js 14 (App Router)
+- TypeScript
+- Tailwind CSS
+- Framer Motion (animações sutis)
+- Lucide React (ícones)
+- Formulário com react-hook-form
+- SEO completo: metadata dinâmica, Open Graph, sitemap.xml, robots.txt, schema.org JSON-LD (Organization)
+- Fontes otimizadas via next/font
+- Responsivo mobile-first
+- Performance Lighthouse 90+
+
+===========================
+IDENTIDADE VISUAL (MUITO IMPORTANTE - SEGUIR À RISCA)
+===========================
+
+PALETA DE CORES — criar como CSS variables no globals.css:
+- Orbit Orange: #ff5d00 (cor primária, CTAs, destaques, grandes blocos de cor)
+- Deep Black: #0d0101 (fundo principal escuro, textos fortes)
+- Starlight: #fffafa (off-white, fundos claros, textos sobre preto/laranja)
+
+TIPOGRAFIA — USAR APENAS A FONTE ONEST (carregar via Google Fonts ou next/font/google):
+- Carregar Onest nos pesos 300, 400, 500, 600, 700, 800, 900
+- Headlines/títulos: Onest peso 800 ou 900, TAMANHOS GIGANTES (clamp(4rem, 12vw, 12rem) nos heros)
+- Subheadlines: Onest peso 500, tamanhos médios
+- Corpo: Onest peso 400
+- Line-height apertado nos títulos (0.9 a 1.0) para máximo impacto
+- Tracking levemente negativo nos títulos grandes (-0.02em)
+
+ELEMENTOS VISUAIS CHAVE:
+- SHAPES ARREDONDADOS ESTILO PÍLULA: muitos elementos com border-radius grande (rounded-full ou rounded-[40px]/[60px]) criando formas estilo "pill". Blocos de cor laranja com cantos arredondados enormes, tipo cápsulas gigantes.
+- Cards e seções com border-radius de 32px, 40px ou até 60px
+- Contraste brutal: blocos inteiros laranja (#ff5d00) alternando com blocos pretos (#0d0101) e off-white (#fffafa)
+- Fontes gigantes quebrando o layout, invadindo bordas das seções
+- Animações sutis: fade-in no scroll, leve parallax, hover scale sutil nos botões
+- Micro-interações: botões com transição de cor suave, cursor pointer customizado opcional
+
+LOGO ORBARA:
+- Símbolo: uma órbita (círculo fino) com um ponto luminoso na circunferência superior direita
+- Wordmark "ORBARA" em Onest peso 800, tracking amplo
+- Criar como componente SVG inline, adaptável às cores de fundo
+
+===========================
+ESTRUTURA DO SITE (single-page scroll)
+===========================
+
+1. NAVBAR
+   - Fixa no topo, fundo preto (#0d0101) com blur no scroll
+   - Logo Orbara à esquerda em Starlight
+   - Menu à direita: Manifesto · Serviços · Processo · Contato (Onest 500)
+   - CTA no canto: botão pill laranja "Fale com a Orbara" (Onest 600)
+   - Mobile: menu hamburger
+
+2. HERO (fullscreen)
+   - Fundo Deep Black (#0d0101)
+   - Headline GIGANTE em Starlight, peso 900, tamanho clamp(4rem, 14vw, 14rem), line-height 0.9:
+     "Sites que orbitam resultado."
+   - Palavra "orbitam" em Orbit Orange (#ff5d00)
+   - Subheadline em Aura/Starlight peso 400, tamanho médio:
+     "Unimos Google Ads, SEO e copywriting estratégico para transformar seu site em uma máquina silenciosa de vendas."
+   - CTA principal em formato pill: botão grande laranja (#ff5d00) com texto preto, border-radius full, texto "Quero orbitar resultado →"
+   - CTA secundário: texto sublinhado em Starlight "Ver como funciona"
+   - Pequeno badge no topo da headline: pill pequena laranja com texto preto "Agência boutique · Vagas limitadas"
+
+3. MANIFESTO
+   - Fundo Orbit Orange (#ff5d00) em bloco com cantos arredondados MASSIVOS (border-radius 60px) ocupando quase toda a largura, respirando com preto ao redor
+   - Texto em Deep Black, fonte Onest peso 800, tamanho grande
+   - Label pequeno em cima: "MANIFESTO" (letra-spacing amplo)
+   - Texto principal:
+     "Tudo o que importa orbita. Os planetas orbitam o Sol. A Lua orbita a Terra. As ideias orbitam quem as merece. As marcas também. Na Orbara, não construímos sites. Construímos gravidade."
+
+4. O QUE FAZEMOS (3 pilares)
+   - Fundo Deep Black
+   - Título da seção GIGANTE em Starlight: "O que fazemos."
+   - Três cards em formato pill/cápsula alongada (border-radius 40px), alternando cores:
+     
+     Card 1 (fundo laranja #ff5d00, texto preto):
+     Título: "Sites que convertem"
+     Descrição: "Desenhamos sites pensados desde o primeiro pixel para transformar visitantes em clientes. Arquitetura de conversão, copy estratégico e UX que guia a decisão."
+     
+     Card 2 (fundo off-white #fffafa, texto preto):
+     Título: "Google Ads cirúrgico"
+     Descrição: "Campanhas que não gritam — convencem. Segmentação afiada, landing pages dedicadas e otimização diária do custo por conversão."
+     
+     Card 3 (fundo preto com borda laranja, texto Starlight):
+     Título: "SEO que sustenta"
+     Descrição: "Enquanto anúncios trazem resultado hoje, o SEO constrói a gravidade que atrai clientes amanhã — e no ano seguinte, e no outro."
+
+5. COMO TRABALHAMOS (timeline horizontal/vertical)
+   - Fundo Starlight (#fffafa)
+   - Título gigante em Deep Black: "Como trabalhamos."
+   - 4 etapas numeradas grandes (números em laranja gigantes, Onest 900):
+     01. ESCUTA — "Mergulhamos no seu negócio, seu cliente ideal e sua concorrência."
+     02. ESTRATÉGIA — "Desenhamos a arquitetura de conversão e o plano de mídia."
+     03. EXECUÇÃO — "Site, campanhas e SEO entram em órbita em até 30 dias."
+     04. OTIMIZAÇÃO — "Medimos, ajustamos e escalamos o que funciona, mês a mês."
+
+6. PARA QUEM É
+   - Fundo Deep Black
+   - Título gigante: "Feito para quem presta serviço de verdade."
+   - Lista estilizada com bullets grandes laranjas, Onest 500, texto Starlight:
+     • Prestadores de serviço especializados (advogados, contadores, consultores, médicos)
+     • Empresas B2B com soluções de ticket médio ou alto
+     • Profissionais liberais que querem parar de depender de indicação
+     • Pequenas empresas locais que disputam busca no Google
+     • Quem prefere qualidade de lead a volume de lead
+
+7. RESULTADOS (números grandes)
+   - Fundo Orbit Orange em bloco pill gigante
+   - 3 métricas enormes em Deep Black, Onest 900, tamanhos clamp(3rem, 8vw, 8rem):
+     "+180%" leads qualificados em 90 dias
+     "-40%" custo por aquisição em 6 meses
+     "Top 3" no Google em palavras-chave estratégicas
+
+8. FAQ (acordeão)
+   - Fundo Starlight
+   - Título: "Perguntas frequentes."
+   - Acordeões em formato pill, cada item com border-radius grande, expandindo suavemente
+   - Perguntas:
+     • Quanto tempo leva para o site ficar no ar?
+     • Vocês fazem manutenção depois que o site entra em produção?
+     • Já tenho um site — vocês refazem ou otimizam o atual?
+     • Como funciona o investimento em Google Ads? É à parte?
+     • Trabalham com contrato de fidelidade?
+     • Em quanto tempo vejo resultado?
+   - Respostas coerentes com o posicionamento boutique e confiante.
+
+9. CONTATO
+   - Fundo Deep Black
+   - Título gigante em Starlight: "Pronto para entrar em órbita?"
+   - Subtítulo: "Conte sobre seu negócio. Respondemos em até 24h úteis."
+   - Formulário dentro de um card pill gigante laranja ou off-white (react-hook-form com validação):
+     • Nome completo (obrigatório)
+     • E-mail (obrigatório, validação)
+     • WhatsApp (obrigatório)
+     • Site atual (opcional)
+     • Qual seu serviço/produto? (textarea obrigatória)
+     • Faturamento mensal aproximado (select: até 20k, 20-50k, 50-150k, 150k+)
+     • Botão pill gigante Deep Black com texto Orbit Orange: "Enviar para a Orbara →"
+   - Ao enviar: mensagem de sucesso: "Sua mensagem entrou em órbita. Retornamos em breve."
+
+10. FOOTER
+    - Fundo Deep Black
+    - Logo Orbara gigante em Starlight no topo (ou laranja)
+    - Tagline abaixo: "Onde marcas encontram sua gravidade."
+    - Links: Manifesto · Serviços · Processo · Contato
+    - Redes sociais: Instagram · LinkedIn (placeholders #)
+    - Copyright: "© 2026 Orbara. Todos os direitos reservados."
+    - Texto pequeno: "Atendimento remoto em todo Brasil"
+
+===========================
+DETALHES FINAIS
+===========================
+- Scroll suave entre seções
+- Botão flutuante do WhatsApp no canto inferior direito (pill laranja com ícone)
+- Favicon com o símbolo da órbita
+- Metadata SEO: title "Orbara · Sites que Orbitam Resultado | Google Ads + SEO", description com palavras-chave "agência de publicidade, sites institucionais, google ads, SEO, conversão, sites que vendem"
+- Gerar sitemap.xml e robots.txt automáticos
+- Schema.org JSON-LD com dados da agência
+- Página 404 cósmica: fundo preto, headline gigante laranja "404. Órbita perdida." + botão pill "Voltar ao início"
+- Cursor customizado opcional (um pequeno círculo laranja seguindo o mouse nos desktops)
+
+===========================
+REGRAS DE DESIGN INEGOCIÁVEIS
+===========================
+1. Fontes SEMPRE gigantes nos títulos principais (mínimo clamp(3rem, 10vw, 10rem))
+2. Border-radius grandes em quase todos os blocos (nunca menos de 24px em cards, geralmente 40-60px)
+3. Contraste extremo entre seções: preto → laranja → off-white → preto (alternância ousada)
+4. Respiração generosa: muito padding vertical, nunca apertar conteúdo
+5. Onest é a ÚNICA fonte do site
+6. Botões sempre em formato pill (rounded-full)
+7. Texto preto sobre laranja e laranja sobre preto — nunca outras combinações exóticas
+
+===========================
+ENTREGÁVEIS
+===========================
+- Projeto Next.js rodando em localhost:3000
+- Estrutura de pastas: app/, components/, sections/, lib/, types/
+- README.md com instruções de deploy na Vercel
+- TypeScript tipado, código limpo e comentado
+- Pronto para deploy em 1 clique na Vercel
+
+Comece agora. Me mostre o preview assim que o hero estiver pronto e vá construindo seção por seção.
