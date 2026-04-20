@@ -25,3 +25,37 @@ pnpm workspace monorepo using TypeScript. Each package manages its own dependenc
 - `pnpm --filter @workspace/api-server run dev` — run API server locally
 
 See the `pnpm-workspace` skill for workspace structure, TypeScript setup, and package details.
+
+## Orbara — Institutional Website
+
+**Artifact**: `artifacts/orbara` (React + Vite, previewPath `/`)
+
+Institutional site for Orbara, a Brazilian boutique advertising agency.
+
+### Brand
+- Orange: `#ff5d00`
+- Deep Black: `#0d0101`
+- Starlight off-white: `#fffafa`
+- Font: **Onest** (Google Fonts, all weights)
+
+### Features
+- Single-page scroll experience, fully in Portuguese
+- Giant Onest typography, pill-shaped blocks
+- CSS 3D orbit planet animation in the hero (no WebGL — uses CSS perspective + keyframes for rings, dots, and the planet with surface bands)
+- Light/dark mode toggle (light default); ThemeProvider in `src/context/theme.tsx` updates `document.body` background and `document.documentElement` class
+- OrbitDecoration CSS 3D rings scattered across sections (Manifesto, Serviços, Processo, Para Quem, Resultados, Contato, Footer)
+- Framer Motion scroll-triggered animations
+- Radix Accordion FAQ
+- React Hook Form + Zod contact form with Portuguese validation
+- Animated counter numbers in Results section
+- Floating WhatsApp CTA button
+- Custom orange cursor (desktop only)
+- Responsive mobile menu
+
+### Key Files
+- `src/pages/Home.tsx` — all page sections + theme-aware classes
+- `src/components/OrbScene.tsx` — CSS 3D planet + orbital rings animation
+- `src/components/OrbitDecoration.tsx` — decorative CSS orbit ring elements
+- `src/context/theme.tsx` — ThemeProvider, useTheme hook
+- `src/index.css` — Onest font, HSL palette, `orbitSpin` keyframe
+- `src/App.tsx` — wrapped with ThemeProvider

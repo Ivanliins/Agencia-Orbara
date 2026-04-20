@@ -133,6 +133,11 @@ html {
   --sidebar-ring: 22 100% 50%;
 }
 
+@keyframes orbitSpin {
+  from { transform: rotateX(70deg) rotateZ(0deg); }
+  to   { transform: rotateX(70deg) rotateZ(360deg); }
+}
+
 @layer base {
   * {
     @apply border-border;

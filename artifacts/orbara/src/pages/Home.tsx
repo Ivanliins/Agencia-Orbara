@@ -1,16 +1,19 @@
-import { useEffect, useState, useRef } from "react";
-import { Link } from "wouter";
-import { motion, useScroll, useTransform, useInView, useSpring } from "framer-motion";
+import { useEffect, useState } from "react";
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { MessageCircle, Menu, X, Check } from "lucide-react";
+import { MessageCircle, Menu, X, Check, Sun, Moon } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
+import { useTheme } from "@/context/theme";
+import { OrbScene } from "@/components/OrbScene";
+import { OrbitDecoration, OrbitSystem } from "@/components/OrbitDecoration";
 
 const formSchema = z.object({
   nome: z.string().min(2, "Nome é obrigatório"),
@@ -21,24 +24,24 @@ const formSchema = z.object({
   faturamento: z.string().min(1, "Selecione uma opção"),
 });
 
-function CustomCursor() {
-  const [mousePosition, setMousePosition] = useState({ x: -100, y: -100 });
-
+function CustomCursor({ isDark }: { isDark: boolean }) {
+  const [pos, setPos] = useState({ x: -100, y: -100 });
   useEffect(() => {
-    const updateMousePosition = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
-    };
-    window.addEventListener("mousemove", updateMousePosition);
-    return () => window.removeEventListener("mousemove", updateMousePosition);
+    const update = (e: MouseEvent) => setPos({ x: e.clientX, y: e.clientY });
+    window.addEventListener("mousemove", update);
+    return () => window.removeEventListener("mousemove", update);
   }, []);
-
   return (
     <div
-      className="fixed pointer-events-none z-[9999] w-4 h-4 bg-[#ff5d00] rounded-full hidden md:block mix-blend-difference"
+      className="fixed pointer-events-none z-[9999] w-5 h-5 rounded-full hidden md:block"
       style={{
-        left: mousePosition.x - 8,
-        top: mousePosition.y - 8,
+        left: pos.x - 10,
+        top: pos.y - 10,
+        background: "#ff5d00",
+        opacity: isDark ? 0.9 : 0.7,
+        mixBlendMode: isDark ? "difference" : "multiply",
         transition: "left 0.05s linear, top 0.05s linear",
+        boxShadow: "0 0 10px #ff5d0066",
       }}
     />
   );
@@ -47,71 +50,61 @@ function CustomCursor() {
 function AnimatedNumber({ value }: { value: number }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const [displayValue, setDisplayValue] = useState(0);
-
+  const [display, setDisplay] = useState(0);
   useEffect(() => {
-    if (isInView) {
-      let start = 0;
-      const end = value;
-      const duration = 2000;
-      const increment = end / (duration / 16);
-      const timer = setInterval(() => {
-        start += increment;
-        if (start >= end) {
-          setDisplayValue(end);
-          clearInterval(timer);
-        } else {
-          setDisplayValue(Math.ceil(start));
-        }
-      }, 16);
-      return () => clearInterval(timer);
-    }
+    if (!isInView) return;
+    let start = 0;
+    const inc = value / (2000 / 16);
+    const timer = setInterval(() => {
+      start += inc;
+      if (start >= value) { setDisplay(value); clearInterval(timer); }
+      else setDisplay(Math.ceil(start));
+    }, 16);
+    return () => clearInterval(timer);
   }, [isInView, value]);
-
-  return <span ref={ref}>{displayValue}</span>;
+  return <span ref={ref}>{display}</span>;
 }
 
 export default function Home() {
+  const { isDark, toggleTheme } = useTheme();
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isFormSubmitted, setIsFormSubmitted] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [formDone, setFormDone] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    const fn = () => setIsScrolled(window.scrollY > 50);
+    window.addEventListener("scroll", fn);
+    return () => window.removeEventListener("scroll", fn);
   }, []);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      nome: "",
-      email: "",
-      whatsapp: "",
-      site: "",
-      servico: "",
-      faturamento: "",
-    },
+    defaultValues: { nome: "", email: "", whatsapp: "", site: "", servico: "", faturamento: "" },
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
-    console.log(values);
-    setIsFormSubmitted(true);
-  };
+  const onSubmit = () => setFormDone(true);
 
   const scrollTo = (id: string) => {
-    const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
-      setIsMobileMenuOpen(false);
-    }
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    setMobileOpen(false);
   };
 
+  // ── Theme-aware class helpers ─────────────────────────────────────────────
+  const bg = isDark ? "bg-[#0d0101]" : "bg-white";
+  const fg = isDark ? "text-[#fffafa]" : "text-[#0d0101]";
+  const fgMuted = isDark ? "text-[#fffafa]/65" : "text-[#0d0101]/60";
+  const altBg = isDark ? "bg-[#fffafa]" : "bg-[#f2f2f2]";
+  const navBg = isScrolled
+    ? (isDark ? "bg-[#0d0101]/90 backdrop-blur-md shadow-lg shadow-black/30" : "bg-white/90 backdrop-blur-md shadow-lg shadow-black/10")
+    : "bg-transparent";
+  const logoColor = isDark ? "#fffafa" : "#0d0101";
+  const mobileBg = isDark ? "bg-[#0d0101]" : "bg-white";
+  const accordionCard = isDark ? "bg-white/5" : "bg-black/5";
+  const borderSubtle = isDark ? "border-white/10" : "border-black/10";
+
   return (
-    <div className="bg-[#0d0101] min-h-screen text-[#fffafa] font-sans overflow-x-hidden selection:bg-[#ff5d00] selection:text-[#0d0101]">
-      <CustomCursor />
+    <div className={`${bg} min-h-screen font-sans overflow-x-hidden selection:bg-[#ff5d00] selection:text-[#0d0101] transition-colors duration-500`}>
+      <CustomCursor isDark={isDark} />
 
       {/* Floating WhatsApp */}
       <a
@@ -125,63 +118,75 @@ export default function Home() {
         <span className="font-semibold text-sm">WhatsApp</span>
       </a>
 
-      {/* NAVBAR */}
-      <nav
-        className={`fixed top-0 left-0 w-full z-40 transition-all duration-300 ${
-          isScrolled ? "bg-[#0d0101]/80 backdrop-blur-md py-4" : "bg-transparent py-6"
-        }`}
-      >
+      {/* ── NAVBAR ─────────────────────────────────────────────────────────── */}
+      <nav className={`fixed top-0 left-0 w-full z-40 transition-all duration-300 ${navBg} ${isScrolled ? "py-4" : "py-6"}`}>
         <div className="container mx-auto px-4 md:px-8 flex items-center justify-between">
-          <div className="flex items-center gap-2 cursor-pointer" onClick={() => window.scrollTo(0,0)}>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="12" cy="12" r="11" stroke="#fffafa" strokeWidth="2" />
-              <circle cx="20" cy="4" r="3" fill="#ff5d00" />
+          <div className="flex items-center gap-2 cursor-pointer" onClick={() => window.scrollTo(0, 0)}>
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="10.5" stroke={logoColor} strokeWidth="1.5" />
+              <circle cx="19.5" cy="4.5" r="3" fill="#ff5d00" />
+              <circle cx="19.5" cy="4.5" r="1.5" fill="#ffaa60" />
             </svg>
-            <span className="font-black text-xl tracking-wider">ORBARA</span>
+            <span className={`font-black text-xl tracking-wider ${fg}`}>ORBARA</span>
           </div>
 
-          <div className="hidden md:flex items-center gap-8 text-sm font-medium">
-            <button onClick={() => scrollTo("manifesto")} className="hover:text-[#ff5d00] transition-colors">Manifesto</button>
-            <button onClick={() => scrollTo("servicos")} className="hover:text-[#ff5d00] transition-colors">Serviços</button>
-            <button onClick={() => scrollTo("processo")} className="hover:text-[#ff5d00] transition-colors">Processo</button>
-            <button onClick={() => scrollTo("contato")} className="hover:text-[#ff5d00] transition-colors">Contato</button>
+          <div className="hidden md:flex items-center gap-7 text-sm font-medium">
+            {["manifesto", "servicos", "processo", "contato"].map((s) => (
+              <button key={s} onClick={() => scrollTo(s)} className={`${fg} hover:text-[#ff5d00] transition-colors capitalize`}>
+                {s === "servicos" ? "Serviços" : s.charAt(0).toUpperCase() + s.slice(1)}
+              </button>
+            ))}
+            <button
+              onClick={toggleTheme}
+              className={`w-9 h-9 rounded-full border flex items-center justify-center transition-all hover:border-[#ff5d00] hover:text-[#ff5d00] ${borderSubtle} ${fg}`}
+              data-testid="button-theme-toggle"
+              aria-label="Toggle theme"
+            >
+              {isDark ? <Sun size={16} /> : <Moon size={16} />}
+            </button>
             <button
               onClick={() => scrollTo("contato")}
-              className="bg-[#ff5d00] text-[#0d0101] font-bold px-6 py-3 rounded-full hover:bg-[#fffafa] transition-colors"
+              className="bg-[#ff5d00] text-[#0d0101] font-bold px-6 py-3 rounded-full hover:bg-[#ff7520] transition-colors"
             >
               Fale com a Orbara
             </button>
           </div>
 
-          <button
-            className="md:hidden text-[#fffafa]"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          >
-            {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
-          </button>
+          <div className="md:hidden flex items-center gap-3">
+            <button
+              onClick={toggleTheme}
+              className={`w-9 h-9 rounded-full border flex items-center justify-center ${borderSubtle} ${fg}`}
+            >
+              {isDark ? <Sun size={15} /> : <Moon size={15} />}
+            </button>
+            <button className={fg} onClick={() => setMobileOpen(!mobileOpen)}>
+              {mobileOpen ? <X size={28} /> : <Menu size={28} />}
+            </button>
+          </div>
         </div>
 
-        {/* Mobile Menu */}
-        {isMobileMenuOpen && (
-          <div className="absolute top-full left-0 w-full bg-[#0d0101] border-t border-[#ff5d00]/20 flex flex-col p-4 gap-4 md:hidden pb-8 shadow-2xl">
-            <button onClick={() => scrollTo("manifesto")} className="text-left py-2 font-medium hover:text-[#ff5d00]">Manifesto</button>
-            <button onClick={() => scrollTo("servicos")} className="text-left py-2 font-medium hover:text-[#ff5d00]">Serviços</button>
-            <button onClick={() => scrollTo("processo")} className="text-left py-2 font-medium hover:text-[#ff5d00]">Processo</button>
-            <button onClick={() => scrollTo("contato")} className="text-left py-2 font-medium hover:text-[#ff5d00]">Contato</button>
-            <button
-              onClick={() => scrollTo("contato")}
-              className="bg-[#ff5d00] text-[#0d0101] font-bold px-6 py-4 rounded-full mt-4 text-center w-full"
-            >
+        {mobileOpen && (
+          <div className={`absolute top-full left-0 w-full ${mobileBg} border-t border-[#ff5d00]/20 flex flex-col p-4 gap-4 pb-8 shadow-2xl`}>
+            {["manifesto", "servicos", "processo", "contato"].map((s) => (
+              <button key={s} onClick={() => scrollTo(s)} className={`text-left py-2 font-medium ${fg} hover:text-[#ff5d00] capitalize`}>
+                {s === "servicos" ? "Serviços" : s.charAt(0).toUpperCase() + s.slice(1)}
+              </button>
+            ))}
+            <button onClick={() => scrollTo("contato")} className="bg-[#ff5d00] text-[#0d0101] font-bold px-6 py-4 rounded-full mt-4 w-full">
               Fale com a Orbara
             </button>
           </div>
         )}
       </nav>
 
-      {/* HERO */}
-      <section id="inicio" className="min-h-[100dvh] flex flex-col justify-center pt-24 pb-12 px-4 md:px-8 relative">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-[#ff5d00]/10 via-[#0d0101] to-[#0d0101] pointer-events-none" />
-        
+      {/* ── HERO ────────────────────────────────────────────────────────────── */}
+      <section id="inicio" className={`min-h-[100dvh] flex flex-col justify-center pt-24 pb-12 px-4 md:px-8 relative overflow-hidden ${isDark ? "bg-[#0d0101]" : "bg-white"}`}>
+        {/* 3D Orbit Background */}
+        <OrbScene isDark={isDark} />
+
+        {/* Radial ambient glow */}
+        <div className={`absolute inset-0 pointer-events-none ${isDark ? "bg-[radial-gradient(ellipse_60%_80%_at_70%_50%,_#ff5d0012_0%,_transparent_70%)]" : "bg-[radial-gradient(ellipse_60%_80%_at_70%_50%,_#ff5d0009_0%,_transparent_70%)]"}`} />
+
         <div className="container mx-auto max-w-7xl relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 40 }}
@@ -193,31 +198,16 @@ export default function Home() {
           </motion.div>
 
           <motion.h1
-            className="font-black leading-[0.9] tracking-[-0.03em] mb-8"
-            style={{ fontSize: "clamp(4rem, 14vw, 14rem)" }}
+            className="font-black leading-[0.9] tracking-[-0.03em] mb-8 max-w-[55%]"
+            style={{ fontSize: "clamp(4rem, 12vw, 13rem)" }}
           >
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="text-[#fffafa]"
-            >
+            <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2 }} className={fg}>
               Sites que
             </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              className="text-[#ff5d00]"
-            >
+            <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.3 }} className="text-[#ff5d00]">
               orbitam
             </motion.div>
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="text-[#fffafa]"
-            >
+            <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.4 }} className={fg}>
               resultado.
             </motion.div>
           </motion.h1>
@@ -226,7 +216,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.5 }}
-            className="text-xl md:text-2xl text-[#fffafa]/70 max-w-2xl mb-12 font-normal leading-relaxed"
+            className={`text-xl md:text-2xl ${fgMuted} max-w-xl mb-12 font-normal leading-relaxed`}
           >
             Unimos Google Ads, SEO e copywriting estratégico para transformar seu site em uma máquina silenciosa de vendas.
           </motion.p>
@@ -239,13 +229,13 @@ export default function Home() {
           >
             <button
               onClick={() => scrollTo("contato")}
-              className="bg-[#ff5d00] text-[#0d0101] font-bold text-lg px-8 py-5 rounded-full hover:scale-105 transition-transform w-full sm:w-auto"
+              className="bg-[#ff5d00] text-[#0d0101] font-bold text-lg px-8 py-5 rounded-full hover:scale-105 transition-transform w-full sm:w-auto shadow-lg shadow-[#ff5d00]/30"
             >
               Quero orbitar resultado →
             </button>
             <button
               onClick={() => scrollTo("servicos")}
-              className="text-[#fffafa] font-medium underline underline-offset-8 decoration-[#ff5d00] hover:text-[#ff5d00] transition-colors"
+              className={`${fg} font-medium underline underline-offset-8 decoration-[#ff5d00] hover:text-[#ff5d00] transition-colors`}
             >
               Ver como funciona
             </button>
@@ -253,16 +243,30 @@ export default function Home() {
         </div>
       </section>
 
-      {/* MANIFESTO */}
-      <section id="manifesto" className="py-12 md:py-24">
+      {/* ── MANIFESTO ───────────────────────────────────────────────────────── */}
+      <section id="manifesto" className={`py-12 md:py-24 ${bg}`}>
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8 }}
-          className="bg-[#ff5d00] rounded-[40px] md:rounded-[60px] mx-4 md:mx-8 py-20 md:py-32 px-8 md:px-16"
+          className="bg-[#ff5d00] rounded-[40px] md:rounded-[60px] mx-4 md:mx-8 py-20 md:py-32 px-8 md:px-16 relative overflow-hidden"
         >
-          <div className="container mx-auto max-w-5xl">
+          <OrbitDecoration
+            size={180}
+            opacity={0.18}
+            speed={14}
+            color="#0d0101"
+            className="absolute top-8 right-8 md:right-16"
+          />
+          <OrbitDecoration
+            size={100}
+            opacity={0.12}
+            speed={22}
+            color="#0d0101"
+            className="absolute bottom-8 left-12"
+          />
+          <div className="container mx-auto max-w-5xl relative z-10">
             <span className="font-semibold tracking-[0.3em] text-sm text-[#0d0101]/60 uppercase block mb-8">
               Manifesto
             </span>
@@ -273,68 +277,76 @@ export default function Home() {
         </motion.div>
       </section>
 
-      {/* O QUE FAZEMOS */}
-      <section id="servicos" className="py-24 px-4 md:px-8 bg-[#0d0101]">
-        <div className="container mx-auto max-w-7xl">
-          <h2 className="font-black text-[#fffafa] leading-none mb-16 md:mb-24" style={{ fontSize: "clamp(3rem, 8vw, 8rem)" }}>
+      {/* ── O QUE FAZEMOS ───────────────────────────────────────────────────── */}
+      <section id="servicos" className={`py-24 px-4 md:px-8 ${isDark ? "bg-[#0d0101]" : "bg-white"} relative overflow-hidden`}>
+        <OrbitDecoration
+          size={320}
+          opacity={isDark ? 0.08 : 0.06}
+          speed={30}
+          color="#ff5d00"
+          className="absolute -right-20 top-20 hidden lg:block"
+        />
+        <div className="container mx-auto max-w-7xl relative z-10">
+          <h2 className={`font-black ${fg} leading-none mb-16 md:mb-24`} style={{ fontSize: "clamp(3rem, 8vw, 8rem)" }}>
             O que fazemos.
           </h2>
-
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="bg-[#ff5d00] rounded-[40px] p-10 md:p-12 flex flex-col justify-between aspect-square lg:aspect-auto min-h-[400px]"
-            >
-              <h3 className="text-[#0d0101] font-bold text-3xl md:text-4xl mb-6 leading-tight">Sites que convertem</h3>
-              <p className="text-[#0d0101]/80 font-medium text-lg leading-relaxed">
-                Nós desenvolvemos sites que funcionam como seus melhores vendedores. Focados em UX, velocidade e copywriting persuasivo para guiar o usuário até a ação.
-              </p>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.1 }}
-              className="bg-[#fffafa] rounded-[40px] p-10 md:p-12 flex flex-col justify-between aspect-square lg:aspect-auto min-h-[400px]"
-            >
-              <h3 className="text-[#0d0101] font-bold text-3xl md:text-4xl mb-6 leading-tight">Google Ads cirúrgico</h3>
-              <p className="text-[#0d0101]/80 font-medium text-lg leading-relaxed">
-                Colocamos sua oferta na frente de quem já está procurando pelo que você vende. Campanhas otimizadas para ROI e custo por aquisição.
-              </p>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-              className="bg-transparent border-2 border-[#ff5d00] rounded-[40px] p-10 md:p-12 flex flex-col justify-between aspect-square lg:aspect-auto min-h-[400px]"
-            >
-              <h3 className="text-[#fffafa] font-bold text-3xl md:text-4xl mb-6 leading-tight">SEO que sustenta</h3>
-              <p className="text-[#fffafa]/80 font-medium text-lg leading-relaxed">
-                Construímos autoridade orgânica para que você pare de alugar atenção e passe a ser dono do seu tráfego a médio e longo prazo.
-              </p>
-            </motion.div>
+            {[
+              {
+                bg: "bg-[#ff5d00]",
+                title: "text-[#0d0101]",
+                text: "text-[#0d0101]/80",
+                heading: "Sites que convertem",
+                desc: "Desenhamos sites pensados desde o primeiro pixel para transformar visitantes em clientes. Arquitetura de conversão, copy estratégico e UX que guia a decisão.",
+              },
+              {
+                bg: isDark ? "bg-[#fffafa]" : "bg-[#f2f2f2]",
+                title: "text-[#0d0101]",
+                text: "text-[#0d0101]/80",
+                heading: "Google Ads cirúrgico",
+                desc: "Campanhas que não gritam — convencem. Segmentação afiada, landing pages dedicadas e otimização diária do custo por conversão.",
+              },
+              {
+                bg: "bg-transparent border-2 border-[#ff5d00]",
+                title: isDark ? "text-[#fffafa]" : "text-[#0d0101]",
+                text: isDark ? "text-[#fffafa]/80" : "text-[#0d0101]/70",
+                heading: "SEO que sustenta",
+                desc: "Enquanto anúncios trazem resultado hoje, o SEO constrói a gravidade que atrai clientes amanhã — e no ano seguinte, e no outro.",
+              },
+            ].map((card, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1, duration: 0.6 }}
+                className={`${card.bg} rounded-[40px] p-10 md:p-12 flex flex-col justify-between min-h-[380px]`}
+              >
+                <h3 className={`${card.title} font-bold text-3xl md:text-4xl mb-6 leading-tight`}>{card.heading}</h3>
+                <p className={`${card.text} font-medium text-lg leading-relaxed`}>{card.desc}</p>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* COMO TRABALHAMOS */}
-      <section id="processo" className="py-24 md:py-40 px-4 md:px-8 bg-[#fffafa] text-[#0d0101]">
-        <div className="container mx-auto max-w-7xl">
-          <h2 className="font-black leading-[0.9] mb-16 md:mb-24" style={{ fontSize: "clamp(3rem, 8vw, 8rem)" }}>
+      {/* ── COMO TRABALHAMOS ────────────────────────────────────────────────── */}
+      <section id="processo" className={`py-24 md:py-40 px-4 md:px-8 ${altBg} text-[#0d0101] relative overflow-hidden`}>
+        <OrbitSystem
+          size={260}
+          color="#ff5d00"
+          className="absolute -left-16 bottom-16 opacity-30 hidden lg:block"
+        />
+        <div className="container mx-auto max-w-7xl relative z-10">
+          <h2 className="font-black text-[#0d0101] leading-[0.9] mb-16 md:mb-24" style={{ fontSize: "clamp(3rem, 8vw, 8rem)" }}>
             Como<br />trabalhamos.
           </h2>
-
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8">
             {[
-              { num: "01", title: "Escuta", desc: "Mergulhamos no seu negócio, público, dores e ofertas para extrair o diferencial competitivo real." },
-              { num: "02", title: "Estratégia", desc: "Desenhamos a arquitetura do site e o funil de conversão baseados em dados, não em achismos." },
-              { num: "03", title: "Execução", desc: "Desenvolvimento técnico impecável. O site vai pro ar rápido, bonito, otimizado e focado em leads." },
-              { num: "04", title: "Otimização", desc: "Acompanhamos a performance com anúncios rodando, ajustando as peças até bater as metas de aquisição." }
+              { num: "01", title: "Escuta", desc: "Mergulhamos no seu negócio, seu cliente ideal e sua concorrência." },
+              { num: "02", title: "Estratégia", desc: "Desenhamos a arquitetura de conversão e o plano de mídia." },
+              { num: "03", title: "Execução", desc: "Site, campanhas e SEO entram em órbita em até 30 dias." },
+              { num: "04", title: "Otimização", desc: "Medimos, ajustamos e escalamos o que funciona, mês a mês." },
             ].map((step, i) => (
               <motion.div
                 key={step.num}
@@ -347,19 +359,26 @@ export default function Home() {
                 <div className="font-black text-[#ff5d00] leading-none mb-4" style={{ fontSize: "clamp(4rem, 10vw, 8rem)" }}>
                   {step.num}
                 </div>
-                <h3 className="font-bold text-2xl uppercase tracking-wide mb-4">{step.title}</h3>
-                <p className="text-black/70 text-lg leading-relaxed">{step.desc}</p>
+                <h3 className="font-bold text-2xl uppercase tracking-wide mb-4 text-[#0d0101]">{step.title}</h3>
+                <p className="text-[#0d0101]/70 text-lg leading-relaxed">{step.desc}</p>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* PARA QUEM É */}
-      <section id="para-quem" className="py-24 md:py-40 px-4 md:px-8 bg-[#0d0101]">
-        <div className="container mx-auto max-w-7xl flex flex-col lg:flex-row gap-16 lg:gap-24">
+      {/* ── PARA QUEM É ─────────────────────────────────────────────────────── */}
+      <section id="para-quem" className={`py-24 md:py-40 px-4 md:px-8 ${isDark ? "bg-[#0d0101]" : "bg-white"} relative overflow-hidden`}>
+        <OrbitDecoration
+          size={240}
+          opacity={isDark ? 0.1 : 0.07}
+          speed={25}
+          color="#ff5d00"
+          className="absolute right-8 top-16 hidden lg:block"
+        />
+        <div className="container mx-auto max-w-7xl flex flex-col lg:flex-row gap-16 lg:gap-24 relative z-10">
           <div className="flex-1">
-            <h2 className="font-black text-[#fffafa] leading-[1.1]" style={{ fontSize: "clamp(2.5rem, 6vw, 7rem)" }}>
+            <h2 className={`font-black ${fg} leading-[1.1]`} style={{ fontSize: "clamp(2.5rem, 6vw, 7rem)" }}>
               Feito para quem presta serviço de verdade.
             </h2>
           </div>
@@ -370,7 +389,7 @@ export default function Home() {
                 "Empresas B2B com soluções de ticket médio ou alto",
                 "Profissionais liberais que querem parar de depender de indicação",
                 "Pequenas empresas locais que disputam busca no Google",
-                "Quem prefere qualidade de lead a volume de lead"
+                "Quem prefere qualidade de lead a volume de lead",
               ].map((item, i) => (
                 <motion.li
                   key={i}
@@ -378,9 +397,9 @@ export default function Home() {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.1 }}
-                  className="flex items-start gap-6 text-xl md:text-2xl font-medium text-[#fffafa]"
+                  className={`flex items-start gap-6 text-xl md:text-2xl font-medium ${fg}`}
                 >
-                  <span className="w-4 h-4 rounded-full bg-[#ff5d00] mt-2 shrink-0" />
+                  <span className="w-4 h-4 rounded-full bg-[#ff5d00] mt-2 shrink-0 shadow-[0_0_8px_#ff5d00]" />
                   <span>{item}</span>
                 </motion.li>
               ))}
@@ -389,15 +408,20 @@ export default function Home() {
         </div>
       </section>
 
-      {/* RESULTADOS */}
-      <section className="py-12 md:py-24">
+      {/* ── RESULTADOS ──────────────────────────────────────────────────────── */}
+      <section className={`py-12 md:py-24 ${bg}`}>
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
-          className="bg-[#ff5d00] rounded-[40px] md:rounded-[60px] mx-4 md:mx-8 py-20 md:py-32 px-8 md:px-16"
+          className="bg-[#ff5d00] rounded-[40px] md:rounded-[60px] mx-4 md:mx-8 py-20 md:py-32 px-8 md:px-16 relative overflow-hidden"
         >
-          <div className="container mx-auto max-w-6xl grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 text-center md:text-left">
+          <OrbitSystem
+            size={300}
+            color="#0d0101"
+            className="absolute -right-12 -top-8 opacity-15 hidden lg:block"
+          />
+          <div className="container mx-auto max-w-6xl grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 text-center md:text-left relative z-10">
             <div>
               <div className="font-black text-[#0d0101] leading-none mb-4" style={{ fontSize: "clamp(3rem, 8vw, 8rem)" }}>
                 +<AnimatedNumber value={180} />%
@@ -420,45 +444,26 @@ export default function Home() {
         </motion.div>
       </section>
 
-      {/* FAQ */}
-      <section id="faq" className="py-24 md:py-40 px-4 md:px-8 bg-[#fffafa] text-[#0d0101]">
+      {/* ── FAQ ─────────────────────────────────────────────────────────────── */}
+      <section id="faq" className={`py-24 md:py-40 px-4 md:px-8 ${altBg} text-[#0d0101]`}>
         <div className="container mx-auto max-w-4xl">
-          <h2 className="font-black leading-none mb-16" style={{ fontSize: "clamp(3rem, 8vw, 6rem)" }}>
+          <h2 className="font-black text-[#0d0101] leading-none mb-16" style={{ fontSize: "clamp(3rem, 8vw, 6rem)" }}>
             Perguntas frequentes.
           </h2>
-
           <Accordion type="single" collapsible className="w-full flex flex-col gap-4">
             {[
-              {
-                q: "Quanto tempo leva para o site ficar no ar?",
-                a: "Em média 30 dias corridos a partir da aprovação da estratégia. Projetos mais complexos podem levar até 45 dias."
-              },
-              {
-                q: "Vocês fazem manutenção depois que o site entra em produção?",
-                a: "Sim. Oferecemos planos de manutenção mensais que incluem atualizações de conteúdo, correções e monitoramento de performance."
-              },
-              {
-                q: "Já tenho um site — vocês refazem ou otimizam o atual?",
-                a: "Depende do diagnóstico. Em muitos casos, reconstruir do zero é mais eficiente. Em outros, otimizamos o existente. Avaliamos caso a caso sem custo."
-              },
-              {
-                q: "Como funciona o investimento em Google Ads? É à parte?",
-                a: "Sim. O investimento em mídia (verba de anúncios) é separado da nossa taxa de gestão. Trabalhamos com verbas a partir de R$1.500/mês."
-              },
-              {
-                q: "Trabalham com contrato de fidelidade?",
-                a: "Não exigimos fidelidade. Nosso contrato é mês a mês após o projeto inicial. Acreditamos que resultado é o melhor contrato."
-              },
-              {
-                q: "Em quanto tempo vejo resultado?",
-                a: "Google Ads pode gerar leads nos primeiros 15-30 dias. SEO começa a mostrar resultados sólidos entre 3 e 6 meses. O site novo já melhora conversão imediatamente."
-              }
+              { q: "Quanto tempo leva para o site ficar no ar?", a: "Em média 30 dias corridos a partir da aprovação da estratégia. Projetos mais complexos podem levar até 45 dias." },
+              { q: "Vocês fazem manutenção depois que o site entra em produção?", a: "Sim. Oferecemos planos de manutenção mensais que incluem atualizações de conteúdo, correções e monitoramento de performance." },
+              { q: "Já tenho um site — vocês refazem ou otimizam o atual?", a: "Depende do diagnóstico. Em muitos casos, reconstruir do zero é mais eficiente. Em outros, otimizamos o existente. Avaliamos caso a caso sem custo." },
+              { q: "Como funciona o investimento em Google Ads? É à parte?", a: "Sim. O investimento em mídia (verba de anúncios) é separado da nossa taxa de gestão. Trabalhamos com verbas a partir de R$1.500/mês." },
+              { q: "Trabalham com contrato de fidelidade?", a: "Não exigimos fidelidade. Nosso contrato é mês a mês após o projeto inicial. Acreditamos que resultado é o melhor contrato." },
+              { q: "Em quanto tempo vejo resultado?", a: "Google Ads pode gerar leads nos primeiros 15-30 dias. SEO começa a mostrar resultados sólidos entre 3 e 6 meses. O site novo já melhora conversão imediatamente." },
             ].map((faq, i) => (
-              <AccordionItem key={i} value={`item-${i}`} className="bg-black/5 rounded-[32px] px-6 py-2 border-0">
-                <AccordionTrigger className="font-bold text-xl md:text-2xl text-left hover:no-underline hover:text-[#ff5d00] transition-colors py-6">
+              <AccordionItem key={i} value={`item-${i}`} className={`${accordionCard} rounded-[32px] px-6 py-2 border-0`}>
+                <AccordionTrigger className="font-bold text-xl md:text-2xl text-left hover:no-underline hover:text-[#ff5d00] transition-colors py-6 text-[#0d0101]">
                   {faq.q}
                 </AccordionTrigger>
-                <AccordionContent className="text-black/70 text-lg leading-relaxed pb-6 pr-8">
+                <AccordionContent className="text-[#0d0101]/70 text-lg leading-relaxed pb-6 pr-8">
                   {faq.a}
                 </AccordionContent>
               </AccordionItem>
@@ -467,20 +472,20 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CONTATO */}
-      <section id="contato" className="py-24 md:py-40 px-4 md:px-8 bg-[#0d0101]">
+      {/* ── CONTATO ─────────────────────────────────────────────────────────── */}
+      <section id="contato" className={`py-24 md:py-40 px-4 md:px-8 ${isDark ? "bg-[#0d0101]" : "bg-white"}`}>
         <div className="container mx-auto max-w-6xl">
           <div className="mb-16">
-            <h2 className="font-black text-[#fffafa] leading-none mb-6" style={{ fontSize: "clamp(3rem, 8vw, 7rem)" }}>
+            <h2 className={`font-black ${fg} leading-none mb-6`} style={{ fontSize: "clamp(3rem, 8vw, 7rem)" }}>
               Pronto para entrar em órbita?
             </h2>
-            <p className="text-xl md:text-2xl text-[#fffafa]/70 max-w-2xl">
+            <p className={`text-xl md:text-2xl ${fgMuted} max-w-2xl`}>
               Conte sobre seu negócio. Respondemos em até 24h úteis.
             </p>
           </div>
-
           <div className="bg-[#ff5d00] rounded-[40px] md:rounded-[60px] p-8 md:p-16 relative overflow-hidden">
-            {isFormSubmitted ? (
+            <OrbitDecoration size={160} opacity={0.12} speed={18} color="#0d0101" className="absolute top-6 right-8 hidden md:block" />
+            {formDone ? (
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -496,105 +501,78 @@ export default function Home() {
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 relative z-10">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <FormField
-                      control={form.control}
-                      name="nome"
-                      render={({ field }) => (
-                         <FormItem>
-                          <FormLabel className="text-[#0d0101] font-bold text-lg">Nome completo</FormLabel>
-                          <FormControl>
-                            <Input placeholder="Seu nome" {...field} className="bg-black/10 border-0 rounded-full h-14 px-6 text-[#0d0101] placeholder:text-[#0d0101]/40 text-lg focus-visible:ring-black" data-testid="input-nome" />
-                          </FormControl>
-                          <FormMessage className="text-red-900 font-medium" />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="email"
-                      render={({ field }) => (
-                         <FormItem>
-                          <FormLabel className="text-[#0d0101] font-bold text-lg">E-mail corporativo</FormLabel>
-                          <FormControl>
-                            <Input type="email" placeholder="voce@empresa.com" {...field} className="bg-black/10 border-0 rounded-full h-14 px-6 text-[#0d0101] placeholder:text-[#0d0101]/40 text-lg focus-visible:ring-black" data-testid="input-email" />
-                          </FormControl>
-                          <FormMessage className="text-red-900 font-medium" />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="whatsapp"
-                      render={({ field }) => (
-                         <FormItem>
-                          <FormLabel className="text-[#0d0101] font-bold text-lg">WhatsApp</FormLabel>
-                          <FormControl>
-                            <Input placeholder="(00) 00000-0000" {...field} className="bg-black/10 border-0 rounded-full h-14 px-6 text-[#0d0101] placeholder:text-[#0d0101]/40 text-lg focus-visible:ring-black" data-testid="input-whatsapp" />
-                          </FormControl>
-                          <FormMessage className="text-red-900 font-medium" />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="site"
-                      render={({ field }) => (
-                         <FormItem>
-                          <FormLabel className="text-[#0d0101] font-bold text-lg">Site atual (opcional)</FormLabel>
-                          <FormControl>
-                            <Input placeholder="www.seusite.com.br" {...field} className="bg-black/10 border-0 rounded-full h-14 px-6 text-[#0d0101] placeholder:text-[#0d0101]/40 text-lg focus-visible:ring-black" data-testid="input-site" />
-                          </FormControl>
-                          <FormMessage className="text-red-900 font-medium" />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-
-                  <FormField
-                    control={form.control}
-                    name="faturamento"
-                    render={({ field }) => (
+                    <FormField control={form.control} name="nome" render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-[#0d0101] font-bold text-lg">Faturamento mensal aproximado</FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                          <FormControl>
-                            <SelectTrigger className="bg-black/10 border-0 rounded-full h-14 px-6 text-[#0d0101] text-lg focus:ring-black" data-testid="select-faturamento">
-                              <SelectValue placeholder="Selecione uma faixa" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent className="bg-[#fffafa] border-0 rounded-2xl">
-                            <SelectItem value="ate20k" className="font-medium text-lg cursor-pointer py-3">Até R$20k</SelectItem>
-                            <SelectItem value="20k-50k" className="font-medium text-lg cursor-pointer py-3">R$20k–50k</SelectItem>
-                            <SelectItem value="50k-150k" className="font-medium text-lg cursor-pointer py-3">R$50k–150k</SelectItem>
-                            <SelectItem value="150k+" className="font-medium text-lg cursor-pointer py-3">R$150k+</SelectItem>
-                          </SelectContent>
-                        </Select>
-                        <FormMessage className="text-red-900 font-medium" />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="servico"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-[#0d0101] font-bold text-lg">Qual seu serviço/produto principal?</FormLabel>
+                        <FormLabel className="text-[#0d0101] font-bold text-lg">Nome completo</FormLabel>
                         <FormControl>
-                          <Textarea 
-                            placeholder="Descreva brevemente o que você vende e para quem..." 
-                            className="bg-black/10 border-0 rounded-3xl min-h-[120px] p-6 text-[#0d0101] placeholder:text-[#0d0101]/40 text-lg focus-visible:ring-black resize-none" 
-                            {...field} 
-                            data-testid="textarea-servico"
-                          />
+                          <Input placeholder="Seu nome" {...field} className="bg-black/10 border-0 rounded-full h-14 px-6 text-[#0d0101] placeholder:text-[#0d0101]/40 text-lg focus-visible:ring-black" data-testid="input-nome" />
                         </FormControl>
                         <FormMessage className="text-red-900 font-medium" />
                       </FormItem>
-                    )}
-                  />
-
-                  <Button 
-                    type="submit" 
+                    )} />
+                    <FormField control={form.control} name="email" render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-[#0d0101] font-bold text-lg">E-mail</FormLabel>
+                        <FormControl>
+                          <Input type="email" placeholder="voce@empresa.com" {...field} className="bg-black/10 border-0 rounded-full h-14 px-6 text-[#0d0101] placeholder:text-[#0d0101]/40 text-lg focus-visible:ring-black" data-testid="input-email" />
+                        </FormControl>
+                        <FormMessage className="text-red-900 font-medium" />
+                      </FormItem>
+                    )} />
+                    <FormField control={form.control} name="whatsapp" render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-[#0d0101] font-bold text-lg">WhatsApp</FormLabel>
+                        <FormControl>
+                          <Input placeholder="(00) 00000-0000" {...field} className="bg-black/10 border-0 rounded-full h-14 px-6 text-[#0d0101] placeholder:text-[#0d0101]/40 text-lg focus-visible:ring-black" data-testid="input-whatsapp" />
+                        </FormControl>
+                        <FormMessage className="text-red-900 font-medium" />
+                      </FormItem>
+                    )} />
+                    <FormField control={form.control} name="site" render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="text-[#0d0101] font-bold text-lg">Site atual (opcional)</FormLabel>
+                        <FormControl>
+                          <Input placeholder="www.seusite.com.br" {...field} className="bg-black/10 border-0 rounded-full h-14 px-6 text-[#0d0101] placeholder:text-[#0d0101]/40 text-lg focus-visible:ring-black" data-testid="input-site" />
+                        </FormControl>
+                        <FormMessage className="text-red-900 font-medium" />
+                      </FormItem>
+                    )} />
+                  </div>
+                  <FormField control={form.control} name="faturamento" render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-[#0d0101] font-bold text-lg">Faturamento mensal aproximado</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger className="bg-black/10 border-0 rounded-full h-14 px-6 text-[#0d0101] text-lg focus:ring-black" data-testid="select-faturamento">
+                            <SelectValue placeholder="Selecione uma faixa" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent className="bg-[#fffafa] border-0 rounded-2xl">
+                          <SelectItem value="ate20k" className="font-medium text-lg cursor-pointer py-3">Até R$20k</SelectItem>
+                          <SelectItem value="20k-50k" className="font-medium text-lg cursor-pointer py-3">R$20k–50k</SelectItem>
+                          <SelectItem value="50k-150k" className="font-medium text-lg cursor-pointer py-3">R$50k–150k</SelectItem>
+                          <SelectItem value="150k+" className="font-medium text-lg cursor-pointer py-3">R$150k+</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage className="text-red-900 font-medium" />
+                    </FormItem>
+                  )} />
+                  <FormField control={form.control} name="servico" render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-[#0d0101] font-bold text-lg">Qual seu serviço/produto principal?</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          placeholder="Descreva brevemente o que você vende e para quem..."
+                          className="bg-black/10 border-0 rounded-3xl min-h-[120px] p-6 text-[#0d0101] placeholder:text-[#0d0101]/40 text-lg focus-visible:ring-black resize-none"
+                          {...field}
+                          data-testid="textarea-servico"
+                        />
+                      </FormControl>
+                      <FormMessage className="text-red-900 font-medium" />
+                    </FormItem>
+                  )} />
+                  <Button
+                    type="submit"
                     className="w-full h-20 rounded-full bg-[#0d0101] text-[#ff5d00] hover:bg-[#0d0101]/90 font-bold text-xl md:text-2xl mt-8 transition-transform hover:scale-[1.02]"
                     data-testid="button-submit"
                   >
@@ -607,42 +585,35 @@ export default function Home() {
         </div>
       </section>
 
-      {/* FOOTER */}
-      <footer className="bg-[#0d0101] pt-24 pb-12 px-4 md:px-8 border-t border-white/5">
-        <div className="container mx-auto max-w-7xl">
+      {/* ── FOOTER ──────────────────────────────────────────────────────────── */}
+      <footer className="bg-[#0d0101] pt-24 pb-12 px-4 md:px-8 border-t border-white/5 relative overflow-hidden">
+        <OrbitSystem
+          size={350}
+          color="#ff5d00"
+          className="absolute -bottom-16 -right-16 opacity-10 hidden lg:block"
+        />
+        <div className="container mx-auto max-w-7xl relative z-10">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-8 mb-24">
             <div>
-              <div className="font-black text-5xl md:text-7xl text-[#ff5d00] tracking-wider mb-6">
-                ORBARA
-              </div>
-              <p className="text-2xl text-[#fffafa]/60 max-w-md font-medium">
-                Onde marcas encontram sua gravidade.
-              </p>
+              <div className="font-black text-5xl md:text-7xl text-[#ff5d00] tracking-wider mb-6">ORBARA</div>
+              <p className="text-2xl text-[#fffafa]/60 max-w-md font-medium">Onde marcas encontram sua gravidade.</p>
             </div>
-            
             <div className="flex flex-col md:items-end justify-start">
               <div className="flex flex-col sm:flex-row gap-6 sm:gap-12 text-lg font-medium text-[#fffafa] mb-12">
-                <button onClick={() => scrollTo("manifesto")} className="hover:text-[#ff5d00] transition-colors text-left md:text-right">Manifesto</button>
-                <button onClick={() => scrollTo("servicos")} className="hover:text-[#ff5d00] transition-colors text-left md:text-right">Serviços</button>
-                <button onClick={() => scrollTo("processo")} className="hover:text-[#ff5d00] transition-colors text-left md:text-right">Processo</button>
-                <button onClick={() => scrollTo("contato")} className="hover:text-[#ff5d00] transition-colors text-left md:text-right">Contato</button>
+                {["manifesto", "servicos", "processo", "contato"].map((s) => (
+                  <button key={s} onClick={() => scrollTo(s)} className="hover:text-[#ff5d00] transition-colors text-left md:text-right capitalize">
+                    {s === "servicos" ? "Serviços" : s.charAt(0).toUpperCase() + s.slice(1)}
+                  </button>
+                ))}
               </div>
-              
               <div className="flex gap-6">
-                <a href="#" className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center text-[#fffafa] hover:bg-[#ff5d00] hover:border-[#ff5d00] hover:text-[#0d0101] transition-all">
-                  Ig
-                </a>
-                <a href="#" className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center text-[#fffafa] hover:bg-[#ff5d00] hover:border-[#ff5d00] hover:text-[#0d0101] transition-all">
-                  In
-                </a>
+                <a href="#" className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center text-[#fffafa] hover:bg-[#ff5d00] hover:border-[#ff5d00] hover:text-[#0d0101] transition-all text-sm font-bold">Ig</a>
+                <a href="#" className="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center text-[#fffafa] hover:bg-[#ff5d00] hover:border-[#ff5d00] hover:text-[#0d0101] transition-all text-sm font-bold">In</a>
               </div>
             </div>
           </div>
-
-          <div className="flex flex-col md:flex-row justify-between items-center gap-6 pt-8 border-t border-white/10 text-sm">
-            <div className="text-[#fffafa]/60">
-              © 2026 Orbara. Todos os direitos reservados.
-            </div>
+          <div className={`flex flex-col md:flex-row justify-between items-center gap-6 pt-8 border-t border-white/10 text-sm`}>
+            <div className="text-[#fffafa]/60">© 2026 Orbara. Todos os direitos reservados.</div>
             <div className="text-[#fffafa]/40 flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-green-500 inline-block animate-pulse" />
               Atendimento remoto em todo Brasil
