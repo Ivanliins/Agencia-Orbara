@@ -10,7 +10,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/context/theme";
-import { OrbScene } from "@/components/OrbScene";
 import { OrbitDecoration } from "@/components/OrbitDecoration";
 import { BackgroundOrb } from "@/components/BackgroundOrb";
 
@@ -163,9 +162,14 @@ export default function Home() {
   const navBg = isScrolled
     ? isDark
       ? "bg-[#0d0101]/95 backdrop-blur-lg shadow-2xl shadow-black/50"
-      : "bg-white/95 backdrop-blur-lg shadow-lg shadow-black/08"
+      : "bg-white/95 backdrop-blur-lg shadow-lg shadow-black/10"
     : "bg-transparent";
-  const borderSubtle = isDark ? "border-white/10" : "border-black/10";
+  // Navbar text is always white over the video hero; switches to theme when scrolled
+  const navFg = isScrolled ? fg : "text-white";
+  const navLogoStroke = isScrolled ? (isDark ? "#fffafa" : "#0d0101") : "#ffffff";
+  const borderSubtle = isScrolled
+    ? (isDark ? "border-white/10" : "border-black/10")
+    : "border-white/20";
   const cardBorder = isDark ? "border-white/[0.07] bg-white/[0.03]" : "border-black/[0.07] bg-black/[0.025]";
 
   return (
@@ -191,11 +195,11 @@ export default function Home() {
         <div className="container mx-auto px-5 md:px-10 flex items-center justify-between">
           <div className="flex items-center gap-2 cursor-pointer" onClick={() => window.scrollTo(0, 0)}>
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
-              <circle cx="12" cy="12" r="10.5" stroke={isDark ? "#fffafa" : "#0d0101"} strokeWidth="1.5" />
+              <circle cx="12" cy="12" r="10.5" stroke={navLogoStroke} strokeWidth="1.5" />
               <circle cx="19.5" cy="4.5" r="3" fill="#ff5d00" />
               <circle cx="19.5" cy="4.5" r="1.5" fill="#ffaa60" />
             </svg>
-            <span className={`font-black text-xl tracking-widest ${fg}`}>ORBARA</span>
+            <span className={`font-black text-xl tracking-widest ${navFg}`}>ORBARA</span>
           </div>
 
           <div className="hidden md:flex items-center gap-8">
@@ -203,14 +207,14 @@ export default function Home() {
               <button
                 key={s}
                 onClick={() => scrollTo(s)}
-                className={`text-xs font-bold uppercase tracking-wider ${fg} hover:text-[#ff5d00] transition-colors`}
+                className={`text-xs font-bold uppercase tracking-wider ${navFg} hover:text-[#ff5d00] transition-colors`}
               >
                 {s === "servicos" ? "Serviços" : s === "seo" ? "SEO" : s.charAt(0).toUpperCase() + s.slice(1)}
               </button>
             ))}
             <button
               onClick={toggleTheme}
-              className={`w-9 h-9 rounded-full border flex items-center justify-center transition-all hover:border-[#ff5d00] hover:text-[#ff5d00] ${borderSubtle} ${fg}`}
+              className={`w-9 h-9 rounded-full border flex items-center justify-center transition-all hover:border-[#ff5d00] hover:text-[#ff5d00] ${borderSubtle} ${navFg}`}
               data-testid="button-theme-toggle"
               aria-label="Alternar tema"
             >
@@ -225,10 +229,10 @@ export default function Home() {
           </div>
 
           <div className="md:hidden flex items-center gap-3">
-            <button onClick={toggleTheme} className={`w-9 h-9 rounded-full border flex items-center justify-center ${borderSubtle} ${fg}`}>
+            <button onClick={toggleTheme} className={`w-9 h-9 rounded-full border flex items-center justify-center ${borderSubtle} ${navFg}`}>
               {isDark ? <Sun size={15} /> : <Moon size={15} />}
             </button>
-            <button className={fg} onClick={() => setMobileOpen(!mobileOpen)}>
+            <button className={navFg} onClick={() => setMobileOpen(!mobileOpen)}>
               {mobileOpen ? <X size={26} /> : <Menu size={26} />}
             </button>
           </div>
@@ -251,16 +255,27 @@ export default function Home() {
       {/* ── HERO ────────────────────────────────────────────────────────── */}
       <section
         id="inicio"
-        className={`min-h-[100dvh] flex flex-col justify-center pt-24 pb-16 px-5 md:px-10 relative overflow-hidden ${isDark ? "bg-[#0d0101]" : "bg-white"}`}
+        className="min-h-[100dvh] flex flex-col justify-center pt-24 pb-16 px-5 md:px-10 relative overflow-hidden bg-[#050510]"
       >
-        {/* Subtle orbit rings background */}
-        <BackgroundOrb isDark={isDark} size={900} offsetX="-12%" offsetY="50%" />
+        {/* Video background */}
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+          style={{ opacity: 0.85 }}
+        >
+          <source
+            src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260319_055001_8e16d972-3b2b-441c-86ad-2901a54682f9.mp4"
+            type="video/mp4"
+          />
+        </video>
 
-        {/* 3D planet */}
-        <OrbScene isDark={isDark} />
-
-        {/* Ambient glow */}
-        <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_50%_65%_at_72%_50%,_#ff5d0010_0%,_transparent_70%)]" />
+        {/* Left-to-right gradient overlay — ensures text legibility */}
+        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-black/15 pointer-events-none" />
+        {/* Bottom fade to next section */}
+        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black/60 to-transparent pointer-events-none" />
 
         <div className="container mx-auto max-w-7xl relative z-10">
           <motion.div
@@ -270,19 +285,19 @@ export default function Home() {
             className="inline-flex items-center gap-3 mb-10"
           >
             <span className="w-2 h-2 rounded-full bg-[#ff5d00] animate-pulse" />
-            <span className={`text-xs font-bold uppercase tracking-[0.3em] ${fgMuted}`}>
+            <span className="text-xs font-bold uppercase tracking-[0.3em] text-white/60">
               Agência Direta · Sem Dar Voltas
             </span>
           </motion.div>
 
-          <div className="max-w-[56%]">
+          <div className="max-w-[60%]">
             {["Sites que", "orbitam", "resultado."].map((word, i) => (
               <motion.div
                 key={i}
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.75, delay: 0.1 + i * 0.12 }}
-                className={`font-black leading-[0.88] tracking-[-0.04em] ${i === 1 ? "text-[#ff5d00] italic" : fg}`}
+                className={`font-black leading-[0.88] tracking-[-0.04em] ${i === 1 ? "text-[#ff5d00] italic" : "text-white"}`}
                 style={{ fontSize: "clamp(4rem, 10.5vw, 12.5rem)" }}
               >
                 {word}
@@ -294,7 +309,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.5 }}
-            className={`mt-10 text-lg md:text-xl ${fgMuted} max-w-lg leading-relaxed`}
+            className="mt-10 text-lg md:text-xl text-white/65 max-w-lg leading-relaxed"
           >
             Do primeiro clique ao fechamento: construímos a presença digital que transforma estranhos em clientes — com Google Ads, SEO e copy que vende sem forçar.
           </motion.p>
@@ -307,13 +322,13 @@ export default function Home() {
           >
             <button
               onClick={() => scrollTo("contato")}
-              className="bg-[#ff5d00] text-[#0d0101] font-black text-sm px-8 py-5 rounded-full hover:scale-105 transition-transform shadow-lg shadow-[#ff5d0030] uppercase tracking-wide"
+              className="bg-[#ff5d00] text-[#0d0101] font-black text-sm px-8 py-5 rounded-full hover:scale-105 transition-transform shadow-lg shadow-[#ff5d0050] uppercase tracking-wide"
             >
               Quero orbitar resultado →
             </button>
             <button
               onClick={() => scrollTo("seo")}
-              className={`${fg} font-semibold text-sm uppercase tracking-wider underline underline-offset-8 decoration-[#ff5d00]/50 hover:decoration-[#ff5d00] transition-all`}
+              className="text-white/80 font-semibold text-sm uppercase tracking-wider underline underline-offset-8 decoration-[#ff5d00]/60 hover:decoration-[#ff5d00] hover:text-white transition-all"
             >
               Como geramos leads
             </button>
@@ -324,7 +339,7 @@ export default function Home() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.0 }}
-            className={`mt-16 flex flex-wrap gap-8 ${fgMuted} text-sm font-medium`}
+            className="mt-16 flex flex-wrap gap-8 text-white/55 text-sm font-medium"
           >
             {["Google Partner", "Sem fidelidade", "Resultados em 30 dias", "Atendimento exclusivo"].map((t) => (
               <span key={t} className="flex items-center gap-2">
