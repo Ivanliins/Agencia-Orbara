@@ -309,9 +309,9 @@ export default function Home() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7, delay: 0.5 }}
-            className="mt-10 text-lg md:text-xl text-white/65 max-w-lg leading-relaxed"
+            className="mt-10 md:text-xl text-white/65 max-w-lg text-left font-normal text-[20px]"
           >
-            Do primeiro clique ao fechamento: construímos a presença digital que transforma estranhos em clientes — com Google Ads, SEO e copy que vende sem forçar.
+            Do primeiro clique a potenciais clientes de interesse nos produtos ou serviços da sua empresa. Construímos a presença digital que transforma Leads em clientes.
           </motion.p>
 
           <motion.div
