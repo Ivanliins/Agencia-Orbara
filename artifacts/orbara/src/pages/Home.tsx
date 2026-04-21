@@ -271,7 +271,7 @@ export default function Home() {
           >
             <span className="w-2 h-2 rounded-full bg-[#ff5d00] animate-pulse" />
             <span className={`text-xs font-bold uppercase tracking-[0.3em] ${fgMuted}`}>
-              Agência boutique · Vagas limitadas
+              Agência Direta · Sem Dar Voltas
             </span>
           </motion.div>
 
