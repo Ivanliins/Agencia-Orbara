@@ -354,21 +354,133 @@ export default function Home() {
       {/* ── MANIFESTO ───────────────────────────────────────────────────── */}
       <section id="manifesto" className={`py-6 md:py-10 ${bg}`}>
         <motion.div
-          initial={{ opacity: 0, scale: 0.97 }}
+          initial={{ opacity: 0, scale: 0.98 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-          className="bg-[#ff5d00] rounded-[40px] md:rounded-[56px] mx-4 md:mx-8 py-20 md:py-28 px-8 md:px-16 relative overflow-hidden"
+          transition={{ duration: 0.8 }}
+          className="bg-[#ff5d00] rounded-[40px] md:rounded-[56px] mx-4 md:mx-8 py-24 md:py-36 px-8 md:px-20 relative overflow-hidden"
         >
-          <OrbitDecoration size={220} opacity={0.13} speed={18} color="#0d0101" className="absolute top-6 right-10 md:right-20" />
-          <OrbitDecoration size={85} opacity={0.09} speed={28} color="#0d0101" className="absolute bottom-8 left-10" />
-          <div className="container mx-auto max-w-5xl relative z-10">
-            <span className="font-bold tracking-[0.35em] text-xs text-[#0d0101]/45 uppercase block mb-6">Manifesto</span>
-            <h2 className="font-extrabold text-[#0d0101] leading-[1.08] tracking-tight" style={{ fontSize: "clamp(1.7rem, 3.8vw, 4.8rem)" }}>
-              Tudo o que importa orbita. Os planetas orbitam o Sol. As ideias orbitam quem as trabalha. Os clientes orbitam marcas que criam gravidade.{" "}
-              <em>Na Orbara, não construímos sites bonitos.</em>{" "}
-              Construímos a gravidade que faz o cliente orbitar você — e nunca mais querer ir embora.
-            </h2>
+          {/* ── Orbital path decorations (background) ── */}
+          {/* Large tilted ellipse spanning the card */}
+          <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice" aria-hidden>
+            <ellipse cx="900" cy="350" rx="520" ry="200" fill="none" stroke="#0d0101" strokeWidth="1" strokeOpacity="0.07"
+              style={{ transformOrigin: "900px 350px", animation: "orbitSpin 60s linear infinite" }} />
+            <ellipse cx="900" cy="350" rx="360" ry="140" fill="none" stroke="#0d0101" strokeWidth="1" strokeOpacity="0.05"
+              style={{ transformOrigin: "900px 350px", animation: "orbitSpin 40s linear infinite reverse" }} />
+            <ellipse cx="200" cy="580" rx="260" ry="100" fill="none" stroke="#0d0101" strokeWidth="0.8" strokeOpacity="0.06"
+              style={{ transformOrigin: "200px 580px", animation: "orbitSpin 50s linear infinite" }} />
+            <ellipse cx="600" cy="100" rx="180" ry="65" fill="none" stroke="#0d0101" strokeWidth="0.8" strokeOpacity="0.05"
+              style={{ transformOrigin: "600px 100px", animation: "orbitSpin 35s linear infinite reverse" }} />
+            {/* Animated dots on the large ellipse */}
+            <circle r="4.5" fill="#0d0101" fillOpacity="0.15">
+              <animateMotion dur="18s" repeatCount="indefinite">
+                <mpath xlinkHref="#orb-path-a" />
+              </animateMotion>
+            </circle>
+            <circle r="3" fill="#0d0101" fillOpacity="0.10">
+              <animateMotion dur="28s" repeatCount="indefinite" begin="-9s">
+                <mpath xlinkHref="#orb-path-a" />
+              </animateMotion>
+            </circle>
+            <defs>
+              <path id="orb-path-a" d="M380,350 a520,200 0 1,1 1,0" />
+            </defs>
+          </svg>
+          <OrbitDecoration size={160} opacity={0.08} speed={32} color="#0d0101" className="absolute top-8 left-8" />
+          <OrbitDecoration size={90} opacity={0.10} speed={20} color="#0d0101" className="absolute bottom-10 right-16 md:right-32" />
+
+          {/* ── Content ── */}
+          <div className="container mx-auto max-w-6xl relative z-10">
+            <motion.span
+              initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+              className="font-bold tracking-[0.35em] text-xs text-[#0d0101]/45 uppercase block mb-12"
+            >
+              Manifesto
+            </motion.span>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
+
+              {/* Block 1 — Atraímos atenção */}
+              <div>
+                {[
+                  { text: "Atraímos atenção.", type: "title", delay: 0.1 },
+                  { text: "Não pela insistência,", type: "body", delay: 0.22 },
+                  { text: "mas pela construção.", type: "body", delay: 0.33 },
+                  { text: "", type: "gap", delay: 0 },
+                  { text: "Cada escolha direciona.", type: "body", delay: 0.44 },
+                  { text: "Cada detalhe posiciona.", type: "body", delay: 0.55 },
+                  { text: "Cada elemento tem função.", type: "body", delay: 0.66 },
+                  { text: "", type: "gap", delay: 0 },
+                  { text: "Porque atenção não se pede.", type: "body", delay: 0.77 },
+                  { text: "Se conquista.", type: "body-em", delay: 0.88 },
+                ].map((line, i) =>
+                  line.type === "gap" ? (
+                    <div key={i} className="h-5" />
+                  ) : (
+                    <motion.p
+                      key={i}
+                      initial={{ opacity: 0, x: -18 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.55, delay: line.delay, ease: [0.22, 1, 0.36, 1] }}
+                      className={
+                        line.type === "title"
+                          ? "font-black text-[#0d0101] leading-tight mb-4"
+                          : line.type === "body-em"
+                          ? "font-extrabold text-[#0d0101] italic"
+                          : "font-medium text-[#0d0101]/75"
+                      }
+                      style={line.type === "title" ? { fontSize: "clamp(2rem, 4vw, 3.6rem)" } : { fontSize: "clamp(1.1rem, 2vw, 1.45rem)" }}
+                    >
+                      {line.text}
+                    </motion.p>
+                  )
+                )}
+              </div>
+
+              {/* Block 2 — Entregamos resultado */}
+              <div>
+                {[
+                  { text: "Entregamos resultado.", type: "title", delay: 0.15 },
+                  { text: "Sem atalhos.", type: "body", delay: 0.27 },
+                  { text: "Sem distrações.", type: "body", delay: 0.38 },
+                  { text: "Sem fazer o cliente dar voltas.", type: "body", delay: 0.49 },
+                  { text: "", type: "gap", delay: 0 },
+                  { text: "Transformamos interesse em ação", type: "body", delay: 0.60 },
+                  { text: "com clareza, ritmo e intenção.", type: "body", delay: 0.71 },
+                  { text: "", type: "gap", delay: 0 },
+                  { text: "No fim,", type: "body", delay: 0.82 },
+                  { text: "não é sobre estar presente.", type: "body", delay: 0.93 },
+                  { text: "", type: "gap", delay: 0 },
+                  { text: "É sobre ser o ponto", type: "body", delay: 1.04 },
+                  { text: "para onde tudo retorna.", type: "body-em", delay: 1.15 },
+                ].map((line, i) =>
+                  line.type === "gap" ? (
+                    <div key={i} className="h-5" />
+                  ) : (
+                    <motion.p
+                      key={i}
+                      initial={{ opacity: 0, x: 18 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.55, delay: line.delay, ease: [0.22, 1, 0.36, 1] }}
+                      className={
+                        line.type === "title"
+                          ? "font-black text-[#0d0101] leading-tight mb-4"
+                          : line.type === "body-em"
+                          ? "font-extrabold text-[#0d0101] italic"
+                          : "font-medium text-[#0d0101]/75"
+                      }
+                      style={line.type === "title" ? { fontSize: "clamp(2rem, 4vw, 3.6rem)" } : { fontSize: "clamp(1.1rem, 2vw, 1.45rem)" }}
+                    >
+                      {line.text}
+                    </motion.p>
+                  )
+                )}
+              </div>
+
+            </div>
           </div>
         </motion.div>
       </section>
