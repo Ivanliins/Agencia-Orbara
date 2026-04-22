@@ -137,11 +137,22 @@ export default function Home() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [formDone, setFormDone] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     const fn = () => setIsScrolled(window.scrollY > 50);
     window.addEventListener("scroll", fn);
     return () => window.removeEventListener("scroll", fn);
+  }, []);
+
+  useEffect(() => {
+    const vid = videoRef.current;
+    if (!vid) return;
+    vid.muted = true;
+    const tryPlay = () => vid.play().catch(() => {});
+    tryPlay();
+    vid.addEventListener("canplay", tryPlay);
+    return () => vid.removeEventListener("canplay", tryPlay);
   }, []);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -259,6 +270,7 @@ export default function Home() {
       >
         {/* Video background */}
         <video
+          ref={videoRef}
           autoPlay
           muted
           loop
