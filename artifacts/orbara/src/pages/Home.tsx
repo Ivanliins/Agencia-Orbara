@@ -3,7 +3,7 @@ import { motion, useInView } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { MessageCircle, Menu, X, Check, Sun, Moon, Plus, Minus, TrendingUp, Search, MousePointerClick, Users, DollarSign, Repeat2 } from "lucide-react";
+import { MessageCircle, Menu, X, Check, Sun, Moon, Plus, Minus, TrendingUp, Search, MousePointerClick, Users, DollarSign, Repeat2, Monitor, Target } from "lucide-react";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -489,26 +489,6 @@ export default function Home() {
       <section id="servicos" className={`py-24 md:py-36 px-5 md:px-10 ${isDark ? "bg-[#0d0101]" : "bg-white"} relative overflow-hidden`}>
         <BackgroundOrb isDark={isDark} size={500} offsetX="-5%" offsetY="70%" className="opacity-60" />
 
-        {/* Background orbit watermark icon */}
-        <svg
-          className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/4 pointer-events-none select-none"
-          width="620" height="620" viewBox="0 0 200 200" fill="none"
-          aria-hidden
-          style={{ opacity: isDark ? 0.04 : 0.055 }}
-        >
-          <circle cx="100" cy="100" r="90" stroke={isDark ? "#fffafa" : "#0d0101"} strokeWidth="1.2" />
-          <circle cx="100" cy="100" r="65" stroke={isDark ? "#fffafa" : "#0d0101"} strokeWidth="0.8" />
-          <circle cx="100" cy="100" r="40" stroke={isDark ? "#fffafa" : "#0d0101"} strokeWidth="0.6" />
-          <circle cx="100" cy="100" r="18" stroke={isDark ? "#fffafa" : "#0d0101"} strokeWidth="0.6" />
-          <circle cx="100" cy="100" r="4" fill={isDark ? "#fffafa" : "#0d0101"} />
-          {/* Orbiting dot on outer ring */}
-          <circle cx="100" cy="10" r="6" fill="#ff5d00"
-            style={{ transformOrigin: "100px 100px", animation: "orbitSpin 12s linear infinite" }} />
-          {/* Orbit path cross lines */}
-          <line x1="100" y1="5" x2="100" y2="195" stroke={isDark ? "#fffafa" : "#0d0101"} strokeWidth="0.4" strokeDasharray="3 6" />
-          <line x1="5" y1="100" x2="195" y2="100" stroke={isDark ? "#fffafa" : "#0d0101"} strokeWidth="0.4" strokeDasharray="3 6" />
-        </svg>
-
         <div className="container mx-auto max-w-7xl relative z-10">
           <div className="mb-16 md:mb-20">
             <span className={`text-xs font-bold uppercase tracking-[0.35em] ${fgMuted}`}>O que fazemos</span>
@@ -524,18 +504,21 @@ export default function Home() {
                 heading: "Sites que convertem",
                 desc: "Um site lento, confuso ou desatualizado custa vendas todos os dias. Projetamos cada página como uma vitrine estratégica: arquitetura de conversão, hierarquia visual clara e copy que guia o visitante até o sim.",
                 accent: true,
+                Icon: Monitor,
               },
               {
                 num: "02",
                 heading: "Google Ads cirúrgico",
                 desc: "Aparecer quando o cliente já está pronto para comprar é a forma mais eficiente de investir em marketing. Campanhas de busca com segmentação precisa, landing pages dedicadas e otimização diária do custo por lead.",
                 accent: false,
+                Icon: Target,
               },
               {
                 num: "03",
                 heading: "SEO que sustenta",
                 desc: "Ads trazem tráfego enquanto você paga. O SEO constrói um ativo que trabalha 24h por dia, sem custo por clique — e cresce com o tempo. É o canal com maior ROI no longo prazo, se feito do jeito certo.",
                 accent: false,
+                Icon: TrendingUp,
               },
             ].map((card, i) => (
               <motion.div
@@ -544,10 +527,18 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className={`rounded-[36px] p-10 md:p-12 flex flex-col justify-between min-h-[380px] border ${
+                className={`rounded-[36px] p-10 md:p-12 flex flex-col justify-between min-h-[380px] border relative overflow-hidden ${
                   card.accent ? "bg-[#ff5d00] border-transparent" : cardBorder
                 }`}
               >
+                {/* Card background icon */}
+                <card.Icon
+                  size={130}
+                  strokeWidth={1}
+                  className="absolute top-6 right-6 pointer-events-none select-none"
+                  style={{ opacity: card.accent ? 0.10 : (isDark ? 0.06 : 0.07), color: card.accent ? "#0d0101" : (isDark ? "#fffafa" : "#0d0101") }}
+                  aria-hidden
+                />
                 <span className={`text-xs font-bold uppercase tracking-[0.25em] ${card.accent ? "text-[#0d0101]/45" : "text-[#ff5d00]"}`}>
                   {card.num}
                 </span>
