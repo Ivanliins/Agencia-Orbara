@@ -488,12 +488,32 @@ export default function Home() {
       {/* ── SERVIÇOS ────────────────────────────────────────────────────── */}
       <section id="servicos" className={`py-24 md:py-36 px-5 md:px-10 ${isDark ? "bg-[#0d0101]" : "bg-white"} relative overflow-hidden`}>
         <BackgroundOrb isDark={isDark} size={500} offsetX="-5%" offsetY="70%" className="opacity-60" />
+
+        {/* Background orbit watermark icon */}
+        <svg
+          className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/4 pointer-events-none select-none"
+          width="620" height="620" viewBox="0 0 200 200" fill="none"
+          aria-hidden
+          style={{ opacity: isDark ? 0.04 : 0.055 }}
+        >
+          <circle cx="100" cy="100" r="90" stroke={isDark ? "#fffafa" : "#0d0101"} strokeWidth="1.2" />
+          <circle cx="100" cy="100" r="65" stroke={isDark ? "#fffafa" : "#0d0101"} strokeWidth="0.8" />
+          <circle cx="100" cy="100" r="40" stroke={isDark ? "#fffafa" : "#0d0101"} strokeWidth="0.6" />
+          <circle cx="100" cy="100" r="18" stroke={isDark ? "#fffafa" : "#0d0101"} strokeWidth="0.6" />
+          <circle cx="100" cy="100" r="4" fill={isDark ? "#fffafa" : "#0d0101"} />
+          {/* Orbiting dot on outer ring */}
+          <circle cx="100" cy="10" r="6" fill="#ff5d00"
+            style={{ transformOrigin: "100px 100px", animation: "orbitSpin 12s linear infinite" }} />
+          {/* Orbit path cross lines */}
+          <line x1="100" y1="5" x2="100" y2="195" stroke={isDark ? "#fffafa" : "#0d0101"} strokeWidth="0.4" strokeDasharray="3 6" />
+          <line x1="5" y1="100" x2="195" y2="100" stroke={isDark ? "#fffafa" : "#0d0101"} strokeWidth="0.4" strokeDasharray="3 6" />
+        </svg>
+
         <div className="container mx-auto max-w-7xl relative z-10">
           <div className="mb-16 md:mb-20">
             <span className={`text-xs font-bold uppercase tracking-[0.35em] ${fgMuted}`}>O que fazemos</span>
-            <h2 className="mt-3 font-black leading-[0.9] tracking-tight" style={{ fontSize: "clamp(2.8rem, 8vw, 9rem)" }}>
+            <h2 className="mt-3 font-black tracking-tight flex flex-wrap items-baseline gap-x-5" style={{ fontSize: "clamp(2.4rem, 6vw, 7rem)", lineHeight: 1 }}>
               <span className={fg}>Três frentes.</span>
-              <br />
               <span className="text-[#ff5d00] italic">Um resultado.</span>
             </h2>
           </div>
