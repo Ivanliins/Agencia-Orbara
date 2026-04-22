@@ -900,7 +900,7 @@ export default function Home() {
                               type={f.type}
                               placeholder={f.placeholder}
                               {...field}
-                              className="bg-black/10 border-0 rounded-full h-14 px-6 text-[#0d0101] placeholder:text-[#0d0101]/40 text-base focus-visible:ring-black"
+                              className="bg-white/40 border-0 rounded-full h-14 px-6 text-[#0d0101] placeholder:text-[#0d0101]/50 text-base focus-visible:ring-2 focus-visible:ring-[#0d0101]/30"
                               data-testid={f.testid}
                             />
                           </FormControl>
@@ -914,15 +914,15 @@ export default function Home() {
                       <FormLabel className="text-[#0d0101] font-bold text-xs uppercase tracking-wider">Faturamento mensal aproximado</FormLabel>
                       <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
-                          <SelectTrigger className="bg-black/10 border-0 rounded-full h-14 px-6 text-[#0d0101] text-base focus:ring-black" data-testid="select-faturamento">
-                            <SelectValue placeholder="Selecione uma faixa" />
+                          <SelectTrigger className="bg-white/40 border-0 rounded-full h-14 px-6 text-[#0d0101] text-base focus:ring-2 focus:ring-[#0d0101]/30" data-testid="select-faturamento">
+                            <SelectValue placeholder="Selecione uma faixa" className="text-[#0d0101]/50" />
                           </SelectTrigger>
                         </FormControl>
-                        <SelectContent className="bg-[#fffafa] border-0 rounded-2xl">
-                          <SelectItem value="ate20k" className="font-semibold cursor-pointer py-3">Até R$20k</SelectItem>
-                          <SelectItem value="20k-50k" className="font-semibold cursor-pointer py-3">R$20k–50k</SelectItem>
-                          <SelectItem value="50k-150k" className="font-semibold cursor-pointer py-3">R$50k–150k</SelectItem>
-                          <SelectItem value="150k+" className="font-semibold cursor-pointer py-3">R$150k+</SelectItem>
+                        <SelectContent className="bg-white border border-black/10 rounded-2xl shadow-xl">
+                          <SelectItem value="ate20k" className="text-[#0d0101] font-semibold cursor-pointer py-3 focus:bg-[#ff5d00]/10">Até R$20k</SelectItem>
+                          <SelectItem value="20k-50k" className="text-[#0d0101] font-semibold cursor-pointer py-3 focus:bg-[#ff5d00]/10">R$20k–50k</SelectItem>
+                          <SelectItem value="50k-150k" className="text-[#0d0101] font-semibold cursor-pointer py-3 focus:bg-[#ff5d00]/10">R$50k–150k</SelectItem>
+                          <SelectItem value="150k+" className="text-[#0d0101] font-semibold cursor-pointer py-3 focus:bg-[#ff5d00]/10">R$150k+</SelectItem>
                         </SelectContent>
                       </Select>
                       <FormMessage className="text-red-900 font-semibold text-xs" />
@@ -934,7 +934,7 @@ export default function Home() {
                       <FormControl>
                         <Textarea
                           placeholder="Descreva brevemente o que você vende e para quem. Quanto mais detalhe, melhor nosso diagnóstico."
-                          className="bg-black/10 border-0 rounded-3xl min-h-[110px] p-5 text-[#0d0101] placeholder:text-[#0d0101]/40 text-base focus-visible:ring-black resize-none"
+                          className="bg-white/40 border-0 rounded-3xl min-h-[110px] p-5 text-[#0d0101] placeholder:text-[#0d0101]/50 text-base focus-visible:ring-2 focus-visible:ring-[#0d0101]/30 resize-none"
                           {...field}
                           data-testid="textarea-servico"
                         />
