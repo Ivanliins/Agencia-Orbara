@@ -3,7 +3,7 @@ import { motion, useInView } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { MessageCircle, Menu, X, Check, Sun, Moon, Plus, Minus, TrendingUp, Search, MousePointerClick, Users, DollarSign, Repeat2, Monitor, Target } from "lucide-react";
+import { MessageCircle, Menu, X, Check, Sun, Moon, Plus, Minus, TrendingUp, Search, MousePointerClick, Users, DollarSign, Repeat2, Monitor, Target, Building2, Scale, Car } from "lucide-react";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -709,6 +709,162 @@ export default function Home() {
                 </div>
                 <h3 className={`font-black text-xl uppercase tracking-wider mb-3 ${fg}`}>{step.title}</h3>
                 <p className={`text-base leading-relaxed ${fgMuted}`}>{step.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── CASES DE SUCESSO ────────────────────────────────────────────── */}
+      <section id="cases" className={`py-24 md:py-36 px-5 md:px-10 ${altBg}`}>
+        <div className="container mx-auto max-w-7xl">
+
+          {/* Header */}
+          <div className="mb-16 md:mb-20">
+            <motion.span
+              initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
+              className={`text-xs font-bold uppercase tracking-[0.35em] ${fgMuted}`}
+            >
+              Resultados reais
+            </motion.span>
+            <motion.h2
+              initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+              transition={{ duration: 0.7 }}
+              className="mt-3 font-black leading-[0.9] tracking-tight"
+              style={{ fontSize: "clamp(2.8rem, 8vw, 9rem)" }}
+            >
+              <span className={fg}>Cases de</span>
+              <br />
+              <span className="text-[#ff5d00] italic">Sucesso.</span>
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+              className={`mt-5 text-lg font-medium max-w-md ${fgMuted}`}
+            >
+              Estratégias sob medida que transformaram presença digital em crescimento real.
+            </motion.p>
+          </div>
+
+          {/* Cards */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {[
+              {
+                Icon: Building2,
+                segment: "Arquitetura",
+                result: "+120%",
+                resultLabel: "em geração de leads",
+                title: "Mais projetos de alto padrão",
+                desc: "Estratégia de posicionamento premium, redes sociais e tráfego pago focado em clientes de alto ticket, aumentando significativamente o número de contatos qualificados.",
+                topBg: "#0d0101",
+                bodyBg: "#ff5d00",
+                iconColor: "#fffafa",
+                resultColor: "#ff5d00",
+                resultColorTop: "#ff5d00",
+                textColor: "#0d0101",
+                textMuted: "rgba(13,1,1,0.65)",
+                segmentColor: "rgba(13,1,1,0.45)",
+              },
+              {
+                Icon: Scale,
+                segment: "Direito",
+                result: "+85%",
+                resultLabel: "em captação de clientes",
+                title: "Autoridade e presença digital",
+                desc: "Criação de identidade profissional, conteúdo estratégico e campanhas alinhadas com as normas da OAB, gerando mais confiança e novos clientes.",
+                topBg: "#ff5d00",
+                bodyBg: "#0d0101",
+                iconColor: "#0d0101",
+                resultColor: "#fffafa",
+                resultColorTop: "#0d0101",
+                textColor: "#fffafa",
+                textMuted: "rgba(255,250,250,0.60)",
+                segmentColor: "rgba(255,250,250,0.40)",
+              },
+              {
+                Icon: Car,
+                segment: "Mobilidade Urbana",
+                result: "+60%",
+                resultLabel: "em ocupação mensal",
+                title: "Mais fluxo, menos vagas vazias",
+                desc: "Campanhas locais, Google Ads e otimização no Google Maps, aumentando a visibilidade e o fluxo diário de veículos.",
+                topBg: "#0d0101",
+                bodyBg: "#ff5d00",
+                iconColor: "#fffafa",
+                resultColor: "#ff5d00",
+                resultColorTop: "#ff5d00",
+                textColor: "#0d0101",
+                textMuted: "rgba(13,1,1,0.65)",
+                segmentColor: "rgba(13,1,1,0.45)",
+              },
+            ].map((c, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: i * 0.12 }}
+                className="group rounded-[3rem] overflow-hidden cursor-default transition-all duration-300 hover:scale-[1.025] hover:shadow-2xl"
+                style={{ boxShadow: "0 4px 32px rgba(0,0,0,0.10)" }}
+              >
+                {/* Top illustration */}
+                <div
+                  className="relative flex flex-col items-center justify-center pt-12 pb-8 overflow-hidden"
+                  style={{ background: c.topBg, minHeight: "220px" }}
+                >
+                  {/* Large faded icon */}
+                  <c.Icon
+                    size={110}
+                    strokeWidth={0.9}
+                    style={{ color: c.iconColor, opacity: 0.12 }}
+                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+                    aria-hidden
+                  />
+                  {/* Decorative orbit ring */}
+                  <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-[0.07]" viewBox="0 0 300 220" fill="none" aria-hidden>
+                    <ellipse cx="150" cy="110" rx="110" ry="75" stroke={c.iconColor} strokeWidth="1" />
+                    <ellipse cx="150" cy="110" rx="70" ry="46" stroke={c.iconColor} strokeWidth="0.7" />
+                    <circle cx="150" cy="35" r="5" fill={c.resultColorTop} />
+                  </svg>
+                  {/* Result number */}
+                  <div
+                    className="relative z-10 font-black leading-none tracking-[-0.04em]"
+                    style={{ fontSize: "clamp(3.5rem, 8vw, 5.5rem)", color: c.resultColorTop }}
+                  >
+                    {c.result}
+                  </div>
+                  <div
+                    className="relative z-10 text-xs font-bold uppercase tracking-widest mt-2"
+                    style={{ color: c.iconColor, opacity: 0.45 }}
+                  >
+                    {c.resultLabel}
+                  </div>
+                </div>
+
+                {/* Card body */}
+                <div
+                  className="px-8 py-9 flex flex-col gap-4"
+                  style={{ background: c.bodyBg }}
+                >
+                  <span
+                    className="text-[10px] font-black uppercase tracking-[0.3em]"
+                    style={{ color: c.segmentColor }}
+                  >
+                    {c.segment}
+                  </span>
+                  <h3
+                    className="font-black text-xl md:text-2xl leading-tight"
+                    style={{ color: c.textColor }}
+                  >
+                    {c.title}
+                  </h3>
+                  <p
+                    className="text-sm md:text-base leading-relaxed font-medium"
+                    style={{ color: c.textMuted }}
+                  >
+                    {c.desc}
+                  </p>
+                </div>
               </motion.div>
             ))}
           </div>
