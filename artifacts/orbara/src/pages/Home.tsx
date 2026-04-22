@@ -353,7 +353,7 @@ export default function Home() {
             transition={{ delay: 1.0 }}
             className="mt-16 flex flex-wrap gap-8 text-white/55 text-sm font-medium"
           >
-            {["Google Partner", "Sem fidelidade", "Resultados em 30 dias", "Atendimento exclusivo"].map((t) => (
+            {["Design Exclusivo", "Sem fidelidade", "Resultados a partir de 30 dias", "Atendimento exclusivo"].map((t) => (
               <span key={t} className="flex items-center gap-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#ff5d00]" />
                 {t}
