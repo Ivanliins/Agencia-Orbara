@@ -1,9 +1,9 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react"; // useRef kept for AnimatedNumber
 import { motion, useInView } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { MessageCircle, Menu, X, Check, Sun, Moon, Plus, Minus, TrendingUp, Search, MousePointerClick, Users, DollarSign, Repeat2, Monitor, Target, Building2, Scale, Car } from "lucide-react";
+import { MessageCircle, Menu, X, Check, Sun, Moon, Plus, Minus, TrendingUp, Search, MousePointerClick, Users, DollarSign, Repeat2, Monitor, Target } from "lucide-react";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -137,22 +137,11 @@ export default function Home() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [formDone, setFormDone] = useState(false);
-  const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     const fn = () => setIsScrolled(window.scrollY > 50);
     window.addEventListener("scroll", fn);
     return () => window.removeEventListener("scroll", fn);
-  }, []);
-
-  useEffect(() => {
-    const vid = videoRef.current;
-    if (!vid) return;
-    vid.muted = true;
-    const tryPlay = () => vid.play().catch(() => {});
-    tryPlay();
-    vid.addEventListener("canplay", tryPlay);
-    return () => vid.removeEventListener("canplay", tryPlay);
   }, []);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -214,7 +203,7 @@ export default function Home() {
           </div>
 
           <div className="hidden md:flex items-center gap-8">
-            {["manifesto", "servicos", "seo", "contato"].map((s) => (
+            {["manifesto", "servicos", "seo", "cases", "contato"].map((s) => (
               <button
                 key={s}
                 onClick={() => scrollTo(s)}
@@ -251,7 +240,7 @@ export default function Home() {
 
         {mobileOpen && (
           <div className={`absolute top-full left-0 w-full ${isDark ? "bg-[#0d0101]" : "bg-white"} border-t border-[#ff5d00]/15 flex flex-col p-5 gap-5 pb-8 shadow-2xl`}>
-            {["manifesto", "servicos", "seo", "contato"].map((s) => (
+            {["manifesto", "servicos", "seo", "cases", "contato"].map((s) => (
               <button key={s} onClick={() => scrollTo(s)} className={`text-left py-2 font-bold uppercase tracking-wider text-sm ${fg} hover:text-[#ff5d00]`}>
                 {s === "servicos" ? "Serviços" : s === "seo" ? "SEO" : s.charAt(0).toUpperCase() + s.slice(1)}
               </button>
@@ -268,21 +257,14 @@ export default function Home() {
         id="inicio"
         className="min-h-[100dvh] flex flex-col justify-center pt-24 pb-16 px-5 md:px-10 relative overflow-hidden bg-[#050510]"
       >
-        {/* Video background */}
-        <video
-          ref={videoRef}
-          autoPlay
-          muted
-          loop
-          playsInline
+        {/* Hero background image */}
+        <img
+          src="/hero-bg.jpg"
+          alt=""
+          aria-hidden
           className="absolute inset-0 w-full h-full object-cover"
           style={{ opacity: 0.85 }}
-        >
-          <source
-            src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260319_055001_8e16d972-3b2b-441c-86ad-2901a54682f9.mp4"
-            type="video/mp4"
-          />
-        </video>
+        />
 
         {/* Left-to-right gradient overlay — ensures text legibility */}
         <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-black/15 pointer-events-none" />
@@ -750,7 +732,6 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {[
               {
-                Icon: Building2,
                 segment: "Arquitetura",
                 result: "+120%",
                 resultLabel: "em geração de leads",
@@ -766,7 +747,6 @@ export default function Home() {
                 segmentColor: "rgba(13,1,1,0.45)",
               },
               {
-                Icon: Scale,
                 segment: "Direito",
                 result: "+85%",
                 resultLabel: "em captação de clientes",
@@ -782,7 +762,6 @@ export default function Home() {
                 segmentColor: "rgba(255,250,250,0.40)",
               },
               {
-                Icon: Car,
                 segment: "Mobilidade Urbana",
                 result: "+60%",
                 resultLabel: "em ocupação mensal",
@@ -807,29 +786,60 @@ export default function Home() {
                 className="group rounded-[3rem] overflow-hidden cursor-default transition-all duration-300 hover:scale-[1.025] hover:shadow-2xl"
                 style={{ boxShadow: "0 4px 32px rgba(0,0,0,0.10)" }}
               >
-                {/* Top illustration */}
+                {/* Top illustration — device mockup */}
                 <div
-                  className="relative flex flex-col items-center justify-center pt-12 pb-8 overflow-hidden"
+                  className="relative flex flex-col items-center justify-center pt-10 pb-6 overflow-hidden"
                   style={{ background: c.topBg, minHeight: "220px" }}
                 >
-                  {/* Large faded icon */}
-                  <c.Icon
-                    size={110}
-                    strokeWidth={0.9}
-                    style={{ color: c.iconColor, opacity: 0.12 }}
-                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+                  {/* Desktop + mobile SVG mockup */}
+                  <svg
+                    viewBox="0 0 260 160"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="relative z-10 w-[200px]"
                     aria-hidden
-                  />
-                  {/* Decorative orbit ring */}
-                  <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-[0.07]" viewBox="0 0 300 220" fill="none" aria-hidden>
-                    <ellipse cx="150" cy="110" rx="110" ry="75" stroke={c.iconColor} strokeWidth="1" />
-                    <ellipse cx="150" cy="110" rx="70" ry="46" stroke={c.iconColor} strokeWidth="0.7" />
-                    <circle cx="150" cy="35" r="5" fill={c.resultColorTop} />
+                  >
+                    {/* Desktop monitor frame */}
+                    <rect x="10" y="8" width="180" height="118" rx="7" fill={c.iconColor} fillOpacity="0.12" stroke={c.iconColor} strokeOpacity="0.30" strokeWidth="1.5" />
+                    {/* Monitor screen bezel */}
+                    <rect x="17" y="15" width="166" height="100" rx="4" fill={c.topBg} stroke={c.iconColor} strokeOpacity="0.15" strokeWidth="1" />
+                    {/* UI skeleton inside desktop screen */}
+                    {/* Nav bar */}
+                    <rect x="20" y="18" width="160" height="10" rx="2" fill={c.iconColor} fillOpacity="0.18" />
+                    {/* Hero block */}
+                    <rect x="20" y="33" width="100" height="22" rx="3" fill={c.resultColorTop} fillOpacity="0.55" />
+                    <rect x="125" y="33" width="55" height="22" rx="3" fill={c.iconColor} fillOpacity="0.08" />
+                    {/* Content rows */}
+                    <rect x="20" y="60" width="75" height="6" rx="2" fill={c.iconColor} fillOpacity="0.20" />
+                    <rect x="20" y="70" width="55" height="6" rx="2" fill={c.iconColor} fillOpacity="0.12" />
+                    <rect x="20" y="80" width="65" height="6" rx="2" fill={c.iconColor} fillOpacity="0.12" />
+                    <rect x="103" y="60" width="77" height="52" rx="3" fill={c.iconColor} fillOpacity="0.08" />
+                    {/* CTA button */}
+                    <rect x="20" y="94" width="44" height="12" rx="6" fill={c.resultColorTop} fillOpacity="0.70" />
+                    {/* Monitor stand + base */}
+                    <rect x="94" y="126" width="12" height="12" rx="1" fill={c.iconColor} fillOpacity="0.20" />
+                    <rect x="78" y="137" width="44" height="4" rx="2" fill={c.iconColor} fillOpacity="0.18" />
+
+                    {/* Mobile phone frame — overlapping bottom-right */}
+                    <rect x="170" y="72" width="60" height="86" rx="8" fill={c.iconColor} fillOpacity="0.14" stroke={c.iconColor} strokeOpacity="0.35" strokeWidth="1.5" />
+                    {/* Phone screen */}
+                    <rect x="175" y="80" width="50" height="70" rx="4" fill={c.topBg} stroke={c.iconColor} strokeOpacity="0.12" strokeWidth="1" />
+                    {/* Phone notch */}
+                    <rect x="191" y="75" width="18" height="3" rx="1.5" fill={c.iconColor} fillOpacity="0.25" />
+                    {/* Phone UI skeleton */}
+                    <rect x="178" y="83" width="44" height="7" rx="2" fill={c.iconColor} fillOpacity="0.18" />
+                    <rect x="178" y="94" width="44" height="18" rx="2" fill={c.resultColorTop} fillOpacity="0.45" />
+                    <rect x="178" y="116" width="30" height="5" rx="1.5" fill={c.iconColor} fillOpacity="0.14" />
+                    <rect x="178" y="124" width="22" height="5" rx="1.5" fill={c.iconColor} fillOpacity="0.10" />
+                    <rect x="178" y="134" width="36" height="10" rx="5" fill={c.resultColorTop} fillOpacity="0.60" />
+                    {/* Phone home bar */}
+                    <rect x="188" y="152" width="24" height="3" rx="1.5" fill={c.iconColor} fillOpacity="0.20" />
                   </svg>
+
                   {/* Result number */}
                   <div
-                    className="relative z-10 font-black leading-none tracking-[-0.04em]"
-                    style={{ fontSize: "clamp(3.5rem, 8vw, 5.5rem)", color: c.resultColorTop }}
+                    className="relative z-10 font-black leading-none tracking-[-0.04em] mt-4"
+                    style={{ fontSize: "clamp(3rem, 7vw, 4.5rem)", color: c.resultColorTop }}
                   >
                     {c.result}
                   </div>
