@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from "react"; // useRef kept for AnimatedNumber
 import { motion, useInView } from "framer-motion";
+import { Link } from "wouter";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -149,7 +150,19 @@ export default function Home() {
     defaultValues: { nome: "", email: "", whatsapp: "", site: "", servico: "", faturamento: "" },
   });
 
-  const onSubmit = () => setFormDone(true);
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values),
+      });
+      if (!res.ok) throw new Error("server error");
+      setFormDone(true);
+    } catch {
+      alert("Erro ao enviar formulário. Tente novamente.");
+    }
+  };
   const scrollTo = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
     setMobileOpen(false);
@@ -180,7 +193,7 @@ export default function Home() {
 
       {/* WhatsApp CTA */}
       <a
-        href="https://wa.me/5511999999999"
+        href="https://wa.me/5511981680809"
         target="_blank"
         rel="noopener noreferrer"
         className="fixed bottom-6 right-6 z-50 bg-[#ff5d00] text-[#0d0101] rounded-full px-5 py-3 flex items-center gap-2 shadow-2xl hover:scale-105 transition-transform shadow-[#ff5d0030]"
@@ -732,11 +745,14 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {[
               {
-                segment: "Arquitetura",
-                result: "+120%",
-                resultLabel: "em geração de leads",
-                title: "Mais projetos de alto padrão",
-                desc: "Estratégia de posicionamento premium, redes sociais e tráfego pago focado em clientes de alto ticket, aumentando significativamente o número de contatos qualificados.",
+                slug: "casa-voltari",
+                client: "Voltari",
+                segment: "Mobilidade Elétrica",
+                result: "+138%",
+                resultLabel: "em vendas online",
+                period: "em 3 meses",
+                title: "Do nicho ao mainstream da mobilidade elétrica",
+                desc: "Criamos o site da Voltari com foco em conversão, lançamos campanhas segmentadas para compradores de motos elétricas, patinetes e ciclomotores, e estruturamos SEO e tráfego pago que posicionaram a marca como referência no segmento.",
                 topBg: "#0d0101",
                 bodyBg: "#ff5d00",
                 iconColor: "#fffafa",
@@ -745,13 +761,17 @@ export default function Home() {
                 textColor: "#0d0101",
                 textMuted: "rgba(13,1,1,0.65)",
                 segmentColor: "rgba(13,1,1,0.45)",
+                siteUrl: "https://73b8d9f6-16d5-469e-9dc6-576d763c3f7a-00-2eivf1yw5xnkl.worf.replit.dev/",
               },
               {
-                segment: "Direito",
-                result: "+85%",
-                resultLabel: "em captação de clientes",
-                title: "Autoridade e presença digital",
-                desc: "Criação de identidade profissional, conteúdo estratégico e campanhas alinhadas com as normas da OAB, gerando mais confiança e novos clientes.",
+                slug: "camila-nogueira",
+                client: "Dra. Camila Nogueira — Advocacia",
+                segment: "Direito · Família & Sucessões",
+                result: "+91%",
+                resultLabel: "em novos clientes/mês",
+                period: "em 3 meses",
+                title: "Autoridade digital dentro das normas da OAB",
+                desc: "Desenvolvemos um site profissional com blog jurídico educativo, configuramos tráfego pago em conformidade com as diretrizes da OAB e implementamos uma estratégia de SEO local que elevou o escritório à primeira página do Google para termos de alta intenção na cidade.",
                 topBg: "#ff5d00",
                 bodyBg: "#0d0101",
                 iconColor: "#0d0101",
@@ -760,13 +780,17 @@ export default function Home() {
                 textColor: "#fffafa",
                 textMuted: "rgba(255,250,250,0.60)",
                 segmentColor: "rgba(255,250,250,0.40)",
+                siteUrl: "",
               },
               {
+                slug: "central-park",
+                client: "Estacionamento Central Park",
                 segment: "Mobilidade Urbana",
-                result: "+60%",
+                result: "+68%",
                 resultLabel: "em ocupação mensal",
-                title: "Mais fluxo, menos vagas vazias",
-                desc: "Campanhas locais, Google Ads e otimização no Google Maps, aumentando a visibilidade e o fluxo diário de veículos.",
+                period: "em 2 meses",
+                title: "Do desconhecido ao ponto de referência da região",
+                desc: "Otimizamos o perfil no Google Maps, executamos campanhas de geolocalização no raio de 3 km do estabelecimento e criamos conteúdo que posicionou o espaço como referência de segurança e conveniência, reduzindo vagas ociosas nos horários de pico.",
                 topBg: "#0d0101",
                 bodyBg: "#ff5d00",
                 iconColor: "#fffafa",
@@ -775,6 +799,7 @@ export default function Home() {
                 textColor: "#0d0101",
                 textMuted: "rgba(13,1,1,0.65)",
                 segmentColor: "rgba(13,1,1,0.45)",
+                siteUrl: "",
               },
             ].map((c, i) => (
               <motion.div
@@ -856,12 +881,20 @@ export default function Home() {
                   className="px-8 py-9 flex flex-col gap-4"
                   style={{ background: c.bodyBg }}
                 >
-                  <span
-                    className="text-[10px] font-black uppercase tracking-[0.3em]"
-                    style={{ color: c.segmentColor }}
-                  >
-                    {c.segment}
-                  </span>
+                  <div className="flex flex-col gap-1">
+                    <span
+                      className="text-[10px] font-black uppercase tracking-[0.3em]"
+                      style={{ color: c.segmentColor }}
+                    >
+                      {c.segment}
+                    </span>
+                    <span
+                      className="text-[11px] font-semibold"
+                      style={{ color: c.textMuted }}
+                    >
+                      {c.client}
+                    </span>
+                  </div>
                   <h3
                     className="font-black text-xl md:text-2xl leading-tight"
                     style={{ color: c.textColor }}
@@ -874,6 +907,155 @@ export default function Home() {
                   >
                     {c.desc}
                   </p>
+                  <span
+                    className="text-[10px] font-bold uppercase tracking-widest mt-1"
+                    style={{ color: c.segmentColor }}
+                  >
+                    {c.period}
+                  </span>
+                  <div className="flex flex-wrap items-center gap-3 mt-2">
+                    <Link href={`/cases/${c.slug}`}>
+                      <span
+                        className="inline-flex items-center gap-1 text-sm font-bold transition-opacity hover:opacity-80"
+                        style={{ color: c.textColor }}
+                      >
+                        Ver case completo →
+                      </span>
+                    </Link>
+                    {c.siteUrl ? (
+                      <a
+                        href={c.siteUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 text-sm font-black px-4 py-1.5 rounded-full transition-all hover:scale-105 hover:shadow-lg"
+                        style={{
+                          background: c.textColor,
+                          color: c.bodyBg,
+                          textDecoration: "none",
+                          boxShadow: `0 2px 12px rgba(13,1,1,0.18)`,
+                        }}
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <svg width="11" height="11" viewBox="0 0 12 12" fill="none">
+                          <path d="M2 10L10 2M10 2H5M10 2V7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                        Visitar o site
+                      </a>
+                    ) : (
+                      <span
+                        className="inline-flex items-center gap-1.5 text-sm font-black px-4 py-1.5 rounded-full"
+                        style={{
+                          background: c.textColor,
+                          color: c.bodyBg,
+                          opacity: 0.3,
+                          cursor: "default",
+                        }}
+                      >
+                        <svg width="11" height="11" viewBox="0 0 12 12" fill="none">
+                          <path d="M2 10L10 2M10 2H5M10 2V7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                        Visitar o site
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── DEPOIMENTOS ─────────────────────────────────────────────────── */}
+      <section className={`py-24 md:py-32 px-5 md:px-10 ${bg}`}>
+        <div className="container mx-auto max-w-7xl">
+
+          {/* Header */}
+          <div className="mb-14 md:mb-20">
+            <motion.span
+              initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
+              className={`text-xs font-bold uppercase tracking-[0.35em] ${fgMuted}`}
+            >
+              O que dizem nossos clientes
+            </motion.span>
+            <motion.h2
+              initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+              transition={{ duration: 0.7 }}
+              className="mt-3 font-black leading-[0.9] tracking-tight"
+              style={{ fontSize: "clamp(2.4rem, 6vw, 7rem)" }}
+            >
+              <span className={fg}>Quem viveu,</span>
+              <br />
+              <span className="text-[#ff5d00] italic">aprova.</span>
+            </motion.h2>
+          </div>
+
+          {/* Testimonial cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              {
+                quote: "Em três meses nossas vendas online mais que dobraram. A Orbara entendeu o nosso mercado, criou campanhas certeiras e posicionou a Voltari como referência em mobilidade elétrica.",
+                name: "Equipe Voltari",
+                role: "Diretoria Comercial",
+                company: "Voltari",
+              },
+              {
+                quote: "Conseguiram construir autoridade para o meu escritório dentro das regras da OAB. Mais clientes, mais casos relevantes, sem abrir mão da ética.",
+                name: "Dra. Camila Nogueira",
+                role: "Advogada",
+                company: "Nogueira Advocacia",
+              },
+              {
+                quote: "Nossa ocupação subiu 68% em dois meses. A equipe da Orbara entendeu o negócio de verdade e entregou resultado concreto.",
+                name: "Marcos Teixeira",
+                role: "Diretor de Operações",
+                company: "Estacionamento Central Park",
+              },
+            ].map((t, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: i * 0.12 }}
+                className={`relative rounded-[2.5rem] p-8 md:p-10 flex flex-col gap-6 ${altBg}`}
+                style={{ boxShadow: "0 4px 32px rgba(0,0,0,0.07)" }}
+              >
+                {/* Large decorative quote mark */}
+                <span
+                  className="absolute top-6 right-8 font-black select-none leading-none"
+                  style={{ fontSize: "6rem", color: "#ff5d00", opacity: 0.12, lineHeight: 1 }}
+                  aria-hidden
+                >
+                  &ldquo;
+                </span>
+
+                {/* Stars */}
+                <div className="flex gap-1" aria-label="5 estrelas">
+                  {Array.from({ length: 5 }).map((_, s) => (
+                    <svg key={s} width="16" height="16" viewBox="0 0 16 16" fill="#ff5d00" aria-hidden>
+                      <path d="M8 1l1.8 3.6L14 5.3l-3 2.9.7 4.1L8 10.4l-3.7 1.9.7-4.1-3-2.9 4.2-.7z" />
+                    </svg>
+                  ))}
+                </div>
+
+                {/* Quote text */}
+                <p className={`text-base md:text-lg leading-relaxed font-medium flex-1 ${fgMuted}`}>
+                  &ldquo;{t.quote}&rdquo;
+                </p>
+
+                {/* Client info */}
+                <div className="flex items-center gap-3 pt-2 border-t" style={{ borderColor: isDark ? "rgba(255,250,250,0.08)" : "rgba(13,1,1,0.08)" }}>
+                  {/* Avatar initials */}
+                  <div
+                    className="w-10 h-10 rounded-full flex items-center justify-center font-black text-sm shrink-0"
+                    style={{ background: "#ff5d00", color: "#0d0101" }}
+                  >
+                    {t.name.split(" ").map(n => n[0]).slice(0, 2).join("")}
+                  </div>
+                  <div>
+                    <p className={`font-bold text-sm leading-tight ${fg}`}>{t.name}</p>
+                    <p className={`text-xs leading-tight ${fgMuted}`}>{t.role} · {t.company}</p>
+                  </div>
                 </div>
               </motion.div>
             ))}
