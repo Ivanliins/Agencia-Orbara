@@ -1,7 +1,7 @@
 {
   "buildCommand": "pnpm install && pnpm --filter @workspace/orbara exec vite build --config vite.vercel.config.ts",
   "outputDirectory": "artifacts/orbara/dist",
-  "installCommand": "pnpm install",
+  "installCommand": "pnpm install --no-frozen-lockfile",
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/$1" },
     { "source": "/(.*)", "destination": "/index.html" }
