@@ -749,6 +749,75 @@ export default function Home() {
             </motion.p>
           </div>
 
+          {/* ── Novo Case em Destaque ── */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            className="mb-8 rounded-[3rem] overflow-hidden"
+            style={{ boxShadow: "0 8px 48px rgba(255,93,0,0.18)" }}
+          >
+            <div className="flex flex-col lg:flex-row">
+              {/* Left — logo + glow */}
+              <div
+                className="relative flex flex-col items-center justify-center px-12 py-16 lg:py-20 lg:w-[42%] shrink-0 overflow-hidden"
+                style={{ background: "#1a0f07" }}
+              >
+                {/* Glow */}
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,93,0,0.22)_0%,transparent_70%)] pointer-events-none" />
+                {/* Novo Case badge */}
+                <span className="relative z-10 mb-8 inline-flex items-center gap-2 bg-[#ff5d00] text-[#0d0101] text-[10px] font-black uppercase tracking-[0.3em] px-5 py-2 rounded-full shadow-lg shadow-[#ff5d0050]">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#0d0101] animate-pulse" />
+                  Novo Case
+                </span>
+                {/* Logo */}
+                <img
+                  src="/jr-queijo-logo.png"
+                  alt="Empório Junior do Queijo"
+                  className="relative z-10 w-36 h-36 object-contain rounded-2xl shadow-2xl"
+                />
+                <p className="relative z-10 mt-8 text-xs font-bold uppercase tracking-[0.3em] text-white/40 text-center">
+                  Gastronomia · Queijos Artesanais
+                </p>
+              </div>
+
+              {/* Right — content */}
+              <div
+                className="flex flex-col justify-center px-10 py-12 lg:py-16 flex-1"
+                style={{ background: "#ff5d00" }}
+              >
+                <span className="text-[10px] font-black uppercase tracking-[0.3em] text-[rgba(13,1,1,0.45)] mb-2">
+                  Empório Junior do Queijo
+                </span>
+                <h3 className="font-black text-2xl md:text-4xl leading-tight text-[#0d0101] mb-5">
+                  Presença digital para um empório que transforma paladar em cultura.
+                </h3>
+                <p className="text-base md:text-lg leading-relaxed font-medium text-[rgba(13,1,1,0.70)] mb-8 max-w-xl">
+                  Desenvolvemos o site do Empório Junior do Queijo com curadoria visual, storytelling de produto e estrutura pensada para converter visitantes em clientes apaixonados por queijos artesanais.
+                </p>
+                <div className="flex flex-wrap items-center gap-4">
+                  <Link href="/cases/jr-do-queijo">
+                    <span className="inline-flex items-center gap-1 text-sm font-bold text-[#0d0101] hover:opacity-75 transition-opacity">
+                      Ver case completo →
+                    </span>
+                  </Link>
+                  <a
+                    href="https://jr-do-queijo.vercel.app/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 text-sm font-black px-5 py-2 rounded-full bg-[#0d0101] text-[#ff5d00] hover:scale-105 hover:shadow-lg transition-all"
+                  >
+                    <svg width="11" height="11" viewBox="0 0 12 12" fill="none">
+                      <path d="M2 10L10 2M10 2H5M10 2V7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                    Visitar o site
+                  </a>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
           {/* Cards */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {[
