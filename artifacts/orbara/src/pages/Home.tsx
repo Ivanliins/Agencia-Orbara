@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react"; // useRef kept for AnimatedNumber
+import { useEffect, useState, useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import { Link } from "wouter";
 import { useForm } from "react-hook-form";
@@ -270,14 +270,20 @@ export default function Home() {
         id="inicio"
         className="min-h-[100dvh] flex flex-col justify-center pt-24 pb-16 px-5 md:px-10 relative overflow-hidden bg-[#050510]"
       >
-        {/* Hero background image */}
-        <img
-          src="/hero-bg.jpg"
-          alt=""
-          aria-hidden
+        {/* Video background */}
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
           className="absolute inset-0 w-full h-full object-cover"
           style={{ opacity: 0.85 }}
-        />
+        >
+          <source
+            src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260319_055001_8e16d972-3b2b-441c-86ad-2901a54682f9.mp4"
+            type="video/mp4"
+          />
+        </video>
 
         {/* Left-to-right gradient overlay — ensures text legibility */}
         <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/50 to-black/15 pointer-events-none" />
