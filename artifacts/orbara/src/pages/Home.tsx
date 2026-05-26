@@ -268,7 +268,7 @@ export default function Home() {
       {/* ── HERO ────────────────────────────────────────────────────────── */}
       <section
         id="inicio"
-        className="min-h-[100dvh] flex flex-col justify-center pt-24 pb-16 px-5 md:px-10 relative overflow-hidden bg-[#050510]"
+        className="min-h-[100dvh] flex flex-col justify-center pt-28 pb-20 px-5 md:px-10 relative overflow-x-hidden bg-[#050510]"
       >
         {/* Video background */}
         <video
@@ -276,6 +276,8 @@ export default function Home() {
           muted
           loop
           playsInline
+          preload="none"
+          poster="/hero-bg.jpg"
           className="absolute inset-0 w-full h-full object-cover"
           style={{ opacity: 0.85 }}
         >
