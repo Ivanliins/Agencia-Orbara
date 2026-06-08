@@ -756,63 +756,95 @@ export default function Home() {
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
             className="mb-8 rounded-[3rem] overflow-hidden"
-            style={{ boxShadow: "0 8px 48px rgba(255,93,0,0.18)" }}
+            style={{ boxShadow: "0 12px 64px rgba(255,93,0,0.22)" }}
           >
             <div className="flex flex-col lg:flex-row">
-              {/* Left — logo + glow */}
+
+              {/* Left — site preview screenshot */}
               <div
-                className="relative flex flex-col items-center justify-center px-12 py-16 lg:py-20 lg:w-[42%] shrink-0 overflow-hidden"
-                style={{ background: "#1a0f07" }}
+                className="relative lg:w-[48%] shrink-0 overflow-hidden"
+                style={{ background: "#140c04", minHeight: "340px" }}
               >
-                {/* Glow */}
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,93,0,0.22)_0%,transparent_70%)] pointer-events-none" />
-                {/* Novo Case badge */}
-                <span className="relative z-10 mb-8 inline-flex items-center gap-2 bg-[#ff5d00] text-[#0d0101] text-[10px] font-black uppercase tracking-[0.3em] px-5 py-2 rounded-full shadow-lg shadow-[#ff5d0050]">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#0d0101] animate-pulse" />
-                  Novo Case
-                </span>
-                {/* Logo */}
+                {/* Top bar with logo + badge */}
+                <div className="absolute top-0 left-0 right-0 z-20 flex items-center justify-between px-7 pt-6 pb-3">
+                  <img
+                    src="/jr-queijo-logo.png"
+                    alt="Empório Júnior do Queijo"
+                    className="w-12 h-12 object-contain rounded-xl shadow-lg"
+                  />
+                  <span className="inline-flex items-center gap-2 bg-[#ff5d00] text-[#0d0101] text-[10px] font-black uppercase tracking-[0.3em] px-4 py-1.5 rounded-full shadow-lg">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#0d0101] animate-pulse" />
+                    Novo Case
+                  </span>
+                </div>
+                {/* Site preview image */}
                 <img
-                  src="/jr-queijo-logo.png"
-                  alt="Empório Junior do Queijo"
-                  className="relative z-10 w-36 h-36 object-contain rounded-2xl shadow-2xl"
+                  src="/jr-queijo-preview.jpg"
+                  alt="Preview do site Empório Júnior do Queijo"
+                  className="w-full h-full object-cover object-top"
+                  style={{ minHeight: "340px", opacity: 0.82 }}
                 />
-                <p className="relative z-10 mt-8 text-xs font-bold uppercase tracking-[0.3em] text-white/40 text-center">
-                  Gastronomia · Queijos Artesanais
-                </p>
+                {/* Bottom gradient */}
+                <div className="absolute bottom-0 left-0 right-0 h-28 bg-gradient-to-t from-[#140c04] to-transparent pointer-events-none" />
+                {/* Product tags */}
+                <div className="absolute bottom-5 left-7 flex flex-wrap gap-2">
+                  {["🧀 Queijos da Canastra", "🍬 Doces Mineiros", "🥃 Cachaças Nobres"].map((tag) => (
+                    <span
+                      key={tag}
+                      className="text-[11px] font-bold px-3 py-1 rounded-full"
+                      style={{ background: "rgba(255,93,0,0.18)", color: "#ff5d00", border: "1px solid rgba(255,93,0,0.30)" }}
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
               </div>
 
               {/* Right — content */}
               <div
-                className="flex flex-col justify-center px-10 py-12 lg:py-16 flex-1"
+                className="flex flex-col justify-center px-10 py-12 lg:py-14 flex-1"
                 style={{ background: "#ff5d00" }}
               >
-                <span className="text-[10px] font-black uppercase tracking-[0.3em] text-[rgba(13,1,1,0.45)] mb-2">
-                  Empório Junior do Queijo
+                <span className="text-[10px] font-black uppercase tracking-[0.3em] text-[rgba(13,1,1,0.45)] mb-1">
+                  Gastronomia · Produtos Mineiros
                 </span>
-                <h3 className="font-black text-2xl md:text-4xl leading-tight text-[#0d0101] mb-5">
-                  Presença digital para um empório que transforma paladar em cultura.
+                <span className="text-[11px] font-semibold text-[rgba(13,1,1,0.60)] mb-5">
+                  Empório Júnior do Queijo
+                </span>
+                <h3 className="font-black text-2xl md:text-[2.2rem] leading-[1.05] text-[#0d0101] mb-5 tracking-tight">
+                  Do balcão de queijos ao e-commerce com a alma de Minas.
                 </h3>
-                <p className="text-base md:text-lg leading-relaxed font-medium text-[rgba(13,1,1,0.70)] mb-8 max-w-xl">
-                  Desenvolvemos o site do Empório Junior do Queijo com curadoria visual, storytelling de produto e estrutura pensada para converter visitantes em clientes apaixonados por queijos artesanais.
+                <p className="text-base leading-relaxed font-medium text-[rgba(13,1,1,0.72)] mb-7 max-w-lg">
+                  Criamos um e-commerce completo para o Empório Júnior do Queijo — com catálogo de produtos, busca por voz, modo escuro, área de revendas e uma identidade visual que carrega a tradição dos queijos da Canastra, doces caseiros e cachaças nobres de Minas Gerais.
                 </p>
+                {/* Mini metrics */}
+                <div className="flex gap-8 mb-8">
+                  {[
+                    { value: "E-commerce", label: "loja completa" },
+                    { value: "🗣 Busca", label: "por voz" },
+                    { value: "Revenda", label: "portal integrado" },
+                  ].map((m) => (
+                    <div key={m.label}>
+                      <div className="font-black text-base md:text-lg text-[#0d0101] leading-tight">{m.value}</div>
+                      <div className="text-[10px] font-bold uppercase tracking-widest text-[rgba(13,1,1,0.45)] mt-0.5">{m.label}</div>
+                    </div>
+                  ))}
+                </div>
                 <div className="flex flex-wrap items-center gap-4">
-                  <Link href="/cases/jr-do-queijo">
-                    <span className="inline-flex items-center gap-1 text-sm font-bold text-[#0d0101] hover:opacity-75 transition-opacity">
-                      Ver case completo →
-                    </span>
-                  </Link>
                   <a
                     href="https://jr-do-queijo.vercel.app/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 text-sm font-black px-5 py-2 rounded-full bg-[#0d0101] text-[#ff5d00] hover:scale-105 hover:shadow-lg transition-all"
+                    className="inline-flex items-center gap-2 text-sm font-black px-6 py-3 rounded-full bg-[#0d0101] text-[#ff5d00] hover:scale-105 hover:shadow-xl transition-all"
                   >
                     <svg width="11" height="11" viewBox="0 0 12 12" fill="none">
                       <path d="M2 10L10 2M10 2H5M10 2V7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
                     Visitar o site
                   </a>
+                  <span className="text-sm font-bold text-[#0d0101]/60 italic">
+                    "O melhor de Minas bem pertinho de você!"
+                  </span>
                 </div>
               </div>
             </div>
