@@ -862,15 +862,13 @@ export default function Home() {
                 period: "em 3 meses",
                 title: "Do nicho ao mainstream da mobilidade elétrica",
                 desc: "Criamos o site da Voltari com foco em conversão, lançamos campanhas segmentadas para compradores de motos elétricas, patinetes e ciclomotores, e estruturamos SEO e tráfego pago que posicionaram a marca como referência no segmento.",
-                topBg: "#0d0101",
+                photo: "/case-voltari.jpg",
                 bodyBg: "#ff5d00",
-                iconColor: "#fffafa",
-                resultColor: "#ff5d00",
-                resultColorTop: "#ff5d00",
+                accentColor: "#ff5d00",
                 textColor: "#0d0101",
                 textMuted: "rgba(13,1,1,0.65)",
                 segmentColor: "rgba(13,1,1,0.45)",
-                siteUrl: "https://73b8d9f6-16d5-469e-9dc6-576d763c3f7a-00-2eivf1yw5xnkl.worf.replit.dev/",
+                siteUrl: "",
               },
               {
                 slug: "camila-nogueira",
@@ -881,11 +879,9 @@ export default function Home() {
                 period: "em 3 meses",
                 title: "Autoridade digital dentro das normas da OAB",
                 desc: "Desenvolvemos um site profissional com blog jurídico educativo, configuramos tráfego pago em conformidade com as diretrizes da OAB e implementamos uma estratégia de SEO local que elevou o escritório à primeira página do Google para termos de alta intenção na cidade.",
-                topBg: "#ff5d00",
+                photo: "/case-camila.jpg",
                 bodyBg: "#0d0101",
-                iconColor: "#0d0101",
-                resultColor: "#fffafa",
-                resultColorTop: "#0d0101",
+                accentColor: "#ff5d00",
                 textColor: "#fffafa",
                 textMuted: "rgba(255,250,250,0.60)",
                 segmentColor: "rgba(255,250,250,0.40)",
@@ -900,11 +896,9 @@ export default function Home() {
                 period: "em 2 meses",
                 title: "Do desconhecido ao ponto de referência da região",
                 desc: "Otimizamos o perfil no Google Maps, executamos campanhas de geolocalização no raio de 3 km do estabelecimento e criamos conteúdo que posicionou o espaço como referência de segurança e conveniência, reduzindo vagas ociosas nos horários de pico.",
-                topBg: "#0d0101",
+                photo: "/case-central-park.jpg",
                 bodyBg: "#ff5d00",
-                iconColor: "#fffafa",
-                resultColor: "#ff5d00",
-                resultColorTop: "#ff5d00",
+                accentColor: "#ff5d00",
                 textColor: "#0d0101",
                 textMuted: "rgba(13,1,1,0.65)",
                 segmentColor: "rgba(13,1,1,0.45)",
@@ -920,68 +914,40 @@ export default function Home() {
                 className="group rounded-[3rem] overflow-hidden cursor-default transition-all duration-300 hover:scale-[1.025] hover:shadow-2xl"
                 style={{ boxShadow: "0 4px 32px rgba(0,0,0,0.10)" }}
               >
-                {/* Top illustration — device mockup */}
+                {/* Top — photo with result overlay */}
                 <div
-                  className="relative flex flex-col items-center justify-center pt-10 pb-6 overflow-hidden"
-                  style={{ background: c.topBg, minHeight: "220px" }}
+                  className="relative overflow-hidden"
+                  style={{ minHeight: "240px" }}
                 >
-                  {/* Desktop + mobile SVG mockup */}
-                  <svg
-                    viewBox="0 0 260 160"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="relative z-10 w-[200px]"
-                    aria-hidden
-                  >
-                    {/* Desktop monitor frame */}
-                    <rect x="10" y="8" width="180" height="118" rx="7" fill={c.iconColor} fillOpacity="0.12" stroke={c.iconColor} strokeOpacity="0.30" strokeWidth="1.5" />
-                    {/* Monitor screen bezel */}
-                    <rect x="17" y="15" width="166" height="100" rx="4" fill={c.topBg} stroke={c.iconColor} strokeOpacity="0.15" strokeWidth="1" />
-                    {/* UI skeleton inside desktop screen */}
-                    {/* Nav bar */}
-                    <rect x="20" y="18" width="160" height="10" rx="2" fill={c.iconColor} fillOpacity="0.18" />
-                    {/* Hero block */}
-                    <rect x="20" y="33" width="100" height="22" rx="3" fill={c.resultColorTop} fillOpacity="0.55" />
-                    <rect x="125" y="33" width="55" height="22" rx="3" fill={c.iconColor} fillOpacity="0.08" />
-                    {/* Content rows */}
-                    <rect x="20" y="60" width="75" height="6" rx="2" fill={c.iconColor} fillOpacity="0.20" />
-                    <rect x="20" y="70" width="55" height="6" rx="2" fill={c.iconColor} fillOpacity="0.12" />
-                    <rect x="20" y="80" width="65" height="6" rx="2" fill={c.iconColor} fillOpacity="0.12" />
-                    <rect x="103" y="60" width="77" height="52" rx="3" fill={c.iconColor} fillOpacity="0.08" />
-                    {/* CTA button */}
-                    <rect x="20" y="94" width="44" height="12" rx="6" fill={c.resultColorTop} fillOpacity="0.70" />
-                    {/* Monitor stand + base */}
-                    <rect x="94" y="126" width="12" height="12" rx="1" fill={c.iconColor} fillOpacity="0.20" />
-                    <rect x="78" y="137" width="44" height="4" rx="2" fill={c.iconColor} fillOpacity="0.18" />
-
-                    {/* Mobile phone frame — overlapping bottom-right */}
-                    <rect x="170" y="72" width="60" height="86" rx="8" fill={c.iconColor} fillOpacity="0.14" stroke={c.iconColor} strokeOpacity="0.35" strokeWidth="1.5" />
-                    {/* Phone screen */}
-                    <rect x="175" y="80" width="50" height="70" rx="4" fill={c.topBg} stroke={c.iconColor} strokeOpacity="0.12" strokeWidth="1" />
-                    {/* Phone notch */}
-                    <rect x="191" y="75" width="18" height="3" rx="1.5" fill={c.iconColor} fillOpacity="0.25" />
-                    {/* Phone UI skeleton */}
-                    <rect x="178" y="83" width="44" height="7" rx="2" fill={c.iconColor} fillOpacity="0.18" />
-                    <rect x="178" y="94" width="44" height="18" rx="2" fill={c.resultColorTop} fillOpacity="0.45" />
-                    <rect x="178" y="116" width="30" height="5" rx="1.5" fill={c.iconColor} fillOpacity="0.14" />
-                    <rect x="178" y="124" width="22" height="5" rx="1.5" fill={c.iconColor} fillOpacity="0.10" />
-                    <rect x="178" y="134" width="36" height="10" rx="5" fill={c.resultColorTop} fillOpacity="0.60" />
-                    {/* Phone home bar */}
-                    <rect x="188" y="152" width="24" height="3" rx="1.5" fill={c.iconColor} fillOpacity="0.20" />
-                  </svg>
-
-                  {/* Result number */}
-                  <div
-                    className="relative z-10 font-black leading-none tracking-[-0.04em] mt-4"
-                    style={{ fontSize: "clamp(3rem, 7vw, 4.5rem)", color: c.resultColorTop }}
-                  >
-                    {c.result}
+                  <img
+                    src={c.photo}
+                    alt={c.client}
+                    className="absolute inset-0 w-full h-full object-cover"
+                  />
+                  {/* Dark gradient overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10 pointer-events-none" />
+                  {/* Accent color stripe at top */}
+                  <div className="absolute top-0 left-0 right-0 h-1" style={{ background: c.accentColor }} />
+                  {/* Result badge — bottom left */}
+                  <div className="absolute bottom-5 left-6 z-10">
+                    <div
+                      className="font-black leading-none tracking-[-0.04em]"
+                      style={{ fontSize: "clamp(2.8rem, 6vw, 4rem)", color: c.accentColor }}
+                    >
+                      {c.result}
+                    </div>
+                    <div className="text-[11px] font-bold uppercase tracking-widest text-white/60 mt-1">
+                      {c.resultLabel}
+                    </div>
                   </div>
-                  <div
-                    className="relative z-10 text-xs font-bold uppercase tracking-widest mt-2"
-                    style={{ color: c.iconColor, opacity: 0.45 }}
-                  >
-                    {c.resultLabel}
+                  {/* Period chip — top right */}
+                  <div className="absolute top-4 right-4 z-10">
+                    <span
+                      className="text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full"
+                      style={{ background: "rgba(0,0,0,0.55)", color: "rgba(255,255,255,0.7)", backdropFilter: "blur(4px)" }}
+                    >
+                      {c.period}
+                    </span>
                   </div>
                 </div>
 
@@ -1016,12 +982,6 @@ export default function Home() {
                   >
                     {c.desc}
                   </p>
-                  <span
-                    className="text-[10px] font-bold uppercase tracking-widest mt-1"
-                    style={{ color: c.segmentColor }}
-                  >
-                    {c.period}
-                  </span>
                   <div className="flex flex-wrap items-center gap-3 mt-2">
                     <Link href={`/cases/${c.slug}`}>
                       <span
