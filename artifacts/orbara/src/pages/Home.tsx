@@ -763,17 +763,17 @@ export default function Home() {
               {/* Left — site preview screenshot */}
               <div
                 className="relative lg:w-[48%] shrink-0 overflow-hidden"
-                style={{ background: "#140c04", minHeight: "340px" }}
+                style={{ background: "#140c04", minHeight: "260px" }}
               >
                 {/* Top bar with logo + badge */}
-                <div className="absolute top-0 left-0 right-0 z-20 flex items-center justify-between px-7 pt-6 pb-3">
+                <div className="absolute top-0 left-0 right-0 z-20 flex items-center justify-between px-5 md:px-7 pt-5 pb-3">
                   <img
                     src="/jr-queijo-logo.png"
                     alt="Empório Júnior do Queijo"
-                    className="w-12 h-12 object-contain rounded-xl shadow-lg"
+                    className="w-10 h-10 md:w-12 md:h-12 object-contain rounded-xl shadow-lg"
                   />
                   <span className="inline-flex items-center gap-2 bg-[#ff5d00] text-[#0d0101] text-[10px] font-black uppercase tracking-[0.3em] px-4 py-1.5 rounded-full shadow-lg">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#0d0101] animate-pulse" />
+                    <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
                     Novo Case
                   </span>
                 </div>
@@ -782,16 +782,16 @@ export default function Home() {
                   src="/jr-queijo-preview.jpg"
                   alt="Preview do site Empório Júnior do Queijo"
                   className="w-full h-full object-cover object-top"
-                  style={{ minHeight: "340px", opacity: 0.82 }}
+                  style={{ minHeight: "260px", opacity: 0.82 }}
                 />
                 {/* Bottom gradient */}
-                <div className="absolute bottom-0 left-0 right-0 h-28 bg-gradient-to-t from-[#140c04] to-transparent pointer-events-none" />
+                <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#140c04] to-transparent pointer-events-none" />
                 {/* Product tags */}
-                <div className="absolute bottom-5 left-7 flex flex-wrap gap-2">
-                  {["🧀 Queijos da Canastra", "🍬 Doces Mineiros", "🥃 Cachaças Nobres"].map((tag) => (
+                <div className="absolute bottom-4 left-5 md:left-7 flex flex-wrap gap-1.5">
+                  {["🧀 Canastra", "🍬 Doces Mineiros", "🥃 Cachaças"].map((tag) => (
                     <span
                       key={tag}
-                      className="text-[11px] font-bold px-3 py-1 rounded-full"
+                      className="text-[10px] md:text-[11px] font-bold px-2.5 py-1 rounded-full"
                       style={{ background: "rgba(255,93,0,0.18)", color: "#ff5d00", border: "1px solid rgba(255,93,0,0.30)" }}
                     >
                       {tag}
@@ -802,7 +802,7 @@ export default function Home() {
 
               {/* Right — content */}
               <div
-                className="flex flex-col justify-center px-10 py-12 lg:py-14 flex-1"
+                className="flex flex-col justify-center px-7 md:px-10 py-10 md:py-14 flex-1"
                 style={{ background: "#ff5d00" }}
               >
                 <span className="text-[10px] font-black uppercase tracking-[0.3em] text-[rgba(13,1,1,0.45)] mb-1">
@@ -1439,7 +1439,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="relative overflow-hidden mb-10">
+          <div className="relative overflow-hidden mb-10 text-center">
             <div
               className="font-black leading-[0.82] tracking-[-0.05em] select-none"
               style={{
@@ -1452,7 +1452,7 @@ export default function Home() {
             >
               ORBARA
             </div>
-            <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_45%_40%_at_28%_55%,_#ff5d0014,_transparent)]" />
+            <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_45%_40%_at_50%_55%,_#ff5d0014,_transparent)]" />
           </div>
 
           <div className="flex flex-col md:flex-row justify-between items-center gap-5 pt-8 border-t border-white/[0.05] text-xs">
