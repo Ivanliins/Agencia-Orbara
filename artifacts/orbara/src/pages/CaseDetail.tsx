@@ -837,7 +837,7 @@ export default function CaseDetail() {
               }}
               aria-label={`Ver imagem: ${img.caption}`}
             >
-              <img
+              <img loading="lazy"
                 src={img.src}
                 alt={img.caption}
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"

@@ -767,7 +767,7 @@ export default function Home() {
               >
                 {/* Top bar with logo + badge */}
                 <div className="absolute top-0 left-0 right-0 z-20 flex items-center justify-between px-5 md:px-7 pt-5 pb-3">
-                  <img
+                  <img loading="lazy"
                     src="/jr-queijo-logo.png"
                     alt="Empório Júnior do Queijo"
                     className="w-10 h-10 md:w-12 md:h-12 object-contain rounded-xl shadow-lg"
@@ -778,7 +778,7 @@ export default function Home() {
                   </span>
                 </div>
                 {/* Site preview image */}
-                <img
+                <img loading="lazy"
                   src="/jr-queijo-preview.jpg"
                   alt="Preview do site Empório Júnior do Queijo"
                   className="w-full h-full object-cover object-top"
@@ -919,7 +919,7 @@ export default function Home() {
                   className="relative overflow-hidden"
                   style={{ minHeight: "240px" }}
                 >
-                  <img
+                  <img loading="lazy"
                     src={c.photo}
                     alt={c.client}
                     className="absolute inset-0 w-full h-full object-cover"
