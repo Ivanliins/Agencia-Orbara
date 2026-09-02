@@ -55,6 +55,14 @@ export default defineConfig({
   },
   root: path.resolve(import.meta.dirname),
   build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom', 'wouter'],
+          ui: ['@tanstack/react-query', 'lucide-react']
+        }
+      }
+    },
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,
   },
@@ -73,3 +81,4 @@ export default defineConfig({
     allowedHosts: true,
   },
 });
+
