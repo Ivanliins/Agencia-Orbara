@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { useTheme } from "@/context/theme";
 import { OrbitDecoration } from "@/components/OrbitDecoration";
 import { BackgroundOrb } from "@/components/BackgroundOrb";
+import { InstantAudit } from "@/components/InstantAudit";
 
 const formSchema = z.object({
   nome: z.string().min(2, "Nome é obrigatório"),
@@ -207,16 +208,18 @@ export default function Home() {
       <nav className={`fixed top-0 left-0 w-full z-40 transition-all duration-300 ${navBg} ${isScrolled ? "py-4" : "py-6"}`}>
         <div className="container mx-auto px-5 md:px-10 flex items-center justify-between">
           <div className="flex items-center gap-2 cursor-pointer" onClick={() => window.scrollTo(0, 0)}>
-            <svg width="26" height="26" viewBox="0 0 24 24" fill="none">
+            <svg width="30" height="30" viewBox="-4 -4 32 32" fill="none" className="overflow-visible">
               <circle cx="12" cy="12" r="10.5" stroke={navLogoStroke} strokeWidth="1.5" />
-              <circle cx="19.5" cy="4.5" r="3" fill="#ff5d00" />
-              <circle cx="19.5" cy="4.5" r="1.5" fill="#ffaa60" />
+              <g className="animate-[spin_6s_linear_infinite]" style={{ transformOrigin: "12px 12px" }}>
+                <circle cx="19.5" cy="4.5" r="3" fill="#ff5d00" />
+                <circle cx="19.5" cy="4.5" r="1.5" fill="#ffaa60" />
+              </g>
             </svg>
             <span className={`font-black text-xl tracking-widest ${navFg}`}>ORBARA</span>
           </div>
 
           <div className="hidden md:flex items-center gap-8">
-            {["manifesto", "servicos", "seo", "cases", "contato"].map((s) => (
+            {["manifesto", "servicos", "seo", "cases", "planos", "contato"].map((s) => (
               <button
                 key={s}
                 onClick={() => scrollTo(s)}
@@ -253,7 +256,7 @@ export default function Home() {
 
         {mobileOpen && (
           <div className={`absolute top-full left-0 w-full ${isDark ? "bg-[#0d0101]" : "bg-white"} border-t border-[#ff5d00]/15 flex flex-col p-5 gap-5 pb-8 shadow-2xl`}>
-            {["manifesto", "servicos", "seo", "cases", "contato"].map((s) => (
+            {["manifesto", "servicos", "seo", "cases", "planos", "contato"].map((s) => (
               <button key={s} onClick={() => scrollTo(s)} className={`text-left py-2 font-bold uppercase tracking-wider text-sm ${fg} hover:text-[#ff5d00]`}>
                 {s === "servicos" ? "Serviços" : s === "seo" ? "SEO" : s.charAt(0).toUpperCase() + s.slice(1)}
               </button>
@@ -365,6 +368,9 @@ export default function Home() {
           </motion.div>
         </div>
       </section>
+
+      {/* ── FERRAMENTA DE AUDITORIA INSTANTANEA ────────────────────── */}
+      <InstantAudit isDark={isDark} />
 
       {/* ── MANIFESTO ───────────────────────────────────────────────────── */}
       <section id="manifesto" className={`py-6 md:py-10 ${bg}`}>
@@ -755,44 +761,70 @@ export default function Home() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.7 }}
-            className="mb-8 rounded-[3rem] overflow-hidden"
-            style={{ boxShadow: "0 12px 64px rgba(255,93,0,0.22)" }}
+            className="mb-14 rounded-[3.5rem] overflow-hidden border border-white/10 relative"
+            style={{
+              boxShadow: "0 20px 80px -10px rgba(255,93,0,0.30)",
+              background: "linear-gradient(135deg, #180e06 0%, #0d0101 100%)"
+            }}
           >
-            <div className="flex flex-col lg:flex-row">
+            {/* Brilho radial ambiente */}
+            <div className="absolute top-0 right-0 w-96 h-96 bg-[radial-gradient(circle,_rgba(255,93,0,0.18)_0%,_transparent_70%)] pointer-events-none blur-2xl" />
 
-              {/* Left — site preview screenshot */}
+            <div className="flex flex-col lg:flex-row items-stretch">
+
+              {/* Lado Esquerdo — Mockup & Preview Visual */}
               <div
-                className="relative lg:w-[48%] shrink-0 overflow-hidden"
-                style={{ background: "#140c04", minHeight: "260px" }}
+                className="relative lg:w-[50%] shrink-0 overflow-hidden flex flex-col justify-between p-6 md:p-10 min-h-[360px] lg:min-h-[480px]"
+                style={{ background: "#120a04" }}
               >
-                {/* Top bar with logo + badge */}
-                <div className="absolute top-0 left-0 right-0 z-20 flex items-center justify-between px-5 md:px-7 pt-5 pb-3">
+                {/* Background Screenshot com Overlay */}
+                <div className="absolute inset-0 z-0">
                   <img loading="lazy"
-                    src="/jr-queijo-logo.png"
-                    alt="Empório Júnior do Queijo"
-                    className="w-10 h-10 md:w-12 md:h-12 object-contain rounded-xl shadow-lg"
+                    src="/jr-queijo-preview.jpg"
+                    alt="Preview do site Empório Júnior do Queijo"
+                    className="w-full h-full object-cover object-top scale-105 hover:scale-100 transition-transform duration-700 opacity-60"
                   />
-                  <span className="inline-flex items-center gap-2 bg-[#ff5d00] text-[#0d0101] text-[10px] font-black uppercase tracking-[0.3em] px-4 py-1.5 rounded-full shadow-lg">
-                    <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-                    Novo Case
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#120a04] via-[#120a04]/40 to-black/60 pointer-events-none" />
+                </div>
+
+                {/* Top Header do Card com AVATAR EXPANDIDO */}
+                <div className="relative z-10 flex items-center justify-between gap-4">
+                  {/* Avatar do Logo com Borda e Brilho */}
+                  <div className="flex items-center gap-4">
+                    <div className="relative group">
+                      <div className="absolute -inset-1 rounded-2xl bg-gradient-to-tr from-[#ff5d00] to-[#ffaa60] opacity-80 blur-sm group-hover:opacity-100 transition-opacity" />
+                      <div className="relative w-16 h-16 md:w-20 md:h-20 rounded-2xl bg-[#1a0e05] border-2 border-[#ff5d00] p-2 flex items-center justify-center shadow-2xl overflow-hidden">
+                        <img loading="lazy"
+                          src="/jr-queijo-logo.png"
+                          alt="Empório Júnior do Queijo"
+                          className="w-full h-full object-contain rounded-lg"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-1.5 text-xs font-black uppercase tracking-widest text-[#ff5d00]">
+                        <span>Case Principal</span>
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#ff5d00]" />
+                      </div>
+                      <h4 className="text-lg md:text-xl font-black text-[#fffafa] leading-tight">
+                        Empório Júnior do Queijo
+                      </h4>
+                      <p className="text-xs text-[#fffafa]/60">Tradição de Minas Gerais</p>
+                    </div>
+                  </div>
+
+                  <span className="inline-flex items-center gap-2 bg-[#ff5d00] text-[#0d0101] text-[10px] md:text-xs font-black uppercase tracking-[0.25em] px-4 py-2 rounded-full shadow-xl shadow-[#ff5d00]/30 shrink-0">
+                    <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+                    No Ar
                   </span>
                 </div>
-                {/* Site preview image */}
-                <img loading="lazy"
-                  src="/jr-queijo-preview.jpg"
-                  alt="Preview do site Empório Júnior do Queijo"
-                  className="w-full h-full object-cover object-top"
-                  style={{ minHeight: "260px", opacity: 0.82 }}
-                />
-                {/* Bottom gradient */}
-                <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#140c04] to-transparent pointer-events-none" />
-                {/* Product tags */}
-                <div className="absolute bottom-4 left-5 md:left-7 flex flex-wrap gap-1.5">
-                  {["🧀 Canastra", "🍬 Doces Mineiros", "🥃 Cachaças"].map((tag) => (
+
+                {/* Bottom Tags */}
+                <div className="relative z-10 flex flex-wrap gap-2 mt-auto pt-6">
+                  {["🧀 Queijos Canastra", "🍬 Doces Artesanais", "🥃 Cachaças Nobres", "📦 Entrega Brasil"].map((tag) => (
                     <span
                       key={tag}
-                      className="text-[10px] md:text-[11px] font-bold px-2.5 py-1 rounded-full"
-                      style={{ background: "rgba(255,93,0,0.18)", color: "#ff5d00", border: "1px solid rgba(255,93,0,0.30)" }}
+                      className="text-xs font-bold px-3 py-1.5 rounded-full bg-black/60 border border-[#ff5d00]/40 text-[#ffaa60] backdrop-blur-md"
                     >
                       {tag}
                     </span>
@@ -800,49 +832,57 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Right — content */}
+              {/* Lado Direito — Informações, Métricas e Ação */}
               <div
-                className="flex flex-col justify-center px-7 md:px-10 py-10 md:py-14 flex-1"
+                className="flex flex-col justify-between p-8 md:p-12 lg:p-14 flex-1 text-[#0d0101] relative"
                 style={{ background: "#ff5d00" }}
               >
-                <span className="text-[10px] font-black uppercase tracking-[0.3em] text-[rgba(13,1,1,0.45)] mb-1">
-                  Gastronomia · Produtos Mineiros
-                </span>
-                <span className="text-[11px] font-semibold text-[rgba(13,1,1,0.60)] mb-5">
-                  Empório Júnior do Queijo
-                </span>
-                <h3 className="font-black text-2xl md:text-[2.2rem] leading-[1.05] text-[#0d0101] mb-5 tracking-tight">
-                  Do balcão de queijos ao e-commerce com a alma de Minas.
-                </h3>
-                <p className="text-base leading-relaxed font-medium text-[rgba(13,1,1,0.72)] mb-7 max-w-lg">
-                  Criamos um e-commerce completo para o Empório Júnior do Queijo — com catálogo de produtos, busca por voz, modo escuro, área de revendas e uma identidade visual que carrega a tradição dos queijos da Canastra, doces caseiros e cachaças nobres de Minas Gerais.
-                </p>
-                {/* Mini metrics */}
-                <div className="flex gap-8 mb-8">
-                  {[
-                    { value: "E-commerce", label: "loja completa" },
-                    { value: "🗣 Busca", label: "por voz" },
-                    { value: "Revenda", label: "portal integrado" },
-                  ].map((m) => (
-                    <div key={m.label}>
-                      <div className="font-black text-base md:text-lg text-[#0d0101] leading-tight">{m.value}</div>
-                      <div className="text-[10px] font-bold uppercase tracking-widest text-[rgba(13,1,1,0.45)] mt-0.5">{m.label}</div>
+                <div>
+                  <div className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.3em] text-[#0d0101]/60 mb-2">
+                    <span>E-commerce D2C</span>
+                    <span>·</span>
+                    <span>Gastronomia Regional</span>
+                  </div>
+
+                  <h3 className="font-black text-2xl md:text-4xl lg:text-[2.6rem] leading-[1.05] text-[#0d0101] mb-5 tracking-tight">
+                    Do balcão físico ao e-commerce de alta performance com a alma de Minas.
+                  </h3>
+
+                  <p className="text-base md:text-lg leading-relaxed font-semibold text-[#0d0101]/85 mb-8 max-w-xl">
+                    Criamos uma loja virtual imersiva e ultrarrápida para o Empório Júnior do Queijo, combinando catálogo intuitivo, busca com comandos de voz, arquitetura responsiva e um portal exclusivo para revendedores atacadistas.
+                  </p>
+
+                  {/* Badges de Metricas em Grid */}
+                  <div className="grid grid-cols-3 gap-4 p-4 rounded-2xl bg-[#0d0101]/10 border border-[#0d0101]/15 mb-8">
+                    <div>
+                      <div className="text-xl md:text-2xl font-black text-[#0d0101] leading-none">100%</div>
+                      <div className="text-[10px] md:text-xs font-bold uppercase tracking-wider text-[#0d0101]/70 mt-1">Loja Integrada</div>
                     </div>
-                  ))}
+                    <div>
+                      <div className="text-xl md:text-2xl font-black text-[#0d0101] leading-none">🗣 Voz</div>
+                      <div className="text-[10px] md:text-xs font-bold uppercase tracking-wider text-[#0d0101]/70 mt-1">Busca Inteligente</div>
+                    </div>
+                    <div>
+                      <div className="text-xl md:text-2xl font-black text-[#0d0101] leading-none">B2B</div>
+                      <div className="text-[10px] md:text-xs font-bold uppercase tracking-wider text-[#0d0101]/70 mt-1">Área Revenda</div>
+                    </div>
+                  </div>
                 </div>
-                <div className="flex flex-wrap items-center gap-4">
+
+                {/* Botoes de Acao */}
+                <div className="flex flex-wrap items-center gap-4 pt-2">
                   <a
                     href="https://jr-do-queijo.vercel.app/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 text-sm font-black px-6 py-3 rounded-full bg-[#0d0101] text-[#ff5d00] hover:scale-105 hover:shadow-xl transition-all"
+                    className="inline-flex items-center gap-3 text-sm font-black px-8 py-4 rounded-full bg-[#0d0101] text-[#ff5d00] hover:bg-black hover:scale-105 active:scale-95 transition-all shadow-xl shadow-black/25 uppercase tracking-wider"
                   >
-                    <svg width="11" height="11" viewBox="0 0 12 12" fill="none">
+                    <span>Ver Projeto Ao Vivo</span>
+                    <svg width="13" height="13" viewBox="0 0 12 12" fill="none">
                       <path d="M2 10L10 2M10 2H5M10 2V7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                     </svg>
-                    Visitar o site
                   </a>
-                  <span className="text-sm font-bold text-[#0d0101]/60 italic">
+                  <span className="text-sm font-bold text-[#0d0101]/75 italic">
                     "O melhor de Minas bem pertinho de você!"
                   </span>
                 </div>
@@ -1204,6 +1244,98 @@ export default function Home() {
         </motion.div>
       </section>
 
+      
+      {/* ── PLANOS / PRECIFICAÇÃO ────────────────────────────────────────── */}
+      <section id="planos" className={`py-24 md:py-36 px-5 md:px-10 ${altBg}`}>
+        <div className="container mx-auto max-w-6xl">
+          <div className="text-center mb-16 md:mb-24">
+            <span className={`text-xs font-bold uppercase tracking-[0.35em] ${isDark ? "text-[#fffafa]/40" : "text-[#0d0101]/40"}`}>Investimento</span>
+            <h2 className="mt-3 font-black leading-[0.9] tracking-tight" style={{ fontSize: "clamp(2.2rem, 5.5vw, 6rem)" }}>
+              <span className={isDark ? "text-[#fffafa]" : "text-[#0d0101]"}>Planos que geram</span><br />
+              <span className="text-[#ff5d00] italic">resultados reais.</span>
+            </h2>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Plano Essencial */}
+            <div className={`p-8 md:p-10 rounded-[32px] border ${isDark ? "border-white/10 bg-white/[0.02]" : "border-black/10 bg-black/[0.02]"} flex flex-col transition-transform hover:-translate-y-2`}>
+              <h3 className={`text-2xl font-black mb-2 ${fg}`}>Essencial</h3>
+              <p className={`${fgMuted} text-sm mb-8 h-10`}>Presença digital de alta performance para negócios locais.</p>
+              <div className="mb-8">
+                <span className={`text-4xl font-black ${fg}`}>R$ 1.490</span>
+              </div>
+              <ul className="flex flex-col gap-4 mb-10 flex-1">
+                {["Landing Page Otimizada", "Copywriting de Conversão", "SEO Técnico Básico", "Setup de Google Analytics", "Entrega em até 3 dias"].map((item, i) => (
+                  <li key={i} className={`flex items-center gap-3 text-sm font-medium ${fgMuted}`}>
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#ff5d00]" /> {item}
+                  </li>
+                ))}
+              </ul>
+              <button onClick={() => scrollTo("contato")} className={`w-full py-4 rounded-full font-bold text-sm border ${isDark ? "border-white/20 hover:border-[#ff5d00] hover:text-[#ff5d00]" : "border-black/20 hover:border-[#ff5d00] hover:text-[#ff5d00]"} transition-all uppercase tracking-wider ${fg}`}>Selecionar</button>
+            </div>
+
+            {/* Plano Aceleração */}
+            <div className="p-8 md:p-10 rounded-[32px] bg-[#ff5d00] text-[#0d0101] flex flex-col relative transform md:-translate-y-6 shadow-2xl shadow-[#ff5d00]/20 transition-transform hover:-translate-y-8">
+              <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#0d0101] text-[#ff5d00] text-xs font-black uppercase tracking-widest px-4 py-1.5 rounded-full shadow-lg shadow-black/20">Recomendado</div>
+              <h3 className="text-2xl font-black mb-2">Aceleração</h3>
+              <p className="text-[#0d0101]/85 text-sm font-semibold mb-6">Ecossistema digital completo projetado para conversão em escala e captação de clientes.</p>
+              <div className="mb-8 pb-6 border-b border-[#0d0101]/15">
+                <div className="flex items-center gap-2 mb-1.5 flex-wrap">
+                  <span className="text-sm font-bold line-through text-[#0d0101]/60">De R$ 5.990</span>
+                  <span className="bg-[#0d0101] text-[#ff5d00] text-[11px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full shadow-sm">50% OFF</span>
+                </div>
+                <div className="flex items-baseline gap-1.5">
+                  <span className="text-xs font-black uppercase tracking-widest text-[#0d0101]/70">Por</span>
+                  <span className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#0d0101] tracking-tight">R$ 2.995</span>
+                  
+                </div>
+              </div>
+              <ul className="flex flex-col gap-4 mb-10 flex-1">
+                {[
+                  "Ecossistema Web de Alta Conversão",
+                  "Copywriting Persuasivo focado em Fechamento",
+                  "SEO Técnico & On-Page para Primeiras Posições",
+                  "Setup Estratégico de Google Ads & Tag Manager",
+                  "Integração Direta com WhatsApp, CRM e Formulários",
+                  "Otimização Extrema de Performance (Core Web Vitals)",
+                  "Entrega Completa em até 5 dias"
+                ].map((item, i) => (
+                  <li key={i} className="flex items-center gap-3 text-sm font-semibold text-[#0d0101]/85">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#0d0101]" /> {item}
+                  </li>
+                ))}
+              </ul>
+              <button onClick={() => scrollTo("contato")} className="w-full py-4 rounded-full font-black text-sm bg-[#0d0101] text-[#ff5d00] hover:bg-black transition-all uppercase tracking-wider shadow-xl hover:scale-105">Começar Agora</button>
+            </div>
+
+            {/* Plano Órbita */}
+            <div className={`p-8 md:p-10 rounded-[32px] border ${isDark ? "border-white/10 bg-white/[0.02]" : "border-black/10 bg-black/[0.02]"} flex flex-col transition-transform hover:-translate-y-2`}>
+              <h3 className={`text-2xl font-black mb-2 ${fg}`}>Órbita</h3>
+              <p className={`${fgMuted} text-sm mb-8 h-10`}>Projeto sob medida para e-commerce e plataformas.</p>
+              <div className="mb-8">
+                <span className={`text-4xl font-black ${fg}`}>Customizado</span>
+              </div>
+              <ul className="flex flex-col gap-4 mb-10 flex-1">
+                {[
+                  "Arquitetura Headless / Full Custom",
+                  "Plataforma Web, E-commerce ou SaaS",
+                  "SEO Técnico Avançado e GEO (AI Search)",
+                  "Integração de APIs, CRMs e Meios de Pagamento",
+                  "Design System e Identidade Visual Exclusiva",
+                  "Infraestrutura Cloud de Alta Disponibilidade",
+                  "Acompanhamento Estratégico de Growth Contínuo"
+                ].map((item, i) => (
+                  <li key={i} className={`flex items-center gap-3 text-sm font-medium ${fgMuted}`}>
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#ff5d00]" /> {item}
+                  </li>
+                ))}
+              </ul>
+              <button onClick={() => scrollTo("contato")} className={`w-full py-4 rounded-full font-bold text-sm border ${isDark ? "border-white/20 hover:border-[#ff5d00] hover:text-[#ff5d00]" : "border-black/20 hover:border-[#ff5d00] hover:text-[#ff5d00]"} transition-all uppercase tracking-wider ${fg}`}>Falar com Especialista</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ── FAQ ─────────────────────────────────────────────────────────── */}
       <section id="faq" className={`py-24 md:py-36 px-5 md:px-10 ${altBg}`}>
         <div className="container mx-auto max-w-4xl">
@@ -1391,7 +1523,7 @@ export default function Home() {
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 mb-16">
             <p className="text-[#fffafa]/45 text-lg font-medium max-w-xs">Onde marcas encontram sua gravidade.</p>
             <div className="flex flex-wrap gap-7 text-xs font-bold uppercase tracking-widest text-[#fffafa]/40">
-              {["manifesto", "servicos", "seo", "processo", "contato"].map((s) => (
+              {["manifesto", "servicos", "planos", "seo", "processo", "contato"].map((s) => (
                 <button key={s} onClick={() => scrollTo(s)} className="hover:text-[#ff5d00] transition-colors">
                   {s === "servicos" ? "Serviços" : s === "seo" ? "SEO" : s.charAt(0).toUpperCase() + s.slice(1)}
                 </button>
@@ -1399,20 +1531,56 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="relative overflow-hidden mb-10 text-center">
-            <div
-              className="font-black leading-[0.82] tracking-[-0.05em] select-none"
-              style={{
-                fontSize: "clamp(5rem, 20vw, 22rem)",
-                background: "linear-gradient(180deg, rgba(255,250,250,0.9) 0%, rgba(255,250,250,0.05) 100%)",
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                backgroundClip: "text",
-              }}
-            >
-              ORBARA
+          <div className="relative overflow-hidden mb-10 py-6 select-none border-y border-white/[0.04]">
+            <style>{`
+              @keyframes marqueeContinuous {
+                0% { transform: translateX(0%); }
+                100% { transform: translateX(-50%); }
+              }
+              .animate-marquee-slow {
+                display: flex;
+                width: max-content;
+                animation: marqueeContinuous 50s linear infinite;
+              }
+              .animate-marquee-slow:hover {
+                animation-play-state: paused;
+              }
+            `}</style>
+
+            <div className="animate-marquee-slow flex items-center whitespace-nowrap will-change-transform">
+              {[1, 2, 3, 4, 5, 6].map((group) => (
+                <div key={group} className="flex items-center">
+                  <span
+                    className="font-black leading-none tracking-[-0.04em] px-8 md:px-12"
+                    style={{
+                      fontSize: "clamp(4.5rem, 16vw, 15rem)",
+                      background: "linear-gradient(180deg, rgba(255,250,250,0.85) 0%, rgba(255,250,250,0.06) 100%)",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                      backgroundClip: "text",
+                    }}
+                  >
+                    ORBARA
+                  </span>
+                  
+                  {/* Icone Orbital separador com esferas em órbita */}
+                  <div className="mx-6 md:mx-10 shrink-0 opacity-40">
+                    <svg width="56" height="56" viewBox="-5 -5 34 34" fill="none" className="w-10 h-10 md:w-16 md:h-16 overflow-visible">
+                      <circle cx="12" cy="12" r="10.5" stroke="#ff5d00" strokeWidth="1.2" />
+                      <g className="animate-[spin_10s_linear_infinite]" style={{ transformOrigin: "12px 12px" }}>
+                        <circle cx="19.5" cy="4.5" r="3" fill="#ff5d00" />
+                        <circle cx="19.5" cy="4.5" r="1.5" fill="#ffaa60" />
+                      </g>
+                    </svg>
+                  </div>
+                </div>
+              ))}
             </div>
-            <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_45%_40%_at_50%_55%,_#ff5d0014,_transparent)]" />
+
+            {/* Fades nas extremidades para suavizar entrada e saída */}
+            <div className="absolute inset-y-0 left-0 w-24 md:w-40 bg-gradient-to-r from-[#0d0101] to-transparent pointer-events-none z-10" />
+            <div className="absolute inset-y-0 right-0 w-24 md:w-40 bg-gradient-to-l from-[#0d0101] to-transparent pointer-events-none z-10" />
+            <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(ellipse_50%_50%_at_50%_50%,_#ff5d0010,_transparent)]" />
           </div>
 
           <div className="flex flex-col md:flex-row justify-between items-center gap-5 pt-8 border-t border-white/[0.05] text-xs">
