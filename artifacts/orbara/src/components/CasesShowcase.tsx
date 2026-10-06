@@ -81,6 +81,7 @@ type GridItem =
 const ITEMS: GridItem[] = [
   { kind: "featured", id: "jr-queijo", categories: ["sites"] },
   ...CASES.map((c) => ({ kind: "case" as const, id: c.slug, categories: c.categories, data: c })),
+  { kind: "motion", id: "orbara-studio", categories: ["motion"] },
   { kind: "motion", id: "clube-do-med", categories: ["motion"] },
   { kind: "cta", id: "cta", categories: ["sites", "motion"] },
 ];
@@ -552,7 +553,7 @@ export function CasesShowcase({ isDark }: { isDark: boolean }) {
                 <div className="case-reveal h-full">
                   {item.kind === "featured" && <FeaturedCase />}
                   {item.kind === "case" && <CaseCard c={item.data} />}
-                  {item.kind === "motion" && <MotionShowcase />}
+                  {item.kind === "motion" && <MotionShowcase caseId={item.id} />}
                   {item.kind === "cta" && <CtaCard />}
                 </div>
               </div>

@@ -8,7 +8,7 @@ import { gsap, ScrollTrigger, useGSAP, getLenis } from "@/lib/motion";
  * Cada vídeo tem duas versões: horizontal (16:9, desktop) e vertical (9:16, mobile).
  * Arquivos em `public/motion/` — comprimidos para web com ffmpeg (720p, H.264, faststart).
  */
-export const MOTION_CASE = {
+const CLUBE_DO_MED = {
   client: "Clube do Med",
   segment: "Insumos para clínicas · Comerciais animados",
   title: "Comerciais que explicam a entrega rápida em segundos",
@@ -38,7 +38,43 @@ export const MOTION_CASE = {
   ],
 };
 
-type Video = (typeof MOTION_CASE.videos)[number];
+const ORBARA_STUDIO = {
+  client: "Orbara Studio",
+  segment: "Branding · Vídeo manifesto",
+  title: "Sua marca em movimento: o filme de lançamento do Orbara Studio",
+  desc: "Vídeo manifesto que apresenta o Orbara Studio, nosso núcleo de motion: vídeos para redes, comerciais, vinhetas e explicativos de produto — sempre no formato certo para cada tela.",
+  tags: ["Manifesto", "Branding em movimento", "16:9 + 9:16"],
+  reverse: true,
+  videos: [
+    {
+      id: "manifesto",
+      label: "Manifesto Orbara Studio",
+      hook: "“Toda marca tem uma história. Poucas sabem colocar ela em movimento.”",
+      duration: "0:32",
+      desktop: "/motion/orbara-studio-16x9.mp4",
+      desktopPoster: "/motion/orbara-studio-16x9.jpg",
+      mobile: "/motion/orbara-studio-9x16.mp4",
+      mobilePoster: "/motion/orbara-studio-9x16.jpg",
+    },
+  ],
+};
+
+export type MotionCase = {
+  client: string;
+  segment: string;
+  title: string;
+  desc: string;
+  tags: string[];
+  reverse?: boolean;
+  videos: typeof CLUBE_DO_MED.videos;
+};
+
+export const MOTION_CASES: Record<string, MotionCase> = {
+  "orbara-studio": ORBARA_STUDIO,
+  "clube-do-med": CLUBE_DO_MED,
+};
+
+type Video = MotionCase["videos"][number];
 type Format = "desktop" | "mobile";
 
 function Laptop({ video, vref }: { video: Video; vref: React.RefObject<HTMLVideoElement | null> }) {
@@ -92,7 +128,7 @@ function Phone({ video, vref }: { video: Video; vref: React.RefObject<HTMLVideoE
   );
 }
 
-function Lightbox({ video, format, onFormat, onClose }: { video: Video; format: Format; onFormat: (f: Format) => void; onClose: () => void }) {
+function Lightbox({ client, video, format, onFormat, onClose }: { client: string; video: Video; format: Format; onFormat: (f: Format) => void; onClose: () => void }) {
   const ref = useRef<HTMLDivElement>(null);
 
   const close = () => gsap.to(ref.current, { opacity: 0, duration: 0.25, onComplete: onClose });
@@ -145,21 +181,22 @@ function Lightbox({ video, format, onFormat, onClose }: { video: Video; format: 
           className={`rounded-3xl bg-black shadow-2xl shadow-[#ff5d00]/20 ${format === "desktop" ? "w-full max-w-5xl aspect-video" : "h-[72vh] aspect-[9/16]"}`}
         />
         <div className="mt-4 text-center text-[#fffafa]">
-          <h4 className="font-black text-lg">{MOTION_CASE.client} · {video.label}</h4>
+          <h4 className="font-black text-lg">{client} · {video.label}</h4>
         </div>
       </div>
     </div>
   );
 }
 
-export function MotionShowcase() {
+export function MotionShowcase({ caseId }: { caseId: string }) {
+  const data = MOTION_CASES[caseId];
   const ref = useRef<HTMLDivElement>(null);
   const laptopVideo = useRef<HTMLVideoElement>(null);
   const phoneVideo = useRef<HTMLVideoElement>(null);
   const [active, setActive] = useState(0);
   const [lightbox, setLightbox] = useState<Format | null>(null);
   const inView = useRef(false);
-  const video = MOTION_CASE.videos[active];
+  const video = data.videos[active];
 
   const playBoth = () => {
     [laptopVideo.current, phoneVideo.current].forEach((v) => v?.play().catch(() => {}));
@@ -219,7 +256,7 @@ export function MotionShowcase() {
 
   return (
     <div ref={ref} className="case-card relative rounded-[2.5rem] md:rounded-[3rem] overflow-hidden bg-[#0d0101] text-[#fffafa] border border-white/[0.08]">
-      <div className="mc-glow absolute left-[30%] top-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] rounded-full bg-[radial-gradient(circle,rgba(255,93,0,0.28),transparent_65%)] opacity-60 pointer-events-none" />
+      <div className={`mc-glow absolute ${data.reverse ? "left-[70%]" : "left-[30%]"} top-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[500px] rounded-full bg-[radial-gradient(circle,rgba(255,93,0,0.28),transparent_65%)] opacity-60 pointer-events-none`} />
       <div
         className="absolute inset-0 pointer-events-none opacity-40"
         style={{
@@ -230,9 +267,9 @@ export function MotionShowcase() {
         }}
       />
 
-      <div className="relative grid grid-cols-1 lg:grid-cols-[1.45fr_1fr] gap-10 lg:gap-6 p-6 md:p-12 lg:p-14 items-center">
+      <div className={`relative grid grid-cols-1 gap-10 lg:gap-6 p-6 md:p-12 lg:p-14 items-center ${data.reverse ? "lg:grid-cols-[1fr_1.45fr]" : "lg:grid-cols-[1.45fr_1fr]"}`}>
         {/* Dispositivos */}
-        <div className="relative pr-[18%] pb-[8%] md:pr-[20%]">
+        <div className={`relative pr-[18%] pb-[8%] md:pr-[20%] ${data.reverse ? "lg:order-2" : ""}`}>
           <Laptop video={video} vref={laptopVideo} />
           <div className="mc-phone-wrap absolute right-0 bottom-0 w-[30%] md:w-[26%]">
             <div className="mc-phone-float">
@@ -248,23 +285,23 @@ export function MotionShowcase() {
         </div>
 
         {/* Informações */}
-        <div className="mc-info flex flex-col">
+        <div className={`mc-info flex flex-col ${data.reverse ? "lg:order-1" : ""}`}>
           <div className="flex flex-wrap items-center gap-2 mb-4">
             <span className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full bg-[#ff5d00] text-[#0d0101]">
               <Film size={11} /> Motion Graphics
             </span>
-            <span className="text-[10px] font-black uppercase tracking-widest text-[#fffafa]/50">{MOTION_CASE.segment}</span>
+            <span className="text-[10px] font-black uppercase tracking-widest text-[#fffafa]/50">{data.segment}</span>
           </div>
           <div className="flex items-center gap-3 mb-3">
             <span className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-[#ff5d00]"><Sparkles size={18} /></span>
-            <span className="font-black text-lg">{MOTION_CASE.client}</span>
+            <span className="font-black text-lg">{data.client}</span>
           </div>
-          <h3 className="font-black text-2xl md:text-3xl lg:text-[2.1rem] leading-[1.08] tracking-tight mb-4">{MOTION_CASE.title}</h3>
-          <p className="text-sm md:text-base leading-relaxed text-[#fffafa]/65 mb-6">{MOTION_CASE.desc}</p>
+          <h3 className="font-black text-2xl md:text-3xl lg:text-[2.1rem] leading-[1.08] tracking-tight mb-4">{data.title}</h3>
+          <p className="text-sm md:text-base leading-relaxed text-[#fffafa]/65 mb-6">{data.desc}</p>
 
           {/* Seletor de comercial */}
           <div className="flex flex-col gap-2 mb-6">
-            {MOTION_CASE.videos.map((v, i) => (
+            {data.videos.map((v, i) => (
               <button
                 key={v.id}
                 onClick={() => switchTo(i)}
@@ -276,7 +313,7 @@ export function MotionShowcase() {
                   <Play size={14} fill="currentColor" className="ml-0.5" />
                 </span>
                 <span className="flex-1 min-w-0">
-                  <span className="block font-black text-sm">Comercial {i + 1} · {v.label}</span>
+                  <span className="block font-black text-sm">{data.videos.length > 1 ? `Comercial ${i + 1} · ` : ""}{v.label}</span>
                   <span className="block text-xs text-[#fffafa]/50 truncate italic">{v.hook}</span>
                 </span>
                 <span className="text-xs font-bold tabular-nums text-[#fffafa]/50">{v.duration}</span>
@@ -285,7 +322,7 @@ export function MotionShowcase() {
           </div>
 
           <div className="flex flex-wrap gap-1.5 mb-7">
-            {MOTION_CASE.tags.map((t) => (
+            {data.tags.map((t) => (
               <span key={t} className="text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full border border-[#ff5d00]/30 text-[#ffaa60]">{t}</span>
             ))}
           </div>
@@ -307,7 +344,7 @@ export function MotionShowcase() {
         </div>
       </div>
 
-      {lightbox && createPortal(<Lightbox video={video} format={lightbox} onFormat={setLightbox} onClose={() => setLightbox(null)} />, document.body)}
+      {lightbox && createPortal(<Lightbox client={data.client} video={video} format={lightbox} onFormat={setLightbox} onClose={() => setLightbox(null)} />, document.body)}
     </div>
   );
 }
