@@ -30,7 +30,7 @@ function Card({ item, isDark }: { item: (typeof ITEMS)[number]; isDark: boolean 
   return (
     <figure className={`t-card group relative w-[340px] md:w-[440px] shrink-0 rounded-[32px] p-8 md:p-10 flex flex-col gap-6 ${t.card} hover:border-[#ff5d00]/50 transition-colors duration-500`}>
       <div className="flex items-center justify-between">
-        <div className="flex gap-1" aria-label="5 estrelas">
+        <div className="flex gap-1" role="img" aria-label="5 estrelas">
           {Array.from({ length: 5 }).map((_, s) => (
             <svg key={s} width="16" height="16" viewBox="0 0 16 16" fill="#ff5d00" aria-hidden>
               <path d="M8 1l1.8 3.6L14 5.3l-3 2.9.7 4.1L8 10.4l-3.7 1.9.7-4.1-3-2.9 4.2-.7z" />

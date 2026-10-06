@@ -117,3 +117,15 @@ Sitemap: https://orbara.com.br/sitemap.xml
 - Medir Core Web Vitals de campo (CrUX/Search Console) após as correções de performance
 - Rodar `/seo drift` antes/depois de cada deploy grande para pegar regressões (títulos, canonical, schema)
 - Reauditar em 60 dias
+
+---
+
+## Status
+
+**Fase 1 aplicada em 06/10/2026** (itens 1.1 a 1.8, mais correções de acessibilidade do item 2.7):
+robots.txt, sitemap.xml (com vídeos), hero 1,9 MB → 51 KB WebP (29 KB no celular), og:image corrigida,
+JSON-LD em @graph (ProfessionalService + WebSite + 4 Services + Offers + 3 VideoObjects, logo PNG),
+viewport sem bloqueio de zoom, fonte Inter removida e Onest no `<head>`, link replit.dev removido.
+
+Lighthouse mobile (build local): SEO 92 → **100**, Acessibilidade 85 → **91+**, peso 2,4 MB → **1,1 MB**.
+Performance segue em 43: o gargalo agora é o JavaScript (TBT) — itens 2.1 e 2.4.
