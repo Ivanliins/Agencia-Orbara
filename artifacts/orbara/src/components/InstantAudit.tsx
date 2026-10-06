@@ -120,7 +120,7 @@ export function InstantAudit({ isDark = true }: InstantAuditProps) {
     `Olá! Acabei de fazer a auditoria do meu site (${url}) na Orbara e meu score preliminar foi de ${score}/100. Gostaria de desbloquear o plano de correção completo e entender o que precisa ser ajustado.`
   );
 
-  const whatsappLink = `https://wa.me/5581988931149?text=${whatsappMessage}`;
+  const whatsappLink = `https://wa.me/5511981680809?text=${whatsappMessage}`;
 
   return (
     <section id="auditoria-instantanea" className="relative py-20 md:py-32 px-5 md:px-10 bg-[#0d0101] text-[#fffafa] overflow-hidden border-t border-b border-white/[0.06]">
