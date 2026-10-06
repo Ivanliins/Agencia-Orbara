@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Link } from "wouter";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -7,7 +7,8 @@ import { SplitText } from "gsap/SplitText";
 import { useGSAP } from "@gsap/react";
 import { scrollToId } from "@/lib/motion";
 import { useTilt, Magnetic } from "@/components/motion-fx";
-import { ArrowUpRight, Play, X, Sparkles, Film, Globe, TrendingUp, LayoutGrid } from "lucide-react";
+import { MotionShowcase } from "@/components/MotionShowcase";
+import { ArrowUpRight, Sparkles, Film, Globe, TrendingUp, LayoutGrid } from "lucide-react";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger, Flip, SplitText);
 
@@ -71,74 +72,16 @@ const CASES = [
   },
 ];
 
-type MotionVisual = "orbit" | "shapes" | "kinetic" | "bars";
-
-/**
- * Projetos de Motion Graphics.
- * Para publicar um vídeo, coloque o arquivo em `public/motion/` e preencha `src`
- * (ex.: "/motion/showreel.mp4") e, opcionalmente, `poster` (imagem de capa).
- * Enquanto `src` estiver vazio, o card mostra uma animação de prévia com "Em breve".
- */
-const MOTION_PROJECTS: {
-  id: string;
-  title: string;
-  desc: string;
-  tags: string[];
-  duration: string;
-  src: string;
-  poster?: string;
-  visual: MotionVisual;
-  featured?: boolean;
-}[] = [
-  {
-    id: "showreel",
-    title: "Showreel Orbara",
-    desc: "Um giro pelos nossos melhores trabalhos de animação 2D, 3D e tipografia em movimento.",
-    tags: ["Reel", "2D", "3D"],
-    duration: "0:45",
-    src: "",
-    visual: "orbit",
-    featured: true,
-  },
-  {
-    id: "logo-animation",
-    title: "Logo Animation",
-    desc: "Marcas que ganham vida em vinhetas e aberturas.",
-    tags: ["Branding", "Vinheta"],
-    duration: "0:08",
-    src: "",
-    visual: "shapes",
-  },
-  {
-    id: "kinetic-type",
-    title: "Tipografia Cinética",
-    desc: "Mensagens que prendem o olhar nos primeiros 3 segundos.",
-    tags: ["Reels", "Stories"],
-    duration: "0:15",
-    src: "",
-    visual: "kinetic",
-  },
-  {
-    id: "ads-animados",
-    title: "Anúncios Animados",
-    desc: "Criativos em movimento feitos para performance em tráfego pago.",
-    tags: ["Ads", "Performance"],
-    duration: "0:20",
-    src: "",
-    visual: "bars",
-  },
-];
-
 type GridItem =
   | { kind: "featured"; id: string; categories: Category[] }
   | { kind: "case"; id: string; categories: Category[]; data: (typeof CASES)[number] }
-  | { kind: "motion"; id: string; categories: Category[]; data: (typeof MOTION_PROJECTS)[number] }
+  | { kind: "motion"; id: string; categories: Category[] }
   | { kind: "cta"; id: string; categories: Category[] };
 
 const ITEMS: GridItem[] = [
   { kind: "featured", id: "jr-queijo", categories: ["sites"] },
   ...CASES.map((c) => ({ kind: "case" as const, id: c.slug, categories: c.categories, data: c })),
-  ...MOTION_PROJECTS.map((m) => ({ kind: "motion" as const, id: m.id, categories: ["motion"] as Category[], data: m })),
+  { kind: "motion", id: "clube-do-med", categories: ["motion"] },
   { kind: "cta", id: "cta", categories: ["sites", "motion"] },
 ];
 
@@ -147,151 +90,6 @@ const isVisible = (item: GridItem, filter: Filter) =>
 
 const countFor = (filter: Filter) =>
   ITEMS.filter((i) => i.kind !== "cta" && isVisible(i, filter)).length;
-
-// ── Hooks utilitários ────────────────────────────────────────────────────
-
-/** Roda uma timeline infinita só enquanto o elemento está visível. */
-function useLoopWhileVisible(build: (scope: HTMLDivElement) => gsap.core.Timeline) {
-  const ref = useRef<HTMLDivElement>(null);
-  useGSAP(() => {
-    if (!ref.current) return;
-    const tl = build(ref.current);
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      tl.progress(0.35).pause();
-      return;
-    }
-    tl.pause();
-    ScrollTrigger.create({
-      trigger: ref.current,
-      start: "top bottom",
-      end: "bottom top",
-      onToggle: (self) => (self.isActive ? tl.play() : tl.pause()),
-    });
-  }, { scope: ref });
-  return ref;
-}
-
-// ── Prévias animadas (enquanto o vídeo não chega) ────────────────────────
-
-function OrbitVisual() {
-  const ref = useLoopWhileVisible((scope) => {
-    const q = gsap.utils.selector(scope);
-    const tl = gsap.timeline({ repeat: -1 });
-    tl.to(q(".ring"), { rotation: "+=360", duration: 14, ease: "none", stagger: { each: 0, from: "end" } }, 0)
-      .to(q(".ring-rev"), { rotation: "-=360", duration: 10, ease: "none" }, 0)
-      .to(q(".planet"), { scale: 1.08, duration: 2, yoyo: true, repeat: 6, ease: "sine.inOut" }, 0)
-      .fromTo(q(".word"), { xPercent: 0 }, { xPercent: -50, duration: 14, ease: "none" }, 0);
-    return tl;
-  });
-  return (
-    <div ref={ref} className="absolute inset-0 overflow-hidden bg-[radial-gradient(circle_at_50%_55%,#2a1206_0%,#0d0101_70%)]">
-      <div className="absolute bottom-6 left-0 whitespace-nowrap font-black text-[#ff5d00]/10 leading-none select-none" style={{ fontSize: "clamp(4rem, 12vw, 9rem)" }}>
-        <span className="word inline-block">MOTION • DESIGN • MOTION • DESIGN • MOTION • DESIGN •&nbsp;</span>
-      </div>
-      <div className="absolute inset-0 flex items-center justify-center" style={{ perspective: 800 }}>
-        <div className="relative w-56 h-56 md:w-72 md:h-72" style={{ transform: "rotateX(68deg)", transformStyle: "preserve-3d" }}>
-          {[0, 1, 2].map((i) => (
-            <div
-              key={i}
-              className={`${i === 1 ? "ring-rev" : "ring"} absolute rounded-full border border-[#ff5d00]/50`}
-              style={{ inset: `${i * 14}%` }}
-            >
-              <span className="absolute -top-1.5 left-1/2 w-3 h-3 rounded-full bg-[#ff5d00] shadow-[0_0_16px_#ff5d00]" />
-            </div>
-          ))}
-        </div>
-        <div className="planet absolute w-20 h-20 md:w-24 md:h-24 rounded-full bg-[radial-gradient(circle_at_30%_30%,#ffaa60,#ff5d00_45%,#5a1d00)] shadow-[0_0_60px_rgba(255,93,0,0.55)]" />
-      </div>
-    </div>
-  );
-}
-
-function ShapesVisual() {
-  const ref = useLoopWhileVisible((scope) => {
-    const q = gsap.utils.selector(scope);
-    const tl = gsap.timeline({ repeat: -1, repeatDelay: 0.3, defaults: { duration: 0.9, ease: "expo.inOut" } });
-    tl.to(q(".shape"), { borderRadius: "0%", rotation: 90, stagger: 0.12 })
-      .to(q(".shape"), { scale: 0.6, x: (i) => (i - 1) * 46, stagger: 0.08 })
-      .to(q(".shape"), { borderRadius: "50% 0 50% 0", rotation: 180, scale: 1, x: 0, stagger: 0.1 })
-      .to(q(".shape"), { borderRadius: "50%", rotation: 360, stagger: 0.12 });
-    return tl;
-  });
-  return (
-    <div ref={ref} className="absolute inset-0 flex items-center justify-center bg-[#140905]">
-      {["#ff5d00", "#ffaa60", "#fffafa"].map((c, i) => (
-        <div
-          key={c}
-          className="shape absolute w-20 h-20 rounded-full mix-blend-screen"
-          style={{ background: c, opacity: 0.85 - i * 0.15, transform: `translateX(${(i - 1) * 18}px)` }}
-        />
-      ))}
-    </div>
-  );
-}
-
-function KineticVisual() {
-  const words = ["IDEIA", "RITMO", "IMPACTO", "IDEIA"];
-  const ref = useLoopWhileVisible((scope) => {
-    const q = gsap.utils.selector(scope);
-    const tl = gsap.timeline({ repeat: -1 });
-    words.slice(1).forEach((_, i) => {
-      tl.to(q(".track"), { yPercent: -((i + 1) * 100) / words.length, duration: 0.7, ease: "back.inOut(1.6)" }, `+=0.8`);
-    });
-    tl.set(q(".track"), { yPercent: 0 });
-    tl.fromTo(q(".underline"), { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: "expo.out", repeat: 0 }, 0);
-    return tl;
-  });
-  return (
-    <div ref={ref} className="absolute inset-0 flex flex-col items-center justify-center bg-[#ff5d00] text-[#0d0101]">
-      <span className="text-[10px] font-black uppercase tracking-[0.4em] opacity-60 mb-2">Movimento é</span>
-      <div className="h-[3.2rem] md:h-[3.6rem] overflow-hidden">
-        <div className="track flex flex-col">
-          {words.map((w, i) => (
-            <span key={i} className="block h-[3.2rem] md:h-[3.6rem] leading-[3.2rem] md:leading-[3.6rem] font-black italic text-5xl md:text-6xl tracking-tight text-center">
-              {w}
-            </span>
-          ))}
-        </div>
-      </div>
-      <span className="underline block h-1 w-24 bg-[#0d0101] mt-2 origin-left" />
-    </div>
-  );
-}
-
-function BarsVisual() {
-  const ref = useLoopWhileVisible((scope) => {
-    const q = gsap.utils.selector(scope);
-    const tl = gsap.timeline({ repeat: -1 });
-    tl.to(q(".bar"), {
-      scaleY: () => gsap.utils.random(0.15, 1),
-      duration: 0.45,
-      ease: "power2.inOut",
-      stagger: { each: 0.04, from: "center" },
-      repeat: 7,
-      repeatRefresh: true,
-      yoyo: true,
-    });
-    return tl;
-  });
-  return (
-    <div ref={ref} className="absolute inset-0 flex items-end justify-center gap-1.5 px-8 pb-10 pt-16 bg-[linear-gradient(180deg,#0d0101,#1d0c04)]">
-      {Array.from({ length: 16 }).map((_, i) => (
-        <span
-          key={i}
-          className="bar block flex-1 h-full rounded-full origin-bottom"
-          style={{ background: `linear-gradient(180deg, #ffaa60, #ff5d00)`, transform: `scaleY(${0.3 + ((i * 37) % 60) / 100})` }}
-        />
-      ))}
-    </div>
-  );
-}
-
-const VISUALS: Record<MotionVisual, () => React.JSX.Element> = {
-  orbit: OrbitVisual,
-  shapes: ShapesVisual,
-  kinetic: KineticVisual,
-  bars: BarsVisual,
-};
 
 // ── Cards ────────────────────────────────────────────────────────────────
 
@@ -465,99 +263,12 @@ function CaseCard({ c }: { c: (typeof CASES)[number] }) {
   );
 }
 
-function MotionCard({ m, onOpen }: { m: (typeof MOTION_PROJECTS)[number]; onOpen: () => void }) {
-  const tiltRef = useTilt<HTMLDivElement>(m.featured ? 4 : 9);
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const Visual = VISUALS[m.visual];
-  const hasVideo = Boolean(m.src);
-
-  // Vídeo de prévia toca mudo enquanto o card está na tela
-  useGSAP(() => {
-    if (!hasVideo || !videoRef.current) return;
-    const v = videoRef.current;
-    ScrollTrigger.create({
-      trigger: v,
-      start: "top 90%",
-      end: "bottom 10%",
-      onToggle: (self) => (self.isActive ? v.play().catch(() => {}) : v.pause()),
-    });
-  }, { dependencies: [hasVideo] });
-
-  return (
-    <div
-      ref={tiltRef}
-      onClick={hasVideo ? onOpen : undefined}
-      className={`case-card group relative h-full rounded-[2.5rem] overflow-hidden flex flex-col bg-[#0d0101] border border-white/[0.08] ${hasVideo ? "cursor-pointer" : ""}`}
-      style={{ boxShadow: "0 4px 32px rgba(0,0,0,0.18)", transformStyle: "preserve-3d" }}
-    >
-      <div className="spotlight pointer-events-none absolute inset-0 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-      <div className={`relative overflow-hidden ${m.featured ? "aspect-video lg:aspect-auto lg:flex-1 lg:min-h-[340px]" : "aspect-video"}`}>
-        {hasVideo ? (
-          <video
-            ref={videoRef}
-            src={m.src}
-            poster={m.poster}
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            className="absolute inset-0 w-full h-full object-cover scale-105 group-hover:scale-100 transition-transform duration-700"
-          />
-        ) : (
-          <Visual />
-        )}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0d0101]/90 via-transparent to-transparent pointer-events-none" />
-
-        <div className="absolute top-4 left-4 flex gap-1.5 z-10">
-          <span className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full bg-[#ff5d00] text-[#0d0101]">
-            <Film size={11} /> Motion
-          </span>
-          {!hasVideo && (
-            <span className="text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full bg-black/60 text-white/80 backdrop-blur border border-white/10">
-              Em breve
-            </span>
-          )}
-        </div>
-        <span className="absolute top-4 right-4 z-10 text-[10px] font-black tracking-widest px-3 py-1 rounded-full bg-black/60 text-white/80 backdrop-blur">
-          {m.duration}
-        </span>
-
-        {/* Botão play com texto circular girando */}
-        <div className="absolute bottom-4 right-4 z-10 w-20 h-20 md:w-24 md:h-24">
-          <svg viewBox="0 0 100 100" className="play-ring absolute inset-0 w-full h-full">
-            <defs>
-              <path id={`circle-${m.id}`} d="M50,50 m-38,0 a38,38 0 1,1 76,0 a38,38 0 1,1 -76,0" />
-            </defs>
-            <text className="fill-[#fffafa] text-[10.5px] font-black uppercase" style={{ letterSpacing: "0.32em" }}>
-              <textPath href={`#circle-${m.id}`}>{hasVideo ? "Play • Assistir • Play • Assistir •" : "Em breve • Em breve • Em breve •"}</textPath>
-            </text>
-          </svg>
-          <span className="absolute inset-[30%] rounded-full bg-[#ff5d00] text-[#0d0101] flex items-center justify-center transition-transform duration-500 group-hover:scale-125">
-            <Play size={16} fill="currentColor" className="ml-0.5" />
-          </span>
-        </div>
-      </div>
-      <div className="relative px-7 py-6 flex flex-col gap-2">
-        <h3 className={`font-black text-[#fffafa] leading-tight ${m.featured ? "text-2xl md:text-3xl" : "text-xl"}`}>{m.title}</h3>
-        <p className="text-sm leading-relaxed text-[#fffafa]/60">{m.desc}</p>
-        <div className="flex flex-wrap gap-1.5 mt-1">
-          {m.tags.map((t) => (
-            <span key={t} className="text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-full border border-[#ff5d00]/30 text-[#ffaa60]">
-              {t}
-            </span>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-
 function CtaCard() {
-  const tiltRef = useTilt<HTMLDivElement>(10);
+  const tiltRef = useTilt<HTMLDivElement>(3);
   return (
     <div
       ref={tiltRef}
-      className="case-card group relative h-full min-h-[320px] rounded-[2.5rem] overflow-hidden flex flex-col justify-between p-8 md:p-10 bg-[#ff5d00] text-[#0d0101]"
+      className="case-card group relative rounded-[2.5rem] overflow-hidden flex flex-col md:flex-row md:items-center justify-between gap-8 p-8 md:p-12 bg-[#ff5d00] text-[#0d0101]"
       style={{ transformStyle: "preserve-3d" }}
     >
       <div className="spotlight pointer-events-none absolute inset-0 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -565,54 +276,21 @@ function CtaCard() {
       <div className="cta-orbit-rev absolute -right-10 -top-10 w-44 h-44 rounded-full border-2 border-[#0d0101]/15">
         <span className="absolute top-1/2 -left-2 w-4 h-4 rounded-full bg-[#0d0101]" />
       </div>
-      <span className="relative text-xs font-black uppercase tracking-[0.35em] opacity-60">Próximo case</span>
       <div className="relative">
-        <h3 className="font-black text-3xl md:text-4xl leading-[1] tracking-tight mb-6">
+        <span className="block text-xs font-black uppercase tracking-[0.35em] opacity-60 mb-3">Próximo case</span>
+        <h3 className="font-black text-3xl md:text-5xl leading-[1] tracking-tight">
           Sua marca pode ser a <span className="italic">próxima</span> aqui.
         </h3>
-        <Magnetic>
-          <button
-            onClick={() => scrollToId("contato")}
-            className="inline-flex items-center gap-3 bg-[#0d0101] text-[#ff5d00] font-black text-sm uppercase tracking-wider px-7 py-4 rounded-full hover:bg-black transition-colors"
-          >
-            Quero meu case
-            <ArrowUpRight size={16} />
-          </button>
-        </Magnetic>
       </div>
-    </div>
-  );
-}
-
-function VideoLightbox({ project, onClose }: { project: (typeof MOTION_PROJECTS)[number] | null; onClose: () => void }) {
-  const overlayRef = useRef<HTMLDivElement>(null);
-
-  useGSAP(() => {
-    if (!project) return;
-    gsap.fromTo(overlayRef.current, { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "power2.out" });
-    gsap.fromTo(".lightbox-panel", { scale: 0.85, y: 40, opacity: 0 }, { scale: 1, y: 0, opacity: 1, duration: 0.6, ease: "expo.out" });
-    const esc = (e: KeyboardEvent) => e.key === "Escape" && close();
-    window.addEventListener("keydown", esc);
-    return () => window.removeEventListener("keydown", esc);
-  }, { dependencies: [project], scope: overlayRef });
-
-  const close = () => {
-    gsap.to(overlayRef.current, { opacity: 0, duration: 0.25, onComplete: onClose });
-  };
-
-  if (!project) return null;
-  return (
-    <div ref={overlayRef} onClick={close} className="fixed inset-0 z-[10000] bg-black/85 backdrop-blur-md flex items-center justify-center p-4 md:p-10">
-      <div onClick={(e) => e.stopPropagation()} className="lightbox-panel relative w-full max-w-5xl">
-        <button onClick={close} aria-label="Fechar vídeo" className="absolute -top-12 right-0 w-10 h-10 rounded-full bg-[#ff5d00] text-[#0d0101] flex items-center justify-center hover:rotate-90 transition-transform duration-300">
-          <X size={18} />
+      <Magnetic className="relative shrink-0">
+        <button
+          onClick={() => scrollToId("contato")}
+          className="inline-flex items-center gap-3 bg-[#0d0101] text-[#ff5d00] font-black text-sm uppercase tracking-wider px-8 py-5 rounded-full hover:bg-black transition-colors"
+        >
+          Quero meu case
+          <ArrowUpRight size={16} />
         </button>
-        <video src={project.src} poster={project.poster} controls autoPlay playsInline className="w-full rounded-3xl bg-black shadow-2xl shadow-[#ff5d00]/20" />
-        <div className="mt-4 flex items-center justify-between text-[#fffafa]">
-          <h4 className="font-black text-xl">{project.title}</h4>
-          <span className="text-xs font-bold uppercase tracking-widest text-[#fffafa]/50">{project.tags.join(" · ")}</span>
-        </div>
-      </div>
+      </Magnetic>
     </div>
   );
 }
@@ -626,7 +304,6 @@ export function CasesShowcase({ isDark }: { isDark: boolean }) {
   const indicatorRef = useRef<HTMLSpanElement>(null);
   const flipState = useRef<Flip.FlipState | null>(null);
   const [filter, setFilter] = useState<Filter>("todos");
-  const [openVideo, setOpenVideo] = useState<(typeof MOTION_PROJECTS)[number] | null>(null);
 
   const fg = isDark ? "text-[#fffafa]" : "text-[#0d0101]";
   const fgMuted = isDark ? "text-[#fffafa]/55" : "text-[#0d0101]/55";
@@ -705,7 +382,6 @@ export function CasesShowcase({ isDark }: { isDark: boolean }) {
 
       // Loops decorativos
       gsap.to(".border-spin", { rotation: 360, duration: 6, ease: "none", repeat: -1 });
-      gsap.to(".play-ring", { rotation: 360, duration: 12, ease: "none", repeat: -1, transformOrigin: "50% 50%" });
       gsap.to(".cta-orbit", { rotation: 360, duration: 30, ease: "none", repeat: -1 });
       gsap.to(".cta-orbit-rev", { rotation: -360, duration: 9, ease: "none", repeat: -1 });
 
@@ -765,6 +441,16 @@ export function CasesShowcase({ isDark }: { isDark: boolean }) {
     flipState.current = Flip.getState(gridRef.current.querySelectorAll(".grid-item"));
     setFilter(f);
   };
+
+  // Permite que outras seções abram um filtro (ex.: "Ver cases de motion" em Serviços)
+  useEffect(() => {
+    const onFilter = (e: Event) => {
+      const f = (e as CustomEvent<Filter>).detail;
+      if (FILTERS.some((x) => x.id === f)) changeFilter(f);
+    };
+    window.addEventListener("orbara:cases-filter", onFilter);
+    return () => window.removeEventListener("orbara:cases-filter", onFilter);
+  });
 
   const marqueeWords = ["Sites", "E-commerce", "Tráfego Pago", "SEO", "Motion Graphics", "Branding", "Performance"];
 
@@ -853,11 +539,9 @@ export function CasesShowcase({ isDark }: { isDark: boolean }) {
         <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {ITEMS.map((item) => {
             const span =
-              item.kind === "featured"
+              item.kind === "featured" || item.kind === "motion" || item.kind === "cta"
                 ? "md:col-span-2 lg:col-span-3"
-                : item.kind === "motion" && item.data.featured
-                  ? "md:col-span-2"
-                  : "";
+                : "";
             return (
               <div
                 key={item.id}
@@ -868,7 +552,7 @@ export function CasesShowcase({ isDark }: { isDark: boolean }) {
                 <div className="case-reveal h-full">
                   {item.kind === "featured" && <FeaturedCase />}
                   {item.kind === "case" && <CaseCard c={item.data} />}
-                  {item.kind === "motion" && <MotionCard m={item.data} onOpen={() => setOpenVideo(item.data)} />}
+                  {item.kind === "motion" && <MotionShowcase />}
                   {item.kind === "cta" && <CtaCard />}
                 </div>
               </div>
@@ -877,7 +561,6 @@ export function CasesShowcase({ isDark }: { isDark: boolean }) {
         </div>
       </div>
 
-      <VideoLightbox project={openVideo} onClose={() => setOpenVideo(null)} />
     </section>
   );
 }
