@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useTheme } from "@/context/theme";
-import { startSmoothScroll, ScrollTrigger } from "@/lib/motion";
+import { startSmoothScroll, ScrollTrigger, scrollToId } from "@/lib/motion";
 import { InstantAudit } from "@/components/InstantAudit";
 import { CasesShowcase } from "@/components/CasesShowcase";
 import { PlansShowcase } from "@/components/PlansShowcase";
@@ -20,9 +20,13 @@ export default function Home() {
 
   useEffect(() => startSmoothScroll(), []);
 
-  // Recalcula posições quando as fontes terminam de carregar
+  // Recalcula posições quando as fontes terminam de carregar e respeita âncoras (ex.: /#contato vindo de um case)
   useEffect(() => {
-    document.fonts?.ready.then(() => ScrollTrigger.refresh());
+    document.fonts?.ready.then(() => {
+      ScrollTrigger.refresh();
+      const id = window.location.hash.slice(1);
+      if (id) setTimeout(() => scrollToId(id), 300);
+    });
   }, []);
 
   const bg = isDark ? "bg-[#0d0101]" : "bg-white";

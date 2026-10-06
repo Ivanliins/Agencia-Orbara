@@ -13,6 +13,8 @@ export default defineConfig({
     dedupe: ["react", "react-dom"],
   },
   root: path.resolve(import.meta.dirname),
+  // Na build de SSR (pré-renderização) empacota as dependências para rodar no Node sem ajustes.
+  ssr: { noExternal: true },
   build: {
     outDir: path.resolve(import.meta.dirname, "dist"),
     emptyOutDir: true,

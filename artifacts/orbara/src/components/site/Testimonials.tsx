@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { Quote } from "lucide-react";
-import { gsap, ScrollTrigger, useGSAP, revealIn } from "@/lib/motion";
+import { gsap, ScrollTrigger, useGSAP, revealIn, whileVisible } from "@/lib/motion";
 import { tokens } from "./tokens";
 
 const ITEMS = [
@@ -61,7 +61,7 @@ export function Testimonials({ isDark }: { isDark: boolean }) {
     const mm = gsap.matchMedia();
     mm.add("(prefers-reduced-motion: no-preference)", () => {
       const row = ref.current!.querySelector<HTMLElement>(".t-row")!;
-      const loop = gsap.to(row, { xPercent: -50, duration: 45, ease: "none", repeat: -1 });
+      const loop = gsap.to(row, { xPercent: -50, duration: 45, ease: "none", repeat: -1, scrollTrigger: whileVisible(ref.current) });
       row.addEventListener("pointerenter", () => gsap.to(loop, { timeScale: 0.15, duration: 0.6 }));
       row.addEventListener("pointerleave", () => gsap.to(loop, { timeScale: 1, duration: 0.6 }));
       ScrollTrigger.create({
@@ -99,7 +99,7 @@ export function Testimonials({ isDark }: { isDark: boolean }) {
         <div className={`absolute inset-y-0 left-0 w-16 md:w-40 z-10 pointer-events-none bg-gradient-to-r ${isDark ? "from-[#0d0101]" : "from-white"} to-transparent`} />
         <div className={`absolute inset-y-0 right-0 w-16 md:w-40 z-10 pointer-events-none bg-gradient-to-l ${isDark ? "from-[#0d0101]" : "from-white"} to-transparent`} />
         <div className="t-row flex w-max gap-6 px-3">
-          {[0, 1, 2, 3].map((dup) => ITEMS.map((item) => <Card key={`${dup}-${item.name}`} item={item} isDark={isDark} />))}
+          {[0, 1].map((dup) => ITEMS.map((item) => <Card key={`${dup}-${item.name}`} item={item} isDark={isDark} />))}
         </div>
       </div>
     </section>

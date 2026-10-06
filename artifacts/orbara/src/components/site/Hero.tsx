@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { ArrowUpRight, TrendingUp, Search, Users } from "lucide-react";
-import { gsap, SplitText, useGSAP, scrollToId } from "@/lib/motion";
+import { gsap, SplitText, useGSAP, scrollToId, whileVisible } from "@/lib/motion";
 import { Magnetic } from "@/components/motion-fx";
 
 const FLOATING_STATS = [
@@ -9,9 +9,6 @@ const FLOATING_STATS = [
   { icon: Search, value: "Top 3", label: "no Google", client: "SEO local", pos: "bottom-[16%] right-[4%]" },
 ];
 
-// Poster do vídeo (elemento LCP): WebP leve, versão menor no celular
-const HERO_POSTER =
-  typeof window !== "undefined" && window.matchMedia("(max-width: 767px)").matches ? "/hero-bg-mobile.webp" : "/hero-bg.webp";
 
 const TRUST = ["Design Exclusivo", "Sem fidelidade", "Resultados a partir de 30 dias", "Atendimento exclusivo"];
 
@@ -19,6 +16,10 @@ export function Hero() {
   const ref = useRef<HTMLElement>(null);
 
   useGSAP(() => {
+    // Poster mais leve no celular (o HTML pré-renderizado sai com a versão desktop)
+    const video = ref.current?.querySelector("video");
+    if (video && window.matchMedia("(max-width: 767px)").matches) video.poster = "/hero-bg-mobile.webp";
+
     const mm = gsap.matchMedia();
 
     mm.add("(prefers-reduced-motion: no-preference)", () => {
@@ -28,7 +29,7 @@ export function Hero() {
       const tl = gsap.timeline({ defaults: { ease: "expo.out" }, delay: 0.15 });
       tl.from(".hero-eyebrow", { y: 20, opacity: 0, duration: 0.8 })
         .from(split.chars, { yPercent: 110, duration: 1.2, stagger: 0.03 }, 0.1)
-        .from(".hero-sub", { y: 30, opacity: 0, duration: 1 }, 0.7)
+        .from(".hero-sub", { y: 24, duration: 1 }, 0.7) // sem opacity: o subtítulo é o elemento LCP e já chega visível no HTML
         .from(".hero-cta > *", { y: 30, opacity: 0, stagger: 0.1, duration: 1 }, 0.85)
         .from(".hero-trust > *", { y: 16, opacity: 0, stagger: 0.07, duration: 0.8 }, 1)
         .from(".hero-stat", { scale: 0.6, opacity: 0, y: 60, stagger: 0.15, duration: 1.2, ease: "back.out(1.6)" }, 0.8)
@@ -36,7 +37,7 @@ export function Hero() {
 
       // Cards flutuando
       gsap.utils.toArray<HTMLElement>(".hero-stat-inner").forEach((el, i) => {
-        gsap.to(el, { y: i % 2 ? 14 : -14, duration: 2.6 + i * 0.4, ease: "sine.inOut", yoyo: true, repeat: -1 });
+        gsap.to(el, { y: i % 2 ? 14 : -14, duration: 2.6 + i * 0.4, ease: "sine.inOut", yoyo: true, repeat: -1, scrollTrigger: whileVisible(ref.current) });
       });
 
       // Parallax do conteúdo ao rolar
@@ -77,7 +78,7 @@ export function Hero() {
       className="min-h-[100dvh] flex flex-col justify-center pt-32 pb-24 px-5 md:px-10 relative overflow-hidden bg-[#050510]"
     >
       <div className="hero-video absolute inset-0 will-change-transform">
-        <video autoPlay muted loop playsInline preload="none" poster={HERO_POSTER} className="absolute inset-0 w-full h-full object-cover" style={{ opacity: 0.85 }}>
+        <video autoPlay muted loop playsInline preload="none" poster="/hero-bg.webp" className="absolute inset-0 w-full h-full object-cover" style={{ opacity: 0.85 }}>
           <source
             src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260319_055001_8e16d972-3b2b-441c-86ad-2901a54682f9.mp4"
             type="video/mp4"

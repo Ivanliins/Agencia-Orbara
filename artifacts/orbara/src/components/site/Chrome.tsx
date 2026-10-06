@@ -149,16 +149,17 @@ export function Navbar({ isDark, toggleTheme }: { isDark: boolean; toggleTheme: 
 
         <div className="hidden lg:flex items-center gap-1">
           {NAV_ITEMS.map(({ id, label }) => (
-            <button
+            <a
               key={id}
-              onClick={() => go(id)}
+              href={`#${id}`}
+              onClick={(e) => { e.preventDefault(); go(id); }}
               className={`relative px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-colors ${
                 active === id && !onHero ? "text-[#ff5d00]" : `${fg} hover:text-[#ff5d00]`
               }`}
             >
               {label}
               <span className={`absolute left-1/2 -translate-x-1/2 bottom-0.5 h-1 w-1 rounded-full bg-[#ff5d00] transition-all duration-300 ${active === id && !onHero ? "opacity-100 scale-100" : "opacity-0 scale-0"}`} />
-            </button>
+            </a>
           ))}
         </div>
 
@@ -191,10 +192,10 @@ export function Navbar({ isDark, toggleTheme }: { isDark: boolean; toggleTheme: 
         <span className="text-xs font-black uppercase tracking-[0.35em] opacity-50 mb-6">Navegação</span>
         {NAV_ITEMS.map(({ id, label }, i) => (
           <div key={id} className="overflow-hidden">
-            <button onClick={() => go(id)} className="mobile-link flex items-baseline gap-4 py-1.5 text-left font-black text-5xl tracking-tight">
+            <a href={`#${id}`} onClick={(e) => { e.preventDefault(); go(id); }} className="mobile-link flex items-baseline gap-4 py-1.5 text-left font-black text-5xl tracking-tight">
               <span className="text-sm opacity-50 tabular-nums">0{i + 1}</span>
               {label}
-            </button>
+            </a>
           </div>
         ))}
         <div className="overflow-hidden mt-10">

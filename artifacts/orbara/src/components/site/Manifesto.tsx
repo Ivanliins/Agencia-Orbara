@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { gsap, SplitText, useGSAP } from "@/lib/motion";
+import { gsap, SplitText, useGSAP, whileVisible } from "@/lib/motion";
 import { OrbitDecoration } from "@/components/OrbitDecoration";
 import { tokens } from "./tokens";
 
@@ -64,8 +64,8 @@ export function Manifesto({ isDark }: { isDark: boolean }) {
         }
       );
 
-      gsap.to(".manifesto-ring", { rotation: 360, duration: 60, ease: "none", repeat: -1, transformOrigin: "50% 50%" });
-      gsap.to(".manifesto-ring-rev", { rotation: -360, duration: 40, ease: "none", repeat: -1, transformOrigin: "50% 50%" });
+      gsap.to(".manifesto-ring", { rotation: 360, duration: 60, ease: "none", repeat: -1, scrollTrigger: whileVisible(ref.current), transformOrigin: "50% 50%" });
+      gsap.to(".manifesto-ring-rev", { rotation: -360, duration: 40, ease: "none", repeat: -1, scrollTrigger: whileVisible(ref.current), transformOrigin: "50% 50%" });
     });
   }, { scope: ref });
 

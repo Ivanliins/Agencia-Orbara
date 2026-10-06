@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { Film, Monitor, Smartphone, Play, Volume2, X, Sparkles } from "lucide-react";
-import { gsap, ScrollTrigger, useGSAP, getLenis } from "@/lib/motion";
+import { gsap, ScrollTrigger, useGSAP, getLenis, whileVisible } from "@/lib/motion";
 
 /**
  * Cases de Motion Graphics.
@@ -226,13 +226,13 @@ export function MotionShowcase({ caseId }: { caseId: string }) {
         .from(".mc-info > *", { y: 30, opacity: 0, stagger: 0.08, duration: 0.8, ease: "power3.out" }, 0.2)
         .from(".mc-chip", { scale: 0, opacity: 0, stagger: 0.1, duration: 0.6, ease: "back.out(2.5)" }, 0.9);
 
-      gsap.to(".mc-phone-float", { y: -14, rotation: 1.5, duration: 3, ease: "sine.inOut", yoyo: true, repeat: -1 });
+      gsap.to(".mc-phone-float", { y: -14, rotation: 1.5, duration: 3, ease: "sine.inOut", yoyo: true, repeat: -1, scrollTrigger: whileVisible(ref.current) });
       gsap.to(".mc-phone-wrap", {
         yPercent: -12,
         ease: "none",
         scrollTrigger: { trigger: ref.current, start: "top bottom", end: "bottom top", scrub: true },
       });
-      gsap.to(".mc-glow", { scale: 1.2, opacity: 0.9, duration: 3.5, ease: "sine.inOut", yoyo: true, repeat: -1 });
+      gsap.to(".mc-glow", { scale: 1.2, opacity: 0.9, duration: 3.5, ease: "sine.inOut", yoyo: true, repeat: -1, scrollTrigger: whileVisible(ref.current) });
     });
   }, { scope: ref });
 

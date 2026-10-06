@@ -5,7 +5,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Flip } from "gsap/Flip";
 import { SplitText } from "gsap/SplitText";
 import { useGSAP } from "@gsap/react";
-import { scrollToId } from "@/lib/motion";
+import { scrollToId, whileVisible } from "@/lib/motion";
 import { useTilt, Magnetic } from "@/components/motion-fx";
 import { MotionShowcase } from "@/components/MotionShowcase";
 import { ArrowUpRight, Sparkles, Film, Globe, TrendingUp, LayoutGrid } from "lucide-react";
@@ -382,14 +382,14 @@ export function CasesShowcase({ isDark }: { isDark: boolean }) {
       });
 
       // Loops decorativos
-      gsap.to(".border-spin", { rotation: 360, duration: 6, ease: "none", repeat: -1 });
-      gsap.to(".cta-orbit", { rotation: 360, duration: 30, ease: "none", repeat: -1 });
-      gsap.to(".cta-orbit-rev", { rotation: -360, duration: 9, ease: "none", repeat: -1 });
+      gsap.to(".border-spin", { rotation: 360, duration: 6, ease: "none", repeat: -1, scrollTrigger: whileVisible(sectionRef.current) });
+      gsap.to(".cta-orbit", { rotation: 360, duration: 30, ease: "none", repeat: -1, scrollTrigger: whileVisible(sectionRef.current) });
+      gsap.to(".cta-orbit-rev", { rotation: -360, duration: 9, ease: "none", repeat: -1, scrollTrigger: whileVisible(sectionRef.current) });
 
       // Marquee que acelera e inverte com a velocidade do scroll
       const rows = gsap.utils.toArray<HTMLElement>(".marquee-row");
       const loops = rows.map((row, i) =>
-        gsap.fromTo(row, { xPercent: i % 2 ? -50 : 0 }, { xPercent: i % 2 ? 0 : -50, duration: 28, ease: "none", repeat: -1 })
+        gsap.fromTo(row, { xPercent: i % 2 ? -50 : 0 }, { xPercent: i % 2 ? 0 : -50, duration: 28, ease: "none", repeat: -1, scrollTrigger: whileVisible(sectionRef.current) })
       );
       ScrollTrigger.create({
         trigger: sectionRef.current,

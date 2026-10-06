@@ -60,7 +60,7 @@ const CASES = {
     gallery: [
       {
         src: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=900&q=80",
-        caption: "Moto elétrica Voltari — produto principal da linha",
+        caption: "Motos elétricas — principal categoria trabalhada no site e nas campanhas",
         tag: "Produto",
       },
       {
@@ -70,12 +70,12 @@ const CASES = {
       },
       {
         src: "https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=900&q=80",
-        caption: "Criativos Meta Ads — produto em uso real no trânsito urbano",
+        caption: "Criativos de Meta Ads com o produto em uso no trânsito urbano",
         tag: "Anúncio",
       },
       {
         src: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=900&q=80",
-        caption: "Posição #1 no Google para 'moto elétrica' na região",
+        caption: "SEO por categoria: termos como 'moto elétrica' na região",
         tag: "SEO",
       },
     ] as GalleryImage[],
@@ -149,17 +149,17 @@ const CASES = {
       },
       {
         src: "https://images.unsplash.com/photo-1521791055366-0d553872952f?w=900&q=80",
-        caption: "Blog jurídico com artigos educativos — tráfego orgânico crescente",
+        caption: "Blog jurídico com artigos educativos para atrair tráfego orgânico",
         tag: "Conteúdo",
       },
       {
         src: "https://images.unsplash.com/photo-1543286386-713bdd548da4?w=900&q=80",
-        caption: "Anúncio Google Search informativo, em conformidade com OAB",
+        caption: "Anúncios informativos no Google Search, em conformidade com a OAB",
         tag: "Google Ads",
       },
       {
         src: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=900&q=80",
-        caption: "Perfil Google Meu Negócio: de incompleto a referência local",
+        caption: "Perfil no Google Meu Negócio completo e otimizado",
         tag: "GMB",
       },
     ] as GalleryImage[],
@@ -227,7 +227,7 @@ const CASES = {
     gallery: [
       {
         src: "https://images.unsplash.com/photo-1506521781263-d8422e82f27a?w=900&q=80",
-        caption: "Perfil Google Maps após otimização — fotos profissionais e 94 avaliações",
+        caption: "Perfil no Google Maps otimizado, com fotos e avaliações",
         tag: "Google Maps",
       },
       {
@@ -237,7 +237,7 @@ const CASES = {
       },
       {
         src: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?w=900&q=80",
-        caption: "Central Park no top 3 do pacote local — buscas 'estacionamento próximo'",
+        caption: "Presença no pacote local para buscas como 'estacionamento próximo'",
         tag: "SEO Local",
       },
       {
@@ -790,13 +790,13 @@ export default function CaseDetail() {
           className="font-black text-3xl md:text-4xl mb-3"
           style={{ color: c.accent }}
         >
-          Evidências visuais
+          Resultados do projeto
         </h2>
         <p
           className="text-sm font-medium mb-10 opacity-50"
           style={{ color: c.fg }}
         >
-          Crescimento real, dados reais
+          Evolução dos principais indicadores
         </p>
 
         {/* Charts */}
@@ -818,7 +818,7 @@ export default function CaseDetail() {
           className="text-xs font-black uppercase tracking-widest mb-6 opacity-40"
           style={{ color: c.fg }}
         >
-          Registros do projeto — clique para ampliar
+          Frentes do projeto · imagens ilustrativas — clique para ampliar
         </p>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -1048,6 +1048,33 @@ export default function CaseDetail() {
           </Link>
         </motion.div>
       </div>
+
+      {/* Outros cases (linkagem interna) */}
+      <nav aria-label="Outros cases" className="px-6 md:px-12 py-16 max-w-4xl mx-auto">
+        <div className="text-xs font-black uppercase tracking-[0.35em] mb-6 opacity-50" style={{ color: c.fg }}>
+          Outros cases
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {Object.entries(CASES)
+            .filter(([s]) => s !== slug)
+            .map(([s, other]) => (
+              <Link key={s} href={`/cases/${s}`}>
+                <span
+                  className="group flex items-center justify-between gap-4 rounded-3xl px-6 py-5 cursor-pointer transition-colors"
+                  style={{ border: `1px solid ${isDark ? "rgba(255,250,250,0.12)" : "rgba(13,1,1,0.12)"}`, color: c.fg }}
+                >
+                  <span>
+                    <span className="block text-xs font-bold uppercase tracking-widest opacity-50">{other.segment}</span>
+                    <span className="block font-black text-lg leading-tight mt-1">{other.title}</span>
+                  </span>
+                  <span className="font-black text-2xl shrink-0 transition-transform group-hover:translate-x-1" style={{ color: c.accent }}>
+                    {other.result} →
+                  </span>
+                </span>
+              </Link>
+            ))}
+        </div>
+      </nav>
 
       {/* Lightbox */}
       <AnimatePresence>

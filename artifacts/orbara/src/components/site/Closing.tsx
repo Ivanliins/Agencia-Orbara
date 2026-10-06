@@ -7,7 +7,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { gsap, ScrollTrigger, SplitText, useGSAP, revealIn, scrollToId, scrollToTop } from "@/lib/motion";
+import { gsap, ScrollTrigger, SplitText, useGSAP, revealIn, scrollToId, scrollToTop, whileVisible } from "@/lib/motion";
 import { Magnetic } from "@/components/motion-fx";
 import { BackgroundOrb } from "@/components/BackgroundOrb";
 import { OrbitDecoration } from "@/components/OrbitDecoration";
@@ -29,7 +29,7 @@ export function Vision({ isDark }: { isDark: boolean }) {
         opacity: 1, stagger: 0.1, ease: "none",
         scrollTrigger: { trigger: ".vision-lead", start: "top 80%", end: "bottom 55%", scrub: true },
       });
-      gsap.to(".vision-orbit", { rotation: 360, duration: 40, ease: "none", repeat: -1 });
+      gsap.to(".vision-orbit", { rotation: 360, duration: 40, ease: "none", repeat: -1, scrollTrigger: whileVisible(ref.current) });
     });
   }, { scope: ref });
 
@@ -251,7 +251,7 @@ export function Footer() {
   useGSAP(() => {
     const mm = gsap.matchMedia();
     mm.add("(prefers-reduced-motion: no-preference)", () => {
-      const loop = gsap.to(".footer-marquee", { xPercent: -50, duration: 40, ease: "none", repeat: -1 });
+      const loop = gsap.to(".footer-marquee", { xPercent: -50, duration: 40, ease: "none", repeat: -1, scrollTrigger: whileVisible(ref.current) });
       ScrollTrigger.create({
         trigger: ref.current,
         start: "top bottom",
@@ -301,10 +301,10 @@ export function Footer() {
             <ul className="flex flex-col gap-3">
               {NAV_ITEMS.map(({ id, label }) => (
                 <li key={id}>
-                  <button onClick={() => scrollToId(id)} className="group inline-flex items-center text-sm font-semibold text-[#fffafa]/65 hover:text-[#ff5d00] transition-colors">
+                  <a href={`#${id}`} onClick={(e) => { e.preventDefault(); scrollToId(id); }} className="group inline-flex items-center text-sm font-semibold text-[#fffafa]/65 hover:text-[#ff5d00] transition-colors">
                     <span className="w-0 group-hover:w-4 group-hover:mr-2 h-px bg-[#ff5d00] transition-all duration-300" />
                     {label}
-                  </button>
+                  </a>
                 </li>
               ))}
             </ul>

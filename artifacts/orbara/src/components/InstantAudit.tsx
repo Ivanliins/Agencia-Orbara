@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { Globe, ArrowRight, AlertTriangle, XCircle, Lock, Sparkles, RefreshCw } from "lucide-react";
 
 interface InstantAuditProps {
@@ -170,13 +169,9 @@ export function InstantAudit({ isDark = true }: InstantAuditProps) {
         </div>
 
         {/* Estado: Scanner / Progresso */}
-        <AnimatePresence>
-          {stage === "scanning" && (
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -16 }}
-              className="max-w-xl mx-auto p-6 md:p-8 rounded-3xl bg-[#171313] border border-[#ff5d00]/30 shadow-2xl text-center"
+        {stage === "scanning" && (
+            <div
+              className="animate-in fade-in slide-in-from-bottom-4 duration-500 max-w-xl mx-auto p-6 md:p-8 rounded-3xl bg-[#171313] border border-[#ff5d00]/30 shadow-2xl text-center"
             >
               <div className="flex items-center justify-between text-xs font-bold uppercase tracking-widest text-[#fffafa]/60 mb-3">
                 <span className="flex items-center gap-2">
@@ -185,26 +180,21 @@ export function InstantAudit({ isDark = true }: InstantAuditProps) {
                 <span className="text-[#ff5d00] font-black text-sm">{progress}%</span>
               </div>
               <div className="w-full h-2.5 bg-white/5 rounded-full overflow-hidden mb-4 p-0.5 border border-white/10">
-                <motion.div
-                  className="h-full bg-gradient-to-r from-[#ff5d00] to-[#ffaa60] rounded-full"
+                <div
+                  className="h-full bg-gradient-to-r from-[#ff5d00] to-[#ffaa60] rounded-full transition-[width] duration-500 ease-out"
                   style={{ width: `${progress}%` }}
-                  transition={{ ease: "easeOut" }}
                 />
               </div>
               <p className="text-sm md:text-base font-medium text-[#fffafa]/80 animate-pulse">
                 {statusText}
               </p>
-            </motion.div>
-          )}
-        </AnimatePresence>
+            </div>
+        )}
 
         {/* Estado: Resultado / Dashboard de Auditoria */}
-        <AnimatePresence>
-          {stage === "done" && (
-            <motion.div
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="p-6 md:p-12 rounded-[36px] bg-[#141010] border border-white/10 shadow-2xl relative overflow-hidden"
+        {stage === "done" && (
+            <div
+              className="animate-in fade-in slide-in-from-bottom-6 duration-700 p-6 md:p-12 rounded-[36px] bg-[#141010] border border-white/10 shadow-2xl relative overflow-hidden"
             >
               {/* Header do Resultado */}
               <div className="flex flex-col md:flex-row items-center justify-between gap-6 pb-8 border-b border-white/10">
@@ -356,9 +346,8 @@ export function InstantAudit({ isDark = true }: InstantAuditProps) {
                   </div>
                 </div>
               </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+            </div>
+        )}
       </div>
     </section>
   );
