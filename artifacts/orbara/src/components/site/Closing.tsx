@@ -24,7 +24,7 @@ export function Vision({ isDark }: { isDark: boolean }) {
     revealIn(ref.current);
     const mm = gsap.matchMedia();
     mm.add("(prefers-reduced-motion: no-preference)", () => {
-      const split = SplitText.create(".vision-lead", { type: "words" });
+      const split = SplitText.create(".vision-lead", { type: "words", aria: "none" });
       gsap.fromTo(split.words, { opacity: 0.12 }, {
         opacity: 1, stagger: 0.1, ease: "none",
         scrollTrigger: { trigger: ".vision-lead", start: "top 80%", end: "bottom 55%", scrub: true },

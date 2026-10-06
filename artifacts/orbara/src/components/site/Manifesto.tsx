@@ -53,7 +53,7 @@ export function Manifesto({ isDark }: { isDark: boolean }) {
       );
 
       // Palavras acendem conforme a rolagem
-      const split = SplitText.create(".manifesto-text", { type: "words" });
+      const split = SplitText.create(".manifesto-text", { type: "words", aria: "none" });
       gsap.fromTo(split.words,
         { opacity: 0.14 },
         {

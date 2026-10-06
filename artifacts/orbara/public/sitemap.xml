@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
+  <url>
+    <loc>https://orbara.com.br/</loc>
+    <lastmod>2026-10-06</lastmod>
+    <video:video>
+      <video:thumbnail_loc>https://orbara.com.br/motion/orbara-studio-16x9.jpg</video:thumbnail_loc>
+      <video:title>Manifesto Orbara Studio</video:title>
+      <video:description>Toda marca tem uma história. Poucas sabem colocar ela em movimento. Vídeo manifesto do Orbara Studio.</video:description>
+      <video:content_loc>https://orbara.com.br/motion/orbara-studio-16x9.mp4</video:content_loc>
+      <video:duration>33</video:duration>
+    </video:video>
+    <video:video>
+      <video:thumbnail_loc>https://orbara.com.br/motion/clube-do-med-sp-16x9.jpg</video:thumbnail_loc>
+      <video:title>Clube do Med — Entrega em São Paulo</video:title>
+      <video:description>Comercial em motion graphics para o Clube do Med: entrega no mesmo dia em São Paulo.</video:description>
+      <video:content_loc>https://orbara.com.br/motion/clube-do-med-sp-16x9.mp4</video:content_loc>
+      <video:duration>31</video:duration>
+    </video:video>
+    <video:video>
+      <video:thumbnail_loc>https://orbara.com.br/motion/clube-do-med-2-16x9.jpg</video:thumbnail_loc>
+      <video:title>Clube do Med — Agilidade nos insumos</video:title>
+      <video:description>Comercial em motion graphics para o Clube do Med sobre agilidade na compra de insumos para clínicas.</video:description>
+      <video:content_loc>https://orbara.com.br/motion/clube-do-med-2-16x9.mp4</video:content_loc>
+      <video:duration>34</video:duration>
+    </video:video>
+  </url>
+  <url><loc>https://orbara.com.br/cases/casa-voltari</loc><lastmod>2026-10-06</lastmod></url>
+  <url><loc>https://orbara.com.br/cases/camila-nogueira</loc><lastmod>2026-10-06</lastmod></url>
+  <url><loc>https://orbara.com.br/cases/central-park</loc><lastmod>2026-10-06</lastmod></url>
+</urlset>

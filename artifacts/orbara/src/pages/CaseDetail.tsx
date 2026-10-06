@@ -102,7 +102,7 @@ const CASES = {
       { label: "Conversão %", before: 0.8, after: 3.4 },
       { label: "Sessões org. (÷100)", before: 8.2, after: 31.4 },
     ],
-    siteUrl: "https://73b8d9f6-16d5-469e-9dc6-576d763c3f7a-00-2eivf1yw5xnkl.worf.replit.dev/",
+    siteUrl: "",
     accent: "#ff5d00",
     bg: "#0d0101",
     fg: "#fffafa",

@@ -2,7 +2,7 @@
 <html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     
     <title>Orbara — Criação de Sites de Alta Performance e SEO</title>
     <meta name="description" content="Agência especializada em Criação de Sites e Auditoria SEO Técnica. Transforme sua presença digital e domine as buscas com a Orbara." />
@@ -13,29 +13,87 @@
     <meta property="og:url" content="https://orbara.com.br/" />
     <meta property="og:title" content="Orbara — Criação de Sites e SEO" />
     <meta property="og:description" content="Agência especializada em Criação de Sites e Auditoria SEO Técnica." />
-    <meta property="og:image" content="https://orbara.com.br/og-image.jpg" />
+    <meta property="og:image" content="https://orbara.com.br/opengraph.jpg" />
+    <meta property="og:image:width" content="1280" />
+    <meta property="og:image:height" content="720" />
+    <meta property="og:image:alt" content="Orbara — criação de sites, SEO, Google Ads e motion graphics" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:site_name" content="Orbara" />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:url" content="https://orbara.com.br/" />
     <meta name="twitter:title" content="Orbara — Criação de Sites e SEO" />
     <meta name="twitter:description" content="Transforme sua presença digital e domine as buscas com a Orbara." />
-    <meta name="twitter:image" content="https://orbara.com.br/og-image.jpg" />
+    <meta name="twitter:image" content="https://orbara.com.br/opengraph.jpg" />
 
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "ProfessionalService",
-      "name": "Orbara",
-      "url": "https://orbara.com.br/",
-      "logo": "https://orbara.com.br/favicon.svg",
-      "description": "Agência especializada em Criação de Sites e Auditoria SEO Técnica.",
-      "contactPoint": {
-        "@type": "ContactPoint",
-        "contactType": "customer service",
-        "availableLanguage": "Portuguese"
-      },
-      "sameAs": [
-        "https://www.instagram.com/agenciaorbara"
+      "@graph": [
+        {
+          "@type": "ProfessionalService",
+          "@id": "https://orbara.com.br/#org",
+          "name": "Orbara",
+          "url": "https://orbara.com.br/",
+          "logo": "https://orbara.com.br/logo-512.png",
+          "image": "https://orbara.com.br/opengraph.jpg",
+          "description": "Agência de criação de sites, SEO, Google Ads e motion graphics. Atendimento remoto em todo o Brasil.",
+          "telephone": "+55-11-98168-0809",
+          "areaServed": { "@type": "Country", "name": "Brasil" },
+          "priceRange": "A partir de R$ 1.490",
+          "contactPoint": {
+            "@type": "ContactPoint",
+            "contactType": "sales",
+            "telephone": "+55-11-98168-0809",
+            "availableLanguage": "Portuguese",
+            "areaServed": "BR"
+          },
+          "sameAs": ["https://www.instagram.com/agenciaorbara"],
+          "hasOfferCatalog": {
+            "@type": "OfferCatalog",
+            "name": "Planos Orbara",
+            "itemListElement": [
+              { "@type": "Offer", "name": "Essencial", "description": "Landing page otimizada, copy de conversão, SEO técnico básico e Google Analytics.", "price": "1490", "priceCurrency": "BRL" },
+              { "@type": "Offer", "name": "Aceleração", "description": "Ecossistema web de alta conversão com SEO, Google Ads, Tag Manager e integrações.", "price": "2995", "priceCurrency": "BRL" },
+              { "@type": "Offer", "name": "Órbita", "description": "Projeto sob medida para e-commerce e plataformas." }
+            ]
+          }
+        },
+        { "@type": "WebSite", "@id": "https://orbara.com.br/#website", "url": "https://orbara.com.br/", "name": "Orbara", "inLanguage": "pt-BR", "publisher": { "@id": "https://orbara.com.br/#org" } },
+        { "@type": "Service", "name": "Criação de sites", "serviceType": "Criação de sites e landing pages", "provider": { "@id": "https://orbara.com.br/#org" }, "areaServed": "BR" },
+        { "@type": "Service", "name": "Gestão de Google Ads", "serviceType": "Tráfego pago", "provider": { "@id": "https://orbara.com.br/#org" }, "areaServed": "BR" },
+        { "@type": "Service", "name": "SEO", "serviceType": "Otimização para mecanismos de busca", "provider": { "@id": "https://orbara.com.br/#org" }, "areaServed": "BR" },
+        { "@type": "Service", "name": "Motion Graphics", "serviceType": "Vídeos e animações para marcas", "provider": { "@id": "https://orbara.com.br/#org" }, "areaServed": "BR" },
+        {
+          "@type": "VideoObject",
+          "name": "Manifesto Orbara Studio",
+          "description": "Toda marca tem uma história. Poucas sabem colocar ela em movimento. Vídeo manifesto do Orbara Studio.",
+          "thumbnailUrl": "https://orbara.com.br/motion/orbara-studio-16x9.jpg",
+          "contentUrl": "https://orbara.com.br/motion/orbara-studio-16x9.mp4",
+          "uploadDate": "2026-10-06",
+          "duration": "PT33S",
+          "publisher": { "@id": "https://orbara.com.br/#org" }
+        },
+        {
+          "@type": "VideoObject",
+          "name": "Clube do Med — Entrega em São Paulo",
+          "description": "Comercial em motion graphics para o Clube do Med: entrega no mesmo dia em São Paulo.",
+          "thumbnailUrl": "https://orbara.com.br/motion/clube-do-med-sp-16x9.jpg",
+          "contentUrl": "https://orbara.com.br/motion/clube-do-med-sp-16x9.mp4",
+          "uploadDate": "2026-10-06",
+          "duration": "PT31S",
+          "publisher": { "@id": "https://orbara.com.br/#org" }
+        },
+        {
+          "@type": "VideoObject",
+          "name": "Clube do Med — Agilidade nos insumos",
+          "description": "Comercial em motion graphics para o Clube do Med sobre agilidade na compra de insumos para clínicas.",
+          "thumbnailUrl": "https://orbara.com.br/motion/clube-do-med-2-16x9.jpg",
+          "contentUrl": "https://orbara.com.br/motion/clube-do-med-2-16x9.mp4",
+          "uploadDate": "2026-10-06",
+          "duration": "PT34S",
+          "publisher": { "@id": "https://orbara.com.br/#org" }
+        }
       ]
     }
     </script>
@@ -43,8 +101,9 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" as="style">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800;900&display=swap">
+    <link rel="preload" as="image" href="/hero-bg-mobile.webp" media="(max-width: 767px)" fetchpriority="high">
+    <link rel="preload" as="image" href="/hero-bg.webp" media="(min-width: 768px)" fetchpriority="high">
 
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18424280462"></script>

@@ -9,6 +9,10 @@ const FLOATING_STATS = [
   { icon: Search, value: "Top 3", label: "no Google", client: "SEO local", pos: "bottom-[16%] right-[4%]" },
 ];
 
+// Poster do vídeo (elemento LCP): WebP leve, versão menor no celular
+const HERO_POSTER =
+  typeof window !== "undefined" && window.matchMedia("(max-width: 767px)").matches ? "/hero-bg-mobile.webp" : "/hero-bg.webp";
+
 const TRUST = ["Design Exclusivo", "Sem fidelidade", "Resultados a partir de 30 dias", "Atendimento exclusivo"];
 
 export function Hero() {
@@ -19,7 +23,7 @@ export function Hero() {
 
     mm.add("(prefers-reduced-motion: no-preference)", () => {
       const lines = gsap.utils.toArray<HTMLElement>(".hero-line");
-      const split = SplitText.create(lines, { type: "lines,chars", mask: "lines" });
+      const split = SplitText.create(lines, { type: "lines,chars", mask: "lines", aria: "none" });
 
       const tl = gsap.timeline({ defaults: { ease: "expo.out" }, delay: 0.15 });
       tl.from(".hero-eyebrow", { y: 20, opacity: 0, duration: 0.8 })
@@ -73,7 +77,7 @@ export function Hero() {
       className="min-h-[100dvh] flex flex-col justify-center pt-32 pb-24 px-5 md:px-10 relative overflow-hidden bg-[#050510]"
     >
       <div className="hero-video absolute inset-0 will-change-transform">
-        <video autoPlay muted loop playsInline preload="none" poster="/hero-bg.jpg" className="absolute inset-0 w-full h-full object-cover" style={{ opacity: 0.85 }}>
+        <video autoPlay muted loop playsInline preload="none" poster={HERO_POSTER} className="absolute inset-0 w-full h-full object-cover" style={{ opacity: 0.85 }}>
           <source
             src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260319_055001_8e16d972-3b2b-441c-86ad-2901a54682f9.mp4"
             type="video/mp4"
@@ -112,7 +116,7 @@ export function Hero() {
           <span className="text-[11px] font-bold uppercase tracking-[0.3em] text-white/70">Agência Direta · Sem Dar Voltas</span>
         </div>
 
-        <h1 className="font-black leading-[0.88] tracking-[-0.04em] lg:max-w-[62%]" style={{ fontSize: "clamp(3.6rem, 10.5vw, 12.5rem)" }}>
+        <h1 aria-label="Sites que orbitam resultado." className="font-black leading-[0.88] tracking-[-0.04em] lg:max-w-[62%]" style={{ fontSize: "clamp(3.6rem, 10.5vw, 12.5rem)" }}>
           <span className="hero-line block text-white">Sites que</span>
           <span className="hero-line block text-[#ff5d00] italic pr-4">orbitam</span>
           <span className="hero-line block text-white">resultado.</span>
