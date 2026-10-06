@@ -1,0 +1,6 @@
+# Arquivos intermediários do render
+*/out/stills/
+*/out/*-sem-audio.mp4
+*/out/*.log
+*/out/*.png
+*/out/*.jpg
