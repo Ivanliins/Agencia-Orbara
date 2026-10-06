@@ -3,6 +3,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
 import { useGSAP } from "@gsap/react";
+import { scrollToId } from "@/lib/motion";
 import { ArrowUpRight, Check, CreditCard, Crown, Rocket, Sparkles, Orbit, MessageCircle } from "lucide-react";
 import { useTilt, Magnetic } from "@/components/motion-fx";
 
@@ -83,7 +84,7 @@ const PLANS: Plan[] = [
   },
 ];
 
-const scrollToContact = () => document.getElementById("contato")?.scrollIntoView({ behavior: "smooth" });
+const scrollToContact = () => scrollToId("contato");
 
 function InstallmentTag({ price, featured, isDark }: { price?: number; featured?: boolean; isDark: boolean }) {
   const tone = featured

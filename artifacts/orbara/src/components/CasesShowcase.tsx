@@ -5,6 +5,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Flip } from "gsap/Flip";
 import { SplitText } from "gsap/SplitText";
 import { useGSAP } from "@gsap/react";
+import { scrollToId } from "@/lib/motion";
 import { useTilt, Magnetic } from "@/components/motion-fx";
 import { ArrowUpRight, Play, X, Sparkles, Film, Globe, TrendingUp, LayoutGrid } from "lucide-react";
 
@@ -571,7 +572,7 @@ function CtaCard() {
         </h3>
         <Magnetic>
           <button
-            onClick={() => document.getElementById("contato")?.scrollIntoView({ behavior: "smooth" })}
+            onClick={() => scrollToId("contato")}
             className="inline-flex items-center gap-3 bg-[#0d0101] text-[#ff5d00] font-black text-sm uppercase tracking-wider px-7 py-4 rounded-full hover:bg-black transition-colors"
           >
             Quero meu case
