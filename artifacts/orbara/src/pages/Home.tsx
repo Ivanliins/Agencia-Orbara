@@ -15,6 +15,7 @@ import { OrbitDecoration } from "@/components/OrbitDecoration";
 import { BackgroundOrb } from "@/components/BackgroundOrb";
 import { InstantAudit } from "@/components/InstantAudit";
 import { CasesShowcase } from "@/components/CasesShowcase";
+import { PlansShowcase } from "@/components/PlansShowcase";
 
 const formSchema = z.object({
   nome: z.string().min(2, "Nome é obrigatório"),
@@ -900,95 +901,7 @@ export default function Home() {
 
       
       {/* ── PLANOS / PRECIFICAÇÃO ────────────────────────────────────────── */}
-      <section id="planos" className={`py-24 md:py-36 px-5 md:px-10 ${altBg}`}>
-        <div className="container mx-auto max-w-6xl">
-          <div className="text-center mb-16 md:mb-24">
-            <span className={`text-xs font-bold uppercase tracking-[0.35em] ${isDark ? "text-[#fffafa]/40" : "text-[#0d0101]/40"}`}>Investimento</span>
-            <h2 className="mt-3 font-black leading-[0.9] tracking-tight" style={{ fontSize: "clamp(2.2rem, 5.5vw, 6rem)" }}>
-              <span className={isDark ? "text-[#fffafa]" : "text-[#0d0101]"}>Planos que geram</span><br />
-              <span className="text-[#ff5d00] italic">resultados reais.</span>
-            </h2>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Plano Essencial */}
-            <div className={`p-8 md:p-10 rounded-[32px] border ${isDark ? "border-white/10 bg-white/[0.02]" : "border-black/10 bg-black/[0.02]"} flex flex-col transition-transform hover:-translate-y-2`}>
-              <h3 className={`text-2xl font-black mb-2 ${fg}`}>Essencial</h3>
-              <p className={`${fgMuted} text-sm mb-8 h-10`}>Presença digital de alta performance para negócios locais.</p>
-              <div className="mb-8">
-                <span className={`text-4xl font-black ${fg}`}>R$ 1.490</span>
-              </div>
-              <ul className="flex flex-col gap-4 mb-10 flex-1">
-                {["Landing Page Otimizada", "Copywriting de Conversão", "SEO Técnico Básico", "Setup de Google Analytics", "Entrega em até 3 dias"].map((item, i) => (
-                  <li key={i} className={`flex items-center gap-3 text-sm font-medium ${fgMuted}`}>
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#ff5d00]" /> {item}
-                  </li>
-                ))}
-              </ul>
-              <button onClick={() => scrollTo("contato")} className={`w-full py-4 rounded-full font-bold text-sm border ${isDark ? "border-white/20 hover:border-[#ff5d00] hover:text-[#ff5d00]" : "border-black/20 hover:border-[#ff5d00] hover:text-[#ff5d00]"} transition-all uppercase tracking-wider ${fg}`}>Selecionar</button>
-            </div>
-
-            {/* Plano Aceleração */}
-            <div className="p-8 md:p-10 rounded-[32px] bg-[#ff5d00] text-[#0d0101] flex flex-col relative transform md:-translate-y-6 shadow-2xl shadow-[#ff5d00]/20 transition-transform hover:-translate-y-8">
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#0d0101] text-[#ff5d00] text-xs font-black uppercase tracking-widest px-4 py-1.5 rounded-full shadow-lg shadow-black/20">Recomendado</div>
-              <h3 className="text-2xl font-black mb-2">Aceleração</h3>
-              <p className="text-[#0d0101]/85 text-sm font-semibold mb-6">Ecossistema digital completo projetado para conversão em escala e captação de clientes.</p>
-              <div className="mb-8 pb-6 border-b border-[#0d0101]/15">
-                <div className="flex items-center gap-2 mb-1.5 flex-wrap">
-                  <span className="text-sm font-bold line-through text-[#0d0101]/60">De R$ 5.990</span>
-                  <span className="bg-[#0d0101] text-[#ff5d00] text-[11px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-full shadow-sm">50% OFF</span>
-                </div>
-                <div className="flex items-baseline gap-1.5">
-                  <span className="text-xs font-black uppercase tracking-widest text-[#0d0101]/70">Por</span>
-                  <span className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#0d0101] tracking-tight">R$ 2.995</span>
-                  
-                </div>
-              </div>
-              <ul className="flex flex-col gap-4 mb-10 flex-1">
-                {[
-                  "Ecossistema Web de Alta Conversão",
-                  "Copywriting Persuasivo focado em Fechamento",
-                  "SEO Técnico & On-Page para Primeiras Posições",
-                  "Setup Estratégico de Google Ads & Tag Manager",
-                  "Integração Direta com WhatsApp, CRM e Formulários",
-                  "Otimização Extrema de Performance (Core Web Vitals)",
-                  "Entrega Completa em até 5 dias"
-                ].map((item, i) => (
-                  <li key={i} className="flex items-center gap-3 text-sm font-semibold text-[#0d0101]/85">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#0d0101]" /> {item}
-                  </li>
-                ))}
-              </ul>
-              <button onClick={() => scrollTo("contato")} className="w-full py-4 rounded-full font-black text-sm bg-[#0d0101] text-[#ff5d00] hover:bg-black transition-all uppercase tracking-wider shadow-xl hover:scale-105">Começar Agora</button>
-            </div>
-
-            {/* Plano Órbita */}
-            <div className={`p-8 md:p-10 rounded-[32px] border ${isDark ? "border-white/10 bg-white/[0.02]" : "border-black/10 bg-black/[0.02]"} flex flex-col transition-transform hover:-translate-y-2`}>
-              <h3 className={`text-2xl font-black mb-2 ${fg}`}>Órbita</h3>
-              <p className={`${fgMuted} text-sm mb-8 h-10`}>Projeto sob medida para e-commerce e plataformas.</p>
-              <div className="mb-8">
-                <span className={`text-4xl font-black ${fg}`}>Customizado</span>
-              </div>
-              <ul className="flex flex-col gap-4 mb-10 flex-1">
-                {[
-                  "Arquitetura Headless / Full Custom",
-                  "Plataforma Web, E-commerce ou SaaS",
-                  "SEO Técnico Avançado e GEO (AI Search)",
-                  "Integração de APIs, CRMs e Meios de Pagamento",
-                  "Design System e Identidade Visual Exclusiva",
-                  "Infraestrutura Cloud de Alta Disponibilidade",
-                  "Acompanhamento Estratégico de Growth Contínuo"
-                ].map((item, i) => (
-                  <li key={i} className={`flex items-center gap-3 text-sm font-medium ${fgMuted}`}>
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#ff5d00]" /> {item}
-                  </li>
-                ))}
-              </ul>
-              <button onClick={() => scrollTo("contato")} className={`w-full py-4 rounded-full font-bold text-sm border ${isDark ? "border-white/20 hover:border-[#ff5d00] hover:text-[#ff5d00]" : "border-black/20 hover:border-[#ff5d00] hover:text-[#ff5d00]"} transition-all uppercase tracking-wider ${fg}`}>Falar com Especialista</button>
-            </div>
-          </div>
-        </div>
-      </section>
+      <PlansShowcase isDark={isDark} />
 
       {/* ── FAQ ─────────────────────────────────────────────────────────── */}
       <section id="faq" className={`py-24 md:py-36 px-5 md:px-10 ${altBg}`}>
