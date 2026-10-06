@@ -12,6 +12,56 @@ export function InstantAudit({ isDark = true }: InstantAuditProps) {
   const [progress, setProgress] = useState(0);
   const [statusText, setStatusText] = useState("");
   const [score, setScore] = useState(58);
+  const [isFocused, setIsFocused] = useState(false);
+  const [typedPlaceholder, setTypedPlaceholder] = useState("");
+
+  const exampleSites = [
+    "https://suaempresa.com.br",
+    "https://lojavirtual.com.br",
+    "https://clinicasorriso.com.br",
+    "https://restaurantesabor.com.br"
+  ];
+
+  // Efeito de digitação no placeholder (pausa quando o usuário interage)
+  useEffect(() => {
+    if (isFocused || url) return;
+    if (window.matchMedia?.("(prefers-reduced-motion: reduce)").matches) {
+      setTypedPlaceholder(exampleSites[0]);
+      return;
+    }
+
+    let siteIdx = 0;
+    let charIdx = 0;
+    let deleting = false;
+    let timeout: ReturnType<typeof setTimeout>;
+
+    const tick = () => {
+      const site = exampleSites[siteIdx];
+      if (!deleting) {
+        charIdx++;
+        setTypedPlaceholder(site.slice(0, charIdx));
+        if (charIdx === site.length) {
+          deleting = true;
+          timeout = setTimeout(tick, 1800);
+          return;
+        }
+        timeout = setTimeout(tick, 70 + Math.random() * 60);
+      } else {
+        charIdx--;
+        setTypedPlaceholder(site.slice(0, charIdx));
+        if (charIdx === 0) {
+          deleting = false;
+          siteIdx = (siteIdx + 1) % exampleSites.length;
+          timeout = setTimeout(tick, 400);
+          return;
+        }
+        timeout = setTimeout(tick, 35);
+      }
+    };
+
+    timeout = setTimeout(tick, 500);
+    return () => clearTimeout(timeout);
+  }, [isFocused, url]);
 
   const steps = [
     "Rastreando dados estruturados JSON-LD e schemas...",
@@ -100,7 +150,10 @@ export function InstantAudit({ isDark = true }: InstantAuditProps) {
                 type="text"
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
-                placeholder="https://seusite.com.br"
+                onFocus={() => setIsFocused(true)}
+                onBlur={() => setIsFocused(false)}
+                placeholder={isFocused ? "https://seusite.com.br" : `${typedPlaceholder}|`}
+                aria-label="URL do seu site"
                 disabled={stage === "scanning"}
                 className="w-full bg-transparent text-[#fffafa] placeholder:text-[#fffafa]/40 text-base font-medium outline-none"
               />
