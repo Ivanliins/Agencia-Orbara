@@ -4,3 +4,6 @@
 */out/*.log
 */out/*.png
 */out/*.jpg
+*/out/mix.wav
+*/out/narracao.wav
+*/audio/*.mp3

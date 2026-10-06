@@ -13,17 +13,30 @@ const FPS = 30;
 const [W, H] = fmt === "v" ? [1080, 1920] : [1920, 1080];
 const url = "file://" + path.join(__dirname, "commercial.html") + "?f=" + fmt;
 
+// timing.json (gerado por timing.py) estica cada cena para caber a narração.
+// toOrig converte o tempo do vídeo final no tempo original da timeline.
+const timingFile = path.join(__dirname, "timing.json");
+const timing = fs.existsSync(timingFile) ? JSON.parse(fs.readFileSync(timingFile, "utf8")) : null;
+function toOrig(t) {
+  if (!timing) return t;
+  const { orig, new: nw } = timing;
+  for (let i = 0; i < nw.length - 1; i++) {
+    if (t < nw[i + 1] || i === nw.length - 2) return orig[i] + ((t - nw[i]) * (orig[i + 1] - orig[i])) / (nw[i + 1] - nw[i]);
+  }
+  return t;
+}
+
 (async () => {
   const browser = await chromium.launch();
   const page = await browser.newPage({ viewport: { width: W, height: H }, deviceScaleFactor: 1 });
   await page.goto(url);
   await page.evaluate(() => window.READY);
-  const duration = await page.evaluate(() => window.DURATION);
+  const duration = timing ? timing.new[timing.new.length - 1] : await page.evaluate(() => window.DURATION);
 
   if (flag === "--stills") {
     fs.mkdirSync(out, { recursive: true });
     for (const t of list.split(",").map(Number)) {
-      await page.evaluate((t) => { window.TL.seek(t, false); }, t);
+      await page.evaluate((t) => { window.TL.seek(t, false); }, toOrig(t));
       await page.screenshot({ path: path.join(out, `${fmt}-${String(t).replace(".", "_")}s.png`) });
     }
     await browser.close();
@@ -36,7 +49,7 @@ const url = "file://" + path.join(__dirname, "commercial.html") + "?f=" + fmt;
 
   const total = Math.round(duration * FPS);
   for (let i = 0; i < total; i++) {
-    await page.evaluate((t) => { window.TL.seek(t, false); }, i / FPS);
+    await page.evaluate((t) => { window.TL.seek(t, false); }, toOrig(i / FPS));
     const buf = await page.screenshot({ type: "jpeg", quality: 95 });
     if (!ff.stdin.write(buf)) await new Promise((r) => ff.stdin.once("drain", r));
     if (i % 150 === 0) process.stdout.write(`${fmt}: ${i}/${total}\n`);

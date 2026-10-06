@@ -6,11 +6,30 @@ Marcos (segundos), iguais aos da timeline em commercial.html:
   8.6  impacto + batida completa    | 21.3 risco (swoosh)
   23.0 / 23.6 notificações          | 24.0-25.0 subida
   25.0 impacto final + assinatura   | 30.0 fim
+Se existir timing.json (timing.py), os marcos são convertidos com W() para o tempo das cenas
+reajustadas à narração.
 Uso: python3 music.py out/trilha.wav
 """
+import json
+import os
 import sys
 import wave
 import numpy as np
+
+_tf = os.path.join(os.path.dirname(os.path.abspath(__file__)), "timing.json")
+_timing = json.load(open(_tf)) if os.path.exists(_tf) else None
+
+
+def W(t):
+    """Tempo original da timeline -> tempo no vídeo final."""
+    if not _timing:
+        return t
+    o, n = _timing["orig"], _timing["new"]
+    for i in range(len(o) - 1):
+        if t < o[i + 1] or i == len(o) - 2:
+            return n[i] + (t - o[i]) * (n[i + 1] - n[i]) / (o[i + 1] - o[i])
+    return t
+
 
 SR = 44100
 DUR = 30.0
@@ -133,24 +152,24 @@ BAR = 4 * BEAT
 # Pad em todo o comercial (2 compassos por acorde)
 for k, start in enumerate(np.arange(0, DUR, BAR)):
     ch = CHORDS[k % 4]
-    place(pad(ch, BAR + 0.6), start, 0.16 if start < 8.6 else 0.12)
+    place(pad(ch, BAR + 0.6), start, 0.16 if start < W(8.6) else 0.12)
 
 # Abertura: tique-taque + cliques de digitação
-for b in np.arange(0, 4.2, BEAT / 2):
+for b in np.arange(0, W(4.2), BEAT / 2):
     place(hat(), b, 0.12, 0.3)
 for i in range(20):  # "serviço perto de mim"
-    place(click(), 0.7 + i * (1.3 / 20), 0.35, -0.2)
+    place(click(), W(0.7) + i * ((W(2.0) - W(0.7)) / 20), 0.35, -0.2)
 
 # Tensão: baixo pulsando em colcheias
-for b in np.arange(4.2, 8.6, BEAT / 2):
+for b in np.arange(W(4.2), W(8.6), BEAT / 2):
     place(bass_note(55.0, BEAT / 2 * 0.9), b, 0.35)
-place(riser(1.0), 7.6, 0.5)
+place(riser(1.0), W(8.6) - 1.0, 0.5)
 
 # Drop: batida completa 8.6 – 24.5
-place(impact(), 8.6, 0.9)
-beat_end = 24.5
+place(impact(), W(8.6), 0.9)
+beat_end = W(24.5)
 k = 0
-for b in np.arange(8.6, beat_end, BEAT):
+for b in np.arange(W(8.6), beat_end, BEAT):
     place(kick(), b, 0.9)
     if k % 2 == 1:
         place(clap(), b, 0.35)
@@ -158,24 +177,24 @@ for b in np.arange(8.6, beat_end, BEAT):
     place(hat(), b + BEAT / 4, 0.07, -0.25)
     place(hat(), b + 3 * BEAT / 4, 0.07, -0.25)
     k += 1
-for i, b in enumerate(np.arange(8.6, beat_end, BEAT / 2)):
-    root = ROOTS[int((b - 8.6) // (2 * BAR)) % 4]
+for i, b in enumerate(np.arange(W(8.6), beat_end, BEAT / 2)):
+    root = ROOTS[int((b - W(8.6)) // (2 * BAR)) % 4]
     place(bass_note(root * (2 if i % 4 == 3 else 1), BEAT / 2 * 0.85), b, 0.45)
 
 # Efeitos sincronizados
-place(swoosh(0.5), 13.4, 0.35)
-place(swoosh(0.5), 19.4, 0.35)
-place(swoosh(0.45), 21.25, 0.5)
-place(ding(1318.5), 23.0, 0.35, 0.3)
-place(ding(1568.0), 23.6, 0.35, -0.3)
-place(riser(1.0), 24.0, 0.5)
+place(swoosh(0.5), W(13.6) - 0.2, 0.35)
+place(swoosh(0.5), W(19.6) - 0.2, 0.35)
+place(swoosh(0.45), W(21.25), 0.5)
+place(ding(1318.5), W(23.0), 0.35, 0.3)
+place(ding(1568.0), W(23.6), 0.35, -0.3)
+place(riser(1.0), W(25.0) - 1.0, 0.5)
 
 # Assinatura: impacto + batida em meio tempo
-place(impact(), 25.0, 0.95)
-for b in np.arange(25.0, 29.0, BEAT * 2):
+place(impact(), W(25.0), 0.95)
+for b in np.arange(W(25.0), DUR - 1.0, BEAT * 2):
     place(kick(), b, 0.7)
-place(pad([220.0, 261.6, 329.6, 440.0], 5.0), 25.0, 0.2)
-place(impact(), 29.0, 0.5)
+place(pad([220.0, 261.6, 329.6, 440.0], DUR - W(25.0)), W(25.0), 0.2)
+place(impact(), DUR - 1.0, 0.5)
 
 # Master: limitação suave, fade final e normalização
 mix = np.tanh(mix * 1.1)
