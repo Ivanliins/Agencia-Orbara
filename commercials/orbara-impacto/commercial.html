@@ -1,0 +1,586 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<title>Orbara — Impacto</title>
+<!--
+  Filme de marca de 30s: um ponto explode em partículas, vira o wireframe de um site, o site ganha
+  todas as telas, sobe do fundo da busca até o 1º lugar, o WhatsApp não para e tudo implode de volta no logo.
+  Abra com ?f=h (1920x1080) ou ?f=v (1080x1920).
+  window.TL (timeline pausada) + window.DRAW(t) (partículas no canvas) são usados por render.cjs.
+-->
+<style>
+  @font-face { font-family: "Onest"; src: url(../google-ads/assets/onest-latin-wght-normal.woff2) format("woff2-variations"); font-weight: 100 900; }
+  :root { --o: #ff5d00; --o2: #ffaa60; --k: #0d0101; --w: #fffafa; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 100%; height: 100%; overflow: hidden; background: #000; font-family: "Onest", sans-serif; color: var(--w); -webkit-font-smoothing: antialiased; }
+  #stage { position: relative; width: 100%; height: 100%; overflow: hidden; background: #000; }
+  #bg { position: absolute; inset: 0; opacity: 0; background: radial-gradient(ellipse at 50% 55%, #2a0f05 0%, var(--k) 60%, #000 100%); }
+  .grid { position: absolute; inset: -10%; opacity: 0; background-image: linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px); background-size: 80px 80px; mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%); }
+  .grain { position: absolute; inset: 0; opacity: .07; pointer-events: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+  .vignette { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,.6) 100%); }
+  #cam { position: absolute; inset: 0; }
+  canvas { position: absolute; inset: 0; pointer-events: none; }
+  .abs { position: absolute; }
+  .scene { position: absolute; inset: 0; opacity: 0; }
+  .em { color: var(--o); font-style: italic; }
+  .kick { font-weight: 800; letter-spacing: .35em; text-transform: uppercase; color: rgba(255,250,250,.6); font-size: 24px; text-align: center; width: 100%; }
+  .head { font-weight: 900; letter-spacing: -.035em; line-height: .95; text-align: center; width: 100%; font-size: var(--head); }
+  body.h { --head: 104px; }
+  body.v { --head: 92px; }
+
+  /* Ponto */
+  #dot { position: absolute; width: 28px; height: 28px; margin: -14px 0 0 -14px; border-radius: 50%; background: var(--o); box-shadow: 0 0 30px 6px rgba(255,93,0,.8), 0 0 90px 20px rgba(255,93,0,.35); }
+  #cap1 { position: absolute; left: 0; right: 0; text-align: center; font-weight: 600; font-size: 34px; letter-spacing: .02em; color: rgba(255,250,250,.75); }
+
+  /* Site (mockup) */
+  .site { position: absolute; display: flex; flex-direction: column; gap: 34px; padding: 34px 44px 44px; border-radius: 26px; background: linear-gradient(160deg, #1b0d08, #0e0605 60%); border: 2px solid rgba(255,255,255,.1); overflow: hidden; color: var(--w); }
+  .site .s-nav { display: flex; align-items: center; justify-content: space-between; height: 64px; padding: 0 8px 0 20px; border-radius: 18px; background: rgba(255,255,255,.04); }
+  .site .s-logo { font-weight: 900; letter-spacing: .12em; font-size: 24px; display: flex; gap: 10px; align-items: center; }
+  .site .s-logo b { width: 20px; height: 20px; border-radius: 50%; background: var(--o); }
+  .site .s-links { display: flex; gap: 26px; }
+  .site .s-links i { width: 80px; height: 10px; border-radius: 5px; background: rgba(255,255,255,.18); }
+  .site .s-btn { background: var(--o); color: var(--k); font-weight: 900; font-size: 18px; padding: 12px 22px; border-radius: 12px; }
+  .site .s-hero { display: flex; gap: 40px; flex: 1; min-height: 0; }
+  .site .s-copy { flex: 1.1; display: flex; flex-direction: column; justify-content: center; gap: 26px; }
+  .site .s-h { font-weight: 900; font-size: 66px; line-height: .98; letter-spacing: -.035em; }
+  .site .s-p { height: 16px; width: 80%; border-radius: 8px; background: rgba(255,255,255,.16); box-shadow: 0 30px 0 rgba(255,255,255,.1); margin-bottom: 30px; }
+  .site .s-cta { align-self: flex-start; background: var(--o); color: var(--k); font-weight: 900; font-size: 24px; padding: 20px 34px; border-radius: 16px; box-shadow: 0 16px 40px rgba(255,93,0,.4); }
+  .site .s-art { flex: 0.9; border-radius: 22px; position: relative; overflow: hidden; background: radial-gradient(circle at 60% 40%, #ff8a3d 0%, #ff5d00 22%, #5a1a02 55%, #1a0703 80%); }
+  .site .s-art::after { content: ""; position: absolute; width: 60%; aspect-ratio: 1; border-radius: 50%; border: 2px solid rgba(255,255,255,.35); left: 20%; top: 18%; }
+  .site .s-cards { display: flex; gap: 24px; height: 120px; flex: none; }
+  .site .s-cards div { flex: 1; border-radius: 18px; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.08); }
+  .site.tall .s-hero { flex-direction: column; gap: 30px; }
+  .site.tall .s-h { font-size: 74px; }
+  .site.tall .s-links { display: none; }
+  .site.tall .s-cards { flex-direction: column; height: auto; flex: 0 1 300px; }
+  .badge { position: absolute; display: flex; align-items: center; gap: 14px; padding: 18px 28px; border-radius: 999px; background: rgba(20,10,8,.85); border: 2px solid rgba(255,93,0,.55); font-weight: 800; font-size: 30px; box-shadow: 0 20px 60px rgba(0,0,0,.6), 0 0 40px rgba(255,93,0,.25); white-space: nowrap; }
+  .badge b { color: var(--o); }
+
+  /* Dispositivos */
+  .dev { position: absolute; }
+  .dev .scr { position: relative; overflow: hidden; background: #0e0605; }
+  .dev .scr .site { left: 0; top: 0; transform-origin: 0 0; border-radius: 0; border: 0; }
+  .laptop .scr { border: 14px solid #1d1d1f; border-radius: 22px 22px 0 0; }
+  .laptop .base { height: 26px; margin: 0 -70px; border-radius: 0 0 26px 26px; background: linear-gradient(#3a3a3c, #19191a); }
+  .tablet .scr, .phone .scr { border: 14px solid #1d1d1f; border-radius: 38px; box-shadow: 0 30px 80px rgba(0,0,0,.6); }
+  .phone .scr { border-width: 10px; border-radius: 44px; }
+  .score { position: absolute; width: 230px; height: 230px; }
+  .score svg { position: absolute; inset: 0; }
+  .score .n { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 82px; color: #0cce6b; font-variant-numeric: tabular-nums; }
+  .gchip { position: absolute; display: flex; align-items: center; gap: 16px; background: #fff; color: #1a1a1a; font-weight: 800; font-size: 30px; padding: 16px 30px 16px 18px; border-radius: 999px; box-shadow: 0 20px 60px rgba(0,0,0,.5); white-space: nowrap; }
+
+  /* Busca */
+  .serp { position: absolute; display: flex; flex-direction: column; gap: 22px; }
+  .res { padding: 26px 34px; border-radius: 24px; background: #170e0c; border: 2px solid rgba(255,255,255,.06); }
+  .res .u { width: 32%; height: 12px; border-radius: 6px; background: rgba(255,255,255,.14); margin-bottom: 14px; }
+  .res .t { width: 70%; height: 22px; border-radius: 8px; background: rgba(255,255,255,.28); }
+  .res .d { width: 88%; height: 12px; border-radius: 6px; background: rgba(255,255,255,.1); margin-top: 14px; }
+  #you { position: absolute; display: flex; align-items: center; gap: 28px; padding: 30px 36px; border-radius: 28px; background: linear-gradient(135deg, #3a1606, #1c0d08); border: 3px solid var(--o); box-shadow: 0 0 0 8px rgba(255,93,0,.15), 0 30px 90px rgba(255,93,0,.4); }
+  #you .rank { flex: none; width: 150px; text-align: center; font-weight: 900; font-size: 64px; color: var(--o); font-variant-numeric: tabular-nums; }
+  #you .u { font-size: 22px; font-weight: 700; color: rgba(255,250,250,.6); margin-bottom: 6px; }
+  #you .t { font-size: 40px; font-weight: 900; letter-spacing: -.01em; }
+  .cap { position: absolute; left: 0; right: 0; text-align: center; font-weight: 900; letter-spacing: -.03em; line-height: 1; }
+
+  /* WhatsApp */
+  #phone5 { position: absolute; width: 470px; border-radius: 60px; background: #111; padding: 18px; border: 2px solid rgba(255,255,255,.14); box-shadow: 0 40px 120px rgba(0,0,0,.7), 0 0 80px rgba(37,211,102,.15); }
+  #phone5 .screen { border-radius: 44px; background: #0b141a; padding: 30px 22px; display: flex; flex-direction: column; gap: 16px; height: 800px; overflow: hidden; }
+  #phone5 .top { display: flex; align-items: center; gap: 14px; font-weight: 800; font-size: 26px; padding-bottom: 14px; border-bottom: 1px solid rgba(255,255,255,.08); }
+  #phone5 .top i { width: 48px; height: 48px; border-radius: 50%; background: #25d366; }
+  .msg { align-self: flex-start; max-width: 90%; background: #202c33; color: #e9edef; padding: 16px 22px; border-radius: 6px 24px 24px 24px; font-size: 26px; font-weight: 500; line-height: 1.25; }
+  .notif { position: absolute; display: flex; align-items: center; gap: 16px; width: 470px; padding: 16px 22px; border-radius: 26px; background: rgba(255,255,255,.96); color: #111; box-shadow: 0 18px 50px rgba(0,0,0,.45); }
+  .notif .ic { flex: none; width: 54px; height: 54px; border-radius: 15px; background: #25d366; display: flex; align-items: center; justify-content: center; }
+  .notif .tx { min-width: 0; }
+  .notif .nm { font-weight: 900; font-size: 24px; }
+  .notif .ms { font-weight: 500; font-size: 22px; color: #333; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  #counter { position: absolute; left: 50%; width: 900px; margin-left: -450px; padding: 10px 0 30px; text-align: center; z-index: 5; background: radial-gradient(ellipse at center, rgba(13,1,1,.92) 0%, rgba(13,1,1,.75) 45%, transparent 72%); }
+  #counter .n { font-weight: 900; font-size: 190px; letter-spacing: -.04em; line-height: 1; color: var(--w); text-shadow: 0 0 60px rgba(255,93,0,.7), 0 10px 40px rgba(0,0,0,.8); font-variant-numeric: tabular-nums; }
+  #counter .l { font-weight: 900; font-size: 40px; letter-spacing: .2em; text-transform: uppercase; color: var(--o); text-shadow: 0 6px 30px rgba(0,0,0,.9); }
+
+  /* Assinatura */
+  #logo { position: absolute; left: 0; right: 0; display: flex; align-items: center; justify-content: center; gap: 34px; }
+  #logo .word { display: flex; overflow: hidden; font-weight: 900; letter-spacing: .14em; font-size: var(--logo); line-height: 1.1; }
+  #logo .word span { display: inline-block; }
+  body.h { --logo: 150px; }
+  body.v { --logo: 104px; }
+  #tag { position: absolute; left: 0; right: 0; text-align: center; font-weight: 900; letter-spacing: -.035em; line-height: 1; font-size: var(--tag); }
+  #tag span { display: inline-block; margin: 0 .12em; }
+  body.h { --tag: 92px; }
+  body.v { --tag: 84px; }
+  .cta { position: absolute; display: inline-flex; align-items: center; gap: 22px; background: var(--o); color: var(--k); font-weight: 900; text-transform: uppercase; letter-spacing: .06em; font-size: 40px; padding: 28px 56px; border-radius: 999px; box-shadow: 0 20px 70px rgba(255,93,0,.5); white-space: nowrap; }
+  .contact { position: absolute; left: 0; right: 0; text-align: center; font-weight: 700; font-size: 36px; color: rgba(255,250,250,.75); letter-spacing: .02em; }
+  .wm { position: absolute; top: 48px; left: 56px; display: flex; align-items: center; gap: 14px; font-weight: 900; letter-spacing: .14em; font-size: 26px; opacity: 0; }
+  body.v .wm { top: 70px; left: 60px; }
+  #flash { position: absolute; inset: 0; background: #fff; opacity: 0; pointer-events: none; }
+  #black { position: absolute; inset: 0; background: #000; opacity: 0; pointer-events: none; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="cam">
+    <div id="bg"></div>
+    <div class="grid" id="grid"></div>
+
+    <!-- S2: o site -->
+    <section class="scene" id="s2">
+      <div id="siteWrap" class="abs" style="perspective: 2200px; left:0; top:0; width:100%; height:100%">
+        <div class="site wf" id="site"></div>
+      </div>
+      <div class="badge b1">⚡ Carrega em <b>0,8s</b></div>
+      <div class="badge b2"><b>+320%</b> visitas</div>
+      <div class="badge b3"><b>★★★★★</b> clientes</div>
+    </section>
+
+    <!-- S3: todas as telas -->
+    <section class="scene" id="s3">
+      <div class="head s3-h abs" style="left:0">Rápido em <span class="em">qualquer tela.</span></div>
+      <div class="dev tablet" id="tablet"><div class="scr"></div></div>
+      <div class="dev laptop" id="laptop"><div class="scr"></div><div class="base"></div></div>
+      <div class="dev phone" id="phone"><div class="scr"></div></div>
+      <div class="score" id="score">
+        <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="44" fill="rgba(12,206,107,.08)" stroke="rgba(12,206,107,.25)" stroke-width="7"/><circle id="arc" cx="50" cy="50" r="44" fill="none" stroke="#0cce6b" stroke-width="7" stroke-linecap="round" transform="rotate(-90 50 50)" stroke-dasharray="276.46" stroke-dashoffset="276.46"/></svg>
+        <div class="n" id="scoreN">0</div>
+      </div>
+      <div class="gchip" id="gchip">
+        <svg width="44" height="44" viewBox="0 0 48 48"><path fill="#4285F4" d="M45.1 24.5c0-1.6-.1-3.1-.4-4.5H24v8.5h11.8c-.5 2.8-2.1 5.1-4.4 6.7v5.5h7.1c4.2-3.8 6.6-9.5 6.6-16.2z"/><path fill="#34A853" d="M24 46c5.9 0 10.9-2 14.5-5.3l-7.1-5.5c-2 1.3-4.5 2.1-7.4 2.1-5.7 0-10.5-3.8-12.2-9H4.5v5.7C8.1 41.1 15.5 46 24 46z"/><path fill="#FBBC05" d="M11.8 28.3c-.4-1.3-.7-2.8-.7-4.3s.3-3 .7-4.3V14H4.5C3 17 2 20.4 2 24s.9 7 2.5 10l7.3-5.7z"/><path fill="#EA4335" d="M24 10.7c3.2 0 6.1 1.1 8.4 3.3l6.3-6.3C34.9 4.2 29.9 2 24 2 15.5 2 8.1 6.9 4.5 14l7.3 5.7c1.7-5.2 6.5-9 12.2-9z"/></svg>
+        Pronto para o Google
+      </div>
+    </section>
+
+    <!-- S4: do fundo da busca ao topo -->
+    <section class="scene" id="s4">
+      <div class="serp" id="serp"></div>
+      <div class="cap" id="capA" style="font-size:64px;color:rgba(255,250,250,.55)">Página 5 do Google…</div>
+      <div class="cap" id="capB" style="font-size:var(--head)"><span class="em">1º lugar.</span></div>
+      <div id="you">
+        <div class="rank" id="rank">#47</div>
+        <div><div class="u">suaempresa.com.br</div><div class="t">Sua empresa — a melhor da região</div></div>
+      </div>
+    </section>
+
+    <!-- S5: o telefone não para -->
+    <section class="scene" id="s5">
+      <div id="flood"></div>
+      <div id="phone5">
+        <div class="screen">
+          <div class="top"><i></i>Novos clientes</div>
+          <div class="msg m1">Oi! Achei vocês no Google 👋</div>
+          <div class="msg m2">Quero um orçamento, por favor.</div>
+          <div class="msg m3">Vocês atendem hoje?</div>
+        </div>
+      </div>
+      <div id="counter"><div class="n" id="countN">+0</div><div class="l">novos contatos</div></div>
+    </section>
+
+    <!-- S6: assinatura -->
+    <section class="scene" id="s6">
+      <div id="logo">
+        <svg id="logoMark" width="190" height="190" viewBox="-4 -4 32 32" fill="none"><circle id="ringC" cx="12" cy="12" r="10.5" stroke="#fffafa" stroke-width="1.6" stroke-dasharray="65.98" stroke-dashoffset="65.98" transform="rotate(-50 12 12)"/><circle id="orbC" cx="19.5" cy="4.5" r="3" fill="#ff5d00" opacity="0"/></svg>
+        <div class="word"><span>O</span><span>R</span><span>B</span><span>A</span><span>R</span><span>A</span></div>
+      </div>
+      <div id="tag"><span>Sites</span><span>que</span><span>fazem</span><span class="em">barulho.</span></div>
+      <div class="cta" id="cta">Peça seu site →</div>
+      <div class="contact" id="contact">orbara.com.br · (11) 98168-0809</div>
+    </section>
+
+    <canvas id="fx"></canvas>
+    <div id="dot"></div>
+    <div id="cap1">Tudo começa com um ponto.</div>
+    <div class="wm" id="wm">
+      <svg width="34" height="34" viewBox="-4 -4 32 32" fill="none"><circle cx="12" cy="12" r="10.5" stroke="#fffafa" stroke-width="1.6"/><circle cx="19.5" cy="4.5" r="3" fill="#ff5d00"/></svg>
+      ORBARA
+    </div>
+  </div>
+  <div class="vignette"></div>
+  <div id="black"></div>
+  <div id="flash"></div>
+  <div class="grain"></div>
+</div>
+
+<script src="../google-ads/assets/gsap.min.js"></script>
+<script>
+function init() {
+  const F = new URLSearchParams(location.search).get("f") === "v" ? "v" : "h";
+  document.body.classList.add(F);
+  const V = F === "v";
+  const W = V ? 1080 : 1920, H = V ? 1920 : 1080, CX = W / 2, CY = H / 2;
+  const $ = (s) => document.querySelector(s);
+  const $$ = (s) => [...document.querySelectorAll(s)];
+  const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+  const lerp = (a, b, u) => a + (b - a) * u;
+  const ioCubic = (u) => (u < 0.5 ? 4 * u * u * u : 1 - Math.pow(-2 * u + 2, 3) / 2);
+  function rng(seed) { return () => { seed |= 0; seed = (seed + 0x6d2b79f5) | 0; let t = Math.imul(seed ^ (seed >>> 15), 1 | seed); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; }; }
+
+  // ── Site mockup (o mesmo HTML vai para o palco e para as telas dos dispositivos) ──
+  const SITE = `
+    <div class="s-nav wf"><div class="s-logo"><b></b>SUA MARCA</div><div class="s-links"><i></i><i></i><i></i></div><div class="s-btn wf">Contato</div></div>
+    <div class="s-hero">
+      <div class="s-copy"><div class="s-h wf">Seu negócio,<br>impossível<br>de ignorar.</div><div class="s-p wf"></div><div class="s-cta wf">Quero agora →</div></div>
+      <div class="s-art wf"></div>
+    </div>
+    <div class="s-cards"><div class="wf"></div><div class="wf"></div><div class="wf"></div></div>`;
+  const SW = V ? 900 : 1240, SH = V ? 1300 : 720;
+  const site = $("#site");
+  site.innerHTML = SITE;
+  site.classList.add(V ? "tall" : "wide");
+  gsap.set(site, { width: SW, height: SH, left: CX - SW / 2, top: CY - SH / 2 });
+  gsap.set("#cap1", { top: CY + 70 });
+
+  // Telas dos dispositivos: o site em escala, em layout largo (notebook) ou alto (tablet/celular)
+  function fillScreen(dev, layout, baseW, w, h) {
+    const scr = dev.querySelector(".scr");
+    const k = w / baseW;
+    const s = document.createElement("div");
+    s.className = "site " + layout;
+    s.innerHTML = SITE;
+    s.style.width = baseW + "px";
+    s.style.height = h / k + "px";
+    s.style.transform = `scale(${k})`;
+    scr.style.width = w + "px";
+    scr.style.height = h + "px";
+    scr.appendChild(s);
+  }
+  const DEV = V
+    ? { laptop: [920, 534, CX, 760], tablet: [400, 560, 330, 1380], phone: [260, 540, 760, 1390] }
+    : { laptop: [820, 476, CX, 640], tablet: [360, 500, 290, 650], phone: [240, 500, 1640, 660] };
+  fillScreen($("#laptop"), "wide", 1240, DEV.laptop[0], DEV.laptop[1]);
+  fillScreen($("#tablet"), "tall", 900, DEV.tablet[0], DEV.tablet[1]);
+  fillScreen($("#phone"), "tall", 900, DEV.phone[0], DEV.phone[1]);
+  for (const id of ["laptop", "tablet", "phone"]) {
+    const el = document.getElementById(id), [w, h, x, y] = DEV[id];
+    const bw = id === "phone" ? 20 : 28;
+    gsap.set(el, { left: x - (w + bw) / 2, top: y - (h + bw) / 2 });
+  }
+  gsap.set(".s3-h", { top: V ? 260 : 110 });
+  gsap.set("#score", V ? { left: 760, top: 1640 } : { left: 1260, top: 290 });
+  gsap.set("#gchip", V ? { left: 120, top: 1720 } : { left: CX - 200, top: 940 });
+
+  // Badges em volta do site
+  const B = V
+    ? [[70, 220], [560, 1560], [80, 1620]]
+    : [[150, 170], [1430, 270], [1380, 880]];
+  $$(".badge").forEach((b, i) => gsap.set(b, { left: B[i][0], top: B[i][1] }));
+
+  // Resultados da busca
+  const CW = V ? 940 : 1100;
+  const serp = $("#serp");
+  for (let i = 0; i < 30; i++) serp.insertAdjacentHTML("beforeend", `<div class="res"><div class="u"></div><div class="t" style="width:${50 + ((i * 37) % 40)}%"></div><div class="d"></div></div>`);
+  gsap.set(serp, { width: CW, left: CX - CW / 2, top: -1800 });
+  gsap.set("#you", { width: CW, left: CX - CW / 2, top: H - (V ? 420 : 250) });
+  const YOU_TOP = V ? 470 : 300;
+  gsap.set("#capA", { top: V ? 250 : 110 });
+  gsap.set("#capB", { top: V ? 250 : 120 });
+
+  // Enxurrada de notificações (posições sorteadas com semente fixa, cobrindo a tela)
+  const NAMES = ["Mariana", "Carlos", "Dra. Paula", "Rafael", "Juliana", "Pedro", "Ana Clara", "Bruno", "Fernanda", "Lucas", "Camila", "Diego", "Patrícia", "Thiago", "Larissa", "Gustavo"];
+  const MSGS = ["Vi seu site, quero um orçamento!", "Vocês atendem hoje?", "Quanto custa?", "Achei vocês no Google!", "Pode me chamar?", "Tem horário amanhã?", "Quero fechar!", "Me passa os valores?", "Vocês entregam aqui?", "Indicação de uma amiga :)"];
+  const NF = 72;
+  const r1 = rng(11);
+  const cols = V ? 2 : 4, rows = V ? 15 : 9;
+  const cells = [];
+  for (let c = 0; c < cols; c++) for (let r = 0; r < rows; r++) cells.push([c, r]);
+  for (let i = cells.length - 1; i > 0; i--) { const j = Math.floor(r1() * (i + 1)); [cells[i], cells[j]] = [cells[j], cells[i]]; }
+  const flood = $("#flood");
+  const notifs = [];
+  for (let k = 0; k < NF; k++) {
+    const [c, r] = cells[k % cells.length];
+    const x = (c + r1() * 0.5) * (W / cols) - 160 + r1() * 60;
+    const y = (r + r1() * 0.4) * (H / rows) - 40;
+    const el = document.createElement("div");
+    el.className = "notif";
+    el.innerHTML = `<div class="ic"><svg width="32" height="32" viewBox="0 0 24 24" fill="#fff"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2z"/></svg></div><div class="tx"><div class="nm">${NAMES[k % NAMES.length]}</div><div class="ms">${MSGS[(k * 7) % MSGS.length]}</div></div>`;
+    gsap.set(el, { left: x, top: y, rotation: (r1() - 0.5) * 10, opacity: 0, scale: 0.4 });
+    flood.appendChild(el);
+    notifs.push(el);
+  }
+  gsap.set("#phone5", { left: CX - 235, top: CY - 418 });
+  gsap.set("#counter", { top: V ? 200 : 60 });
+
+  // Assinatura
+  gsap.set("#logo", { top: CY - (V ? 230 : 200) });
+  gsap.set("#tag", { top: CY + (V ? 30 : 60) });
+  gsap.set("#contact", { top: CY + (V ? 380 : 380) });
+  gsap.set("#cta", { left: CX, top: CY + (V ? 230 : 210), xPercent: -50 });
+
+  // ── Partículas ─────────────────────────────────────────────
+  const cv = $("#fx"), ctx = cv.getContext("2d");
+  cv.width = W; cv.height = H;
+
+  // Pontos do wireframe: contorno de cada bloco do site
+  const wf = [];
+  const sr = $("#stage").getBoundingClientRect();
+  const rects = $$("#site .wf, #site").map((e) => { const r = e.getBoundingClientRect(); return { x: r.left - sr.left, y: r.top - sr.top, w: r.width, h: r.height }; });
+  const per = rects.reduce((a, r) => a + 2 * (r.w + r.h), 0);
+  const NP = 1700;
+  for (const r of rects) {
+    const n = Math.round((NP * 2 * (r.w + r.h)) / per);
+    for (let i = 0; i < n; i++) {
+      let d = ((i + 0.5) / n) * 2 * (r.w + r.h);
+      let x, y;
+      if (d < r.w) { x = r.x + d; y = r.y; }
+      else if ((d -= r.w) < r.h) { x = r.x + r.w; y = r.y + d; }
+      else if ((d -= r.h) < r.w) { x = r.x + r.w - d; y = r.y + r.h; }
+      else { d -= r.w; x = r.x; y = r.y + r.h - d; }
+      wf.push([x, y]);
+    }
+  }
+  const r2 = rng(42);
+  const P = wf.map(([tx, ty]) => {
+    const a = r2() * Math.PI * 2;
+    return {
+      tx, ty, a,
+      R: 120 + Math.sqrt(r2()) * Math.max(W, H) * 0.62,
+      s: (r2() - 0.5) * 1.6,
+      d: r2() * 0.55,
+      dx: Math.cos(r2() * Math.PI * 2), dy: Math.sin(r2() * Math.PI * 2),
+      sx: r2() * W, sy: r2() * H,
+      z: 1.2 + r2() * 2.6,
+      c: r2() < 0.22 ? "255,240,225" : r2() < 0.5 ? "255,170,96" : "255,93,0",
+    };
+  });
+  const r3 = rng(7);
+  const CONF = Array.from({ length: 260 }, () => {
+    const a = -Math.PI / 2 + (r3() - 0.5) * Math.PI * 1.6;
+    const v = 500 + r3() * 1500;
+    return { vx: Math.cos(a) * v, vy: Math.sin(a) * v, z: 3 + r3() * 7, rot: r3() * 6, c: ["255,93,0", "255,170,96", "255,250,250", "37,211,102"][Math.floor(r3() * 4)] };
+  });
+
+  // Tempos-chave (segundos) — iguais aos de music.py
+  const T = { boom: 2.95, form: 3.75, solid: 5.45, glitch1: 8.45, fall: 12.2, rocket: 14.14, land: 15.04, cut: 16.3, phone: 16.8, implode: 22.35, zero: 23.2, logo: 24.1, barulho: 26.35 };
+
+  function particlePos(p, t) {
+    const u = clamp((t - T.boom) / 0.9);
+    const e = 1 - Math.pow(1 - u, 4);
+    const ang = p.a + p.s * (t - T.boom) * 0.5;
+    const ex = CX + Math.cos(ang) * p.R * e, ey = CY + Math.sin(ang) * p.R * e;
+    const v = ioCubic(clamp((t - T.form - p.d) / 1.2));
+    let x = lerp(ex, p.tx, v), y = lerp(ey, p.ty, v), al = 1;
+    if (t > T.solid) {
+      const w = clamp((t - T.solid) / 0.85);
+      x = p.tx + p.dx * w * w * 1100; y = p.ty + p.dy * w * w * 1100; al = 1 - w;
+    }
+    return [x, y, al];
+  }
+
+  function ring(t, t0, x, y, maxR, dur, width, color) {
+    const u = (t - t0) / dur;
+    if (u < 0 || u > 1) return;
+    const e = 1 - Math.pow(1 - u, 3);
+    ctx.strokeStyle = `rgba(${color},${(1 - u) * 0.9})`;
+    ctx.lineWidth = width * (1 - u) + 1;
+    ctx.beginPath(); ctx.arc(x, y, maxR * e, 0, Math.PI * 2); ctx.stroke();
+  }
+
+  function shake(t) {
+    let a = 0;
+    if (t > T.boom && t < T.boom + 0.6) a = 22 * (1 - (t - T.boom) / 0.6);
+    if (t > T.land && t < T.land + 0.5) a = Math.max(a, 16 * (1 - (t - T.land) / 0.5));
+    if (t > 19.4 && t < T.implode) a = Math.max(a, 20 * Math.pow((t - 19.4) / (T.implode - 19.4), 2));
+    if (t > T.barulho && t < T.barulho + 0.45) a = Math.max(a, 12 * (1 - (t - T.barulho) / 0.45));
+    const nx = Math.sin(t * 91.7) * Math.sin(t * 37.3 + 1.2), ny = Math.sin(t * 77.1 + 2.1) * Math.sin(t * 29.9);
+    return [nx * a, ny * a];
+  }
+
+  function draw(t) {
+    ctx.clearRect(0, 0, W, H);
+    ctx.globalCompositeOperation = "lighter";
+
+    // Explosão → wireframe → dispersão
+    if (t >= T.boom && t < T.solid + 0.9) {
+      // linhas de planta (blueprint) aparecendo antes do site ficar sólido
+      const la = clamp((t - 4.6) / 0.6) * (1 - clamp((t - T.solid) / 0.2));
+      if (la > 0) {
+        ctx.strokeStyle = `rgba(255,93,0,${0.45 * la})`;
+        ctx.lineWidth = 1.5;
+        for (const r of rects) ctx.strokeRect(r.x, r.y, r.w, r.h);
+      }
+      for (const p of P) {
+        const [x, y, al] = particlePos(p, t);
+        if (al <= 0) continue;
+        ctx.fillStyle = `rgba(${p.c},${al})`;
+        ctx.fillRect(x - p.z / 2, y - p.z / 2, p.z, p.z);
+      }
+    }
+    ring(t, T.boom, CX, CY, Math.max(W, H) * 0.8, 1.1, 30, "255,120,40");
+    ring(t, T.boom + 0.08, CX, CY, Math.max(W, H) * 0.5, 0.9, 10, "255,240,225");
+
+    // Linhas de velocidade na subida
+    if (t > T.rocket && t < T.land + 0.1) {
+      const u = clamp((t - T.rocket) / (T.land - T.rocket));
+      const k = Math.sin(Math.PI * u);
+      const r = rng(Math.floor(t * 30) + 5);
+      for (let i = 0; i < 70; i++) {
+        const x = r() * W, y = r() * H, len = 200 + r() * 600 * k;
+        ctx.fillStyle = `rgba(255,${150 + Math.floor(r() * 100)},80,${0.12 + 0.35 * k * r()})`;
+        ctx.fillRect(x, y, 2 + r() * 3, len);
+      }
+    }
+    // Confete na chegada ao 1º lugar
+    if (t > T.land && t < T.land + 2.2) {
+      const dt = t - T.land, yc = YOU_TOP + 70;
+      for (const c of CONF) {
+        const x = CX + c.vx * dt * 0.9, y = yc + c.vy * dt * 0.9 + 1400 * dt * dt;
+        ctx.save(); ctx.translate(x, y); ctx.rotate(c.rot + dt * 8);
+        ctx.fillStyle = `rgba(${c.c},${1 - dt / 2.2})`;
+        ctx.fillRect(-c.z, -c.z / 2, c.z * 2, c.z);
+        ctx.restore();
+      }
+    }
+    ring(t, T.land, CX, YOU_TOP + 70, Math.max(W, H) * 0.6, 0.9, 24, "255,120,40");
+
+    // Implosão: tudo volta para um ponto
+    if (t > T.implode && t < T.zero + 0.05) {
+      const q = clamp((t - T.implode) / (T.zero - T.implode));
+      const e = q * q * q;
+      for (const p of P) {
+        const vx = p.sx - CX, vy = p.sy - CY, rot = e * 2.6;
+        const x = CX + (vx * Math.cos(rot) - vy * Math.sin(rot)) * (1 - e);
+        const y = CY + (vx * Math.sin(rot) + vy * Math.cos(rot)) * (1 - e);
+        ctx.fillStyle = `rgba(${p.c},${clamp(q * 6)})`;
+        ctx.fillRect(x - p.z / 2, y - p.z / 2, p.z, p.z);
+      }
+    }
+    ring(t, T.zero, CX, CY, Math.max(W, H) * 0.7, 0.8, 20, "255,240,225");
+    ring(t, T.logo, CX, CY, Math.max(W, H) * 0.9, 1.4, 26, "255,93,0");
+    ring(t, T.barulho, CX, CY, Math.max(W, H) * 0.9, 1.0, 18, "255,120,40");
+
+    // Glitch (cortes 8.45 e 22.25)
+    ctx.globalCompositeOperation = "source-over";
+    const gl = [[T.glitch1 - 0.12, T.glitch1 + 0.2], [T.implode - 0.1, T.implode + 0.12]].find(([a, b]) => t >= a && t <= b);
+    let gx = 0;
+    if (gl) {
+      const r = rng(Math.floor(t * 60) + 99);
+      for (let i = 0; i < 14; i++) {
+        const y = r() * H, h = 4 + r() * 60;
+        ctx.fillStyle = r() < 0.5 ? `rgba(255,93,0,${0.5 + r() * 0.5})` : `rgba(0,255,230,${0.3 + r() * 0.4})`;
+        ctx.fillRect(r() * W * 0.3 - 100, y, W * (0.4 + r() * 0.8), h);
+      }
+      gx = (r() - 0.5) * 60;
+    }
+    const [sx, sy] = shake(t);
+    $("#cam").style.transform = `translate(${sx + gx}px, ${sy}px)`;
+    // Celular vibrando quando chega a primeira mensagem
+    const vib = t > T.phone + 0.2 && t < 17.9 ? Math.sin(t * 190) * 7 : 0;
+    $("#phone5").style.translate = `${vib}px 0`;
+  }
+
+  // ── Timeline ───────────────────────────────────────────────
+  const tl = gsap.timeline({ paused: true, defaults: { ease: "expo.out" }, onUpdate: () => draw(tl.time()) });
+  const show = (s, at) => tl.set(s, { opacity: 1 }, at);
+  const hideNow = (s, at) => tl.set(s, { opacity: 0 }, at);
+  const flash = (at, o = 0.9, d = 0.45) => tl.fromTo("#flash", { opacity: o }, { opacity: 0, duration: d, ease: "power2.out", immediateRender: false }, at);
+
+  // S1 — o ponto (0 – 2.95)
+  gsap.set("#dot", { left: CX, top: CY, scale: 0 });
+  tl.to("#dot", { scale: 1, duration: 0.5, ease: "back.out(3)" }, 0.15)
+    .to("#dot", { scale: 1.7, duration: 0.12, ease: "power2.out", yoyo: true, repeat: 1 }, 0.3)
+    .to("#dot", { scale: 1.5, duration: 0.12, ease: "power2.out", yoyo: true, repeat: 1 }, 1.1)
+    .to("#dot", { scale: 1.5, duration: 0.12, ease: "power2.out", yoyo: true, repeat: 1 }, 1.9)
+    .from("#cap1", { opacity: 0, y: 20, duration: 0.8 }, 0.7)
+    .to("#cap1", { opacity: 0, duration: 0.3 }, 2.3)
+    .to("#dot", { scale: 0.35, duration: 0.5, ease: "power3.in" }, 2.45)
+    .set("#dot", { opacity: 0 }, T.boom);
+  flash(T.boom, 1, 0.6);
+  tl.to("#bg", { opacity: 1, duration: 1.2, ease: "power2.out" }, T.boom)
+    .to("#grid", { opacity: 0.6, duration: 1.5, ease: "power2.out" }, T.boom + 0.3);
+
+  // S2 — o site (3.75 – 8.45)
+  show("#s2", T.form);
+  gsap.set("#site", { opacity: 0 });
+  tl.fromTo("#site", { opacity: 0, scale: 1.05, filter: "brightness(2.2)" }, { opacity: 1, scale: 1, filter: "brightness(1)", duration: 0.8, ease: "power3.out", immediateRender: false }, T.solid);
+  flash(T.solid, 0.55, 0.4);
+  tl.to("#wm", { opacity: 0.85, duration: 0.6 }, T.solid);
+  tl.fromTo("#site", { rotationY: 0, rotationX: 0 }, { rotationY: V ? -10 : -16, rotationX: 6, duration: 1.4, ease: "power2.inOut", immediateRender: false }, 6.1)
+    .to("#site", { rotationY: V ? 8 : 12, rotationX: -3, scale: 0.94, duration: 1.4, ease: "power2.inOut" }, 7.1);
+  tl.from(".b1", { scale: 0, opacity: 0, duration: 0.6, ease: "back.out(2.5)" }, 6.4)
+    .from(".b2", { scale: 0, opacity: 0, duration: 0.6, ease: "back.out(2.5)" }, 6.8)
+    .from(".b3", { scale: 0, opacity: 0, duration: 0.6, ease: "back.out(2.5)" }, 7.2);
+  hideNow("#s2", T.glitch1);
+
+  // S3 — todas as telas (8.45 – 12.2)
+  show("#s3", T.glitch1);
+  tl.from(".s3-h", { y: -60, opacity: 0, duration: 0.8 }, T.glitch1 + 0.1)
+    .from("#laptop", { y: 400, scale: 0.6, opacity: 0, duration: 1.0 }, T.glitch1)
+    .from("#tablet", { x: -700, rotation: -18, opacity: 0, duration: 1.0 }, T.glitch1 + 0.18)
+    .from("#phone", { x: 700, rotation: 18, opacity: 0, duration: 1.0 }, T.glitch1 + 0.32)
+    .from("#score", { scale: 0, opacity: 0, duration: 0.7, ease: "back.out(2)" }, 10.6)
+    .to("#arc", { attr: { "stroke-dashoffset": 0 }, duration: 1.0, ease: "power2.out" }, 10.7);
+  const sc = { v: 0 };
+  tl.to(sc, { v: 100, duration: 1.0, ease: "power2.out", onUpdate: () => ($("#scoreN").textContent = Math.round(sc.v)) }, 10.7)
+    .from("#gchip", { y: 80, opacity: 0, scale: 0.7, duration: 0.7, ease: "back.out(2)" }, 10.8)
+    .to("#laptop, #tablet, #phone", { y: "-=18", duration: 1.6, ease: "sine.inOut", stagger: 0.15 }, 9.6);
+  // queda: a câmera despenca para o fundo da busca
+  tl.to("#s3", { y: -H * 1.1, duration: 0.5, ease: "power3.in" }, T.fall);
+
+  // S4 — do fundo ao topo (12.35 – 16.3)
+  show("#s4", T.fall + 0.15);
+  tl.from("#s4", { y: H, duration: 0.7, ease: "expo.out" }, T.fall + 0.15)
+    .from("#capA", { opacity: 0, y: 30, duration: 0.6 }, 12.7);
+  const rk = { v: 47 };
+  tl.to("#you", { top: YOU_TOP, duration: T.land - T.rocket, ease: "expo.inOut" }, T.rocket)
+    .to(serp, { y: 2300, duration: T.land - T.rocket, ease: "expo.inOut" }, T.rocket)
+    .to(serp, { filter: "blur(14px)", duration: 0.45, ease: "power2.in" }, T.rocket)
+    .to(serp, { filter: "blur(0px)", opacity: 0.45, duration: 0.5, ease: "power2.out" }, T.rocket + 0.45)
+    .to(rk, { v: 1, duration: T.land - T.rocket, ease: "expo.inOut", onUpdate: () => ($("#rank").textContent = "#" + Math.round(rk.v)) }, T.rocket)
+    .to("#capA", { opacity: 0, duration: 0.2 }, T.rocket)
+    .fromTo("#you", { scale: 1.12 }, { scale: 1, duration: 0.6, ease: "elastic.out(1, 0.5)", immediateRender: false }, T.land)
+    .from("#capB", { scale: 2.4, opacity: 0, duration: 0.5, ease: "expo.out" }, T.land + 0.05);
+  flash(T.land, 0.5, 0.35);
+
+  // Corte seco para o preto — silêncio
+  tl.set("#black", { opacity: 1 }, T.cut).set("#s4", { opacity: 0 }, T.cut).set("#wm", { opacity: 0 }, T.cut);
+
+  // S5 — o telefone não para (16.8 – 22.35)
+  tl.set("#black", { opacity: 0 }, T.phone);
+  show("#s5", T.phone);
+  tl.set("#wm", { opacity: 0.85 }, T.phone)
+    .from("#phone5", { scale: 0.85, opacity: 0, duration: 0.5, ease: "back.out(2)" }, T.phone)
+    .from(".m1, .m2, .m3", { scale: 0.5, opacity: 0, transformOrigin: "0% 0%", stagger: 0.28, duration: 0.5, ease: "back.out(2)" }, 17.15)
+    .from("#counter", { y: -40, opacity: 0, duration: 0.5 }, 17.9);
+  notifs.forEach((el, k) => {
+    const at = 17.9 + 3.9 * Math.sqrt(k / NF);
+    tl.to(el, { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(2.5)" }, at);
+  });
+  const cnt = { v: 0 };
+  tl.to(cnt, { v: 128, duration: 3.9, ease: "power2.in", onUpdate: () => ($("#countN").textContent = "+" + Math.round(cnt.v)) }, 17.9);
+  // implosão
+  tl.to("#s5", { scale: 0, rotation: 35, filter: "blur(6px)", duration: T.zero - T.implode, ease: "power3.in", transformOrigin: "50% 50%" }, T.implode)
+    .to("#bg, #grid, #wm", { opacity: 0, duration: 0.6, ease: "power2.in" }, T.implode + 0.2)
+    .set("#s5", { opacity: 0 }, T.zero);
+  flash(T.zero, 0.8, 0.3);
+
+  // S6 — assinatura (23.2 – 30)
+  tl.set("#dot", { opacity: 1, scale: 1, left: CX, top: CY }, T.zero)
+    .to("#dot", { scale: 1.6, duration: 0.11, ease: "power2.out", yoyo: true, repeat: 1 }, 23.4)
+    .to("#dot", { scale: 1.5, duration: 0.11, ease: "power2.out", yoyo: true, repeat: 1 }, 23.75);
+  show("#s6", T.logo);
+  tl.to("#bg", { opacity: 1, duration: 1.0 }, T.logo)
+    .to("#grid", { opacity: 0.4, duration: 1.5 }, T.logo)
+    .to("#ringC", { attr: { "stroke-dashoffset": 0 }, duration: 0.9, ease: "power3.out" }, T.logo + 0.1)
+    .from("#logoMark", { scale: 0.4, duration: 0.9, ease: "back.out(1.6)" }, T.logo)
+    .from("#logo .word span", { yPercent: 110, duration: 0.7, stagger: 0.05, ease: "expo.out" }, T.logo + 0.2)
+    .set("#orbC", { opacity: 1 }, T.logo + 0.45);
+  flash(T.logo, 0.6, 0.4);
+  const tagAt = [25.4, 25.72, 25.98, T.barulho];
+  $$("#tag span").forEach((s, i) => tl.from(s, { scale: i === 3 ? 3 : 2, opacity: 0, duration: 0.45, ease: "expo.out" }, tagAt[i]));
+  tl.from("#cta", { scale: 0.6, opacity: 0, duration: 0.8, ease: "back.out(2)" }, 26.9)
+    .from("#contact", { y: 20, opacity: 0, duration: 0.7 }, 27.4)
+    .to("#cta", { scale: 1.06, duration: 0.45, yoyo: true, repeat: 3, ease: "sine.inOut" }, 27.9);
+  tl.set({}, {}, 30);
+
+  // O ponto voa até a órbita do logo: mede a posição final com a timeline no fim
+  tl.seek(29.9, true);
+  const o = $("#orbC").getBoundingClientRect(), st = $("#stage").getBoundingClientRect();
+  tl.to("#dot", { left: o.left - st.left + o.width / 2, top: o.top - st.top + o.height / 2, scale: o.width / 28, duration: 0.45, ease: "power3.inOut" }, T.logo)
+    .set("#dot", { opacity: 0 }, T.logo + 0.45);
+  tl.seek(0);
+
+  window.TL = tl;
+  window.DRAW = draw;
+}
+window.DURATION = 30;
+window.READY = document.fonts.ready.then(() => { init(); return true; });
+window.READY.then(() => { if (!navigator.webdriver) window.TL.play(); });
+</script>
+</body>
+</html>
