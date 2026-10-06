@@ -129,3 +129,14 @@ viewport sem bloqueio de zoom, fonte Inter removida e Onest no `<head>`, link re
 
 Lighthouse mobile (build local): SEO 92 → **100**, Acessibilidade 85 → **91+**, peso 2,4 MB → **1,1 MB**.
 Performance segue em 43: o gargalo agora é o JavaScript (TBT) — itens 2.1 e 2.4.
+
+**Fase 2 aplicada em 06/10/2026** (aguardando aprovação no preview):
+- 2.1 Pré-renderização no build (`scripts/prerender.mjs` + `src/entry-server.tsx`): home, 3 cases e 404 saem com HTML completo
+- 2.2 Title/description/canonical/OG por rota + JSON-LD `Article` e `BreadcrumbList` nos cases (`src/seo/routes.ts`)
+- 2.3 Legendas das fotos de banco reescritas (sem afirmar resultados) e marcadas como "imagens ilustrativas" — trocar por prints reais quando houver
+- 2.4 framer-motion fora da home, loops decorativos pausam fora da tela, DOM do carrossel reduzido, fonte Onest hospedada no próprio site
+- 2.5 Menu e rodapé com `<a href="#...">`; cases com bloco "Outros cases"
+- 2.6 404 real (`404.html`, `noindex`) — sem rewrite catch-all no `vercel.json`
+- 2.8 Headers de segurança e cache no `vercel.json`
+
+Lighthouse mobile (build local com gzip): **Performance 43 → 69**, FCP 3,2 s → 1,6 s, LCP 5,8 s → 3,6 s, Acessibilidade 95, SEO 100.

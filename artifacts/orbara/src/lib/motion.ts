@@ -36,6 +36,14 @@ export function scrollToId(id: string) {
   else el.scrollIntoView({ behavior: "smooth" });
 }
 
+/** ScrollTrigger que toca uma animação em loop só enquanto o elemento está na tela. */
+export const whileVisible = (trigger: Element | string | null) => ({
+  trigger: trigger ?? undefined,
+  start: "top bottom",
+  end: "bottom top",
+  toggleActions: "play pause resume pause",
+});
+
 export function scrollToTop() {
   if (lenis) lenis.scrollTo(0, { duration: 1.6 });
   else window.scrollTo({ top: 0, behavior: "smooth" });

@@ -3,7 +3,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
 import { useGSAP } from "@gsap/react";
-import { scrollToId } from "@/lib/motion";
+import { scrollToId, whileVisible } from "@/lib/motion";
 import { ArrowUpRight, Check, CreditCard, Crown, Rocket, Sparkles, Orbit, MessageCircle } from "lucide-react";
 import { useTilt, Magnetic } from "@/components/motion-fx";
 
@@ -296,10 +296,10 @@ export function PlansShowcase({ isDark }: { isDark: boolean }) {
       });
 
       // Loops decorativos
-      gsap.to(".plan-border-spin", { rotation: 360, duration: 5, ease: "none", repeat: -1 });
-      gsap.to(".plan-orbit", { rotation: 360, duration: 18, ease: "none", repeat: -1 });
-      gsap.fromTo(".plan-shine", { xPercent: 0 }, { xPercent: 600, duration: 1.4, ease: "power2.inOut", repeat: -1, repeatDelay: 3.5, delay: 2 });
-      gsap.to(".plans-glow", { scale: 1.15, opacity: 0.8, duration: 4, ease: "sine.inOut", yoyo: true, repeat: -1 });
+      gsap.to(".plan-border-spin", { rotation: 360, duration: 5, ease: "none", repeat: -1, scrollTrigger: whileVisible(sectionRef.current) });
+      gsap.to(".plan-orbit", { rotation: 360, duration: 18, ease: "none", repeat: -1, scrollTrigger: whileVisible(sectionRef.current) });
+      gsap.fromTo(".plan-shine", { xPercent: 0 }, { xPercent: 600, duration: 1.4, ease: "power2.inOut", repeat: -1, scrollTrigger: whileVisible(sectionRef.current), repeatDelay: 3.5, delay: 2 });
+      gsap.to(".plans-glow", { scale: 1.15, opacity: 0.8, duration: 4, ease: "sine.inOut", yoyo: true, repeat: -1, scrollTrigger: whileVisible(sectionRef.current) });
     });
   }, { scope: sectionRef });
 
