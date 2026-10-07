@@ -124,3 +124,41 @@ Aprovadas pelo dono da conta, validadas antes sem gravar nada e conferidas depoi
 **Não mudou:** orçamento, estratégia de lance, segmentação, anúncios, grupo G02 e negativas.
 
 **Ainda pendente com você:** ver o motivo do bloqueio da conta (seção "Por que a campanha está parada"), recarregar o saldo e desligar a aplicação automática de recomendações.
+
+---
+
+## Diagnóstico de entrega (07/10/2026, 09h)
+
+Varredura completa pela API, somente leitura.
+
+**O que está normal:**
+- Conta ativa, não é de teste.
+- Faturamento aprovado e limite pré-pago de R$ 130, com R$ 40,52 restantes, sem data de fim.
+- Campanha "Qualificada" e "SERVING", só na Rede de Pesquisa Google, com início em 02/09 e fim em 2037.
+- Orçamento de R$ 10/dia ativo; teto de CPC R$ 3,50.
+- Segmentação: São Paulo e Guarulhos (cidades); português, inglês e espanhol; sem programação de horário; nenhum dispositivo excluído; nenhum modificador negativo; públicos só em "observação".
+- Os 3 grupos, os 3 anúncios, todas as palavras-chave, os sitelinks e as frases de destaque estão aprovados.
+- Não há rascunho nem experimento.
+
+**O que muda tudo: a hora em que parou.**
+
+| Momento | Leilões |
+|---|---|
+| 11/09 a 18/09 03h | A campanha **entrava nos leilões** e perdia (saldo esgotado aparece como "perdida por classificação") |
+| **18/09 03:42** | **Recarga de R$ 40** (limite de R$ 90 para R$ 130) |
+| 18/09 depois das 04h até hoje | **Nenhum leilão.** Nem perdido nem ganho, em nenhuma palavra-chave e em nenhum dia |
+
+Nesse período a campanha teve palavras-chave amplas e AI Max ligados (de 20/09 a 07/10) e tetos de R$ 1,70 a R$ 3,50. Uma campanha com correspondência ampla em São Paulo não fica 19 dias sem nenhum leilão por falta de busca ou de lance. As alterações feitas no período (remoção automática de 5 palavras-chave em 18/09 04:15, mudanças de teto e de AI Max) não explicam zero leilões.
+
+**Conclusão:** a parada começou logo depois do pagamento de 18/09. O mais provável é uma retenção da conta ligada a esse pagamento ou a uma verificação, que a API não mostra:
+- pagamento em análise ou não compensado;
+- verificação de pagamento ou de identidade;
+- verificação do anunciante.
+
+Outra possibilidade, menos provável: o saldo realmente disponível ser menor que os R$ 40,52 do limite (impostos ou taxas no pré-pago).
+
+**Onde confirmar:**
+1. **Faturamento → Transações:** status do pagamento de 18/09.
+2. **Faturamento → Resumo:** saldo disponível e avisos.
+3. **Adm. → Verificação do anunciante.**
+4. Sino de notificações.
