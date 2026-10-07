@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0.0",
+  "control_id": "LP-PRIV-01",
+  "title": "Privacidade e LGPD",
+  "status": "fail",
+  "severity": "high",
+  "confidence": "medium",
+  "source_classification": "practitioner",
+  "evidence": [
+    {
+      "type": "lab_measurement",
+      "locator": "evidence-ux.json"
+    },
+    {
+      "type": "code",
+      "locator": "artifacts/orbara/index.html:106-113",
+      "detail": "gtag carrega sem consentimento"
+    }
+  ],
+  "observation": "Não há link de Política de Privacidade em lugar nenhum da página (0 links). O formulário coleta nome, e-mail, WhatsApp e faixa de faturamento sem aviso de uso dos dados, e a tag do Google Ads carrega sem nenhum aviso de cookies.",
+  "diagnosis": "Falta transparência sobre o tratamento de dados pessoais (LGPD). Isso também prejudica a confiança, e pode virar exigência quando houver remarketing ou listas de clientes. Dispositivos legais não conferidos no texto oficial nesta execução, então este item é provisório.",
+  "recommendation": "Publicar /privacidade (controlador, finalidades, bases legais, compartilhamento com Google/Resend, retenção e contato do encarregado), linkar no rodapé e abaixo do botão do formulário ('Ao enviar, você concorda com a Política de Privacidade'). Avaliar com assessoria jurídica a necessidade de banner de cookies e do Consent Mode.",
+  "score_contribution": null
+}

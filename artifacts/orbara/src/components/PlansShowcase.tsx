@@ -6,6 +6,7 @@ import { useGSAP } from "@gsap/react";
 import { scrollToId, whileVisible } from "@/lib/motion";
 import { ArrowUpRight, Check, CreditCard, Crown, Rocket, Sparkles, Orbit, MessageCircle } from "lucide-react";
 import { useTilt, Magnetic } from "@/components/motion-fx";
+import { whatsappUrl } from "@/components/site/tokens";
 
 gsap.registerPlugin(useGSAP, ScrollTrigger, SplitText);
 
@@ -346,7 +347,8 @@ export function PlansShowcase({ isDark }: { isDark: boolean }) {
         <div className="mt-14 md:mt-20 flex flex-col sm:flex-row items-center justify-center gap-3 text-center">
           <span className={`text-sm font-medium ${fgMuted}`}>Em dúvida sobre qual plano escolher?</span>
           <a
-            href="https://wa.me/5511981680809"
+            href={whatsappUrl("planos")}
+            data-wa-source="planos"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 text-sm font-black uppercase tracking-wider text-[#ff5d00] hover:underline underline-offset-4"

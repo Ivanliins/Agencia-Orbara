@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0.0",
+  "control_id": "LP-FORM-01",
+  "title": "Formulário longe e com muitos campos",
+  "status": "fail",
+  "severity": "medium",
+  "confidence": "medium",
+  "source_classification": "practitioner",
+  "evidence": [
+    {
+      "type": "lab_measurement",
+      "locator": "evidence-ux.json"
+    },
+    {
+      "type": "code",
+      "locator": "artifacts/orbara/src/components/site/Closing.tsx:79-86",
+      "detail": "schema do formulário"
+    }
+  ],
+  "observation": "No celular (390×844) o formulário começa a ~26.600 px de uma página de ~28.700 px (cerca de 31 telas de rolagem). Ele tem 7 campos, com obrigatórios 'Faturamento' (select) e 'Descreva seu serviço' (mínimo de 5 caracteres). O CTA da hero ('Quero orbitar resultado') rola até lá. Em caso de erro, aparece um alert() do navegador.",
+  "diagnosis": "O caminho principal de conversão fica no fim de uma página muito longa e pede dados de qualificação antes do primeiro contato. É provável que isso derrube a taxa de conversão de quem chega por anúncio (hipótese, sem dados de funil).",
+  "recommendation": "Teste A/B: (A) atual vs (B) CTA da hero abrindo o WhatsApp com mensagem pronta + formulário curto de 3 campos (nome, WhatsApp, o que precisa) logo depois da hero, com 'faturamento' opcional. Métrica: conversões por sessão de anúncio, medidas pela ação de conversão do G42. Trocar alert() por mensagem de erro na própria página.",
+  "score_contribution": null
+}

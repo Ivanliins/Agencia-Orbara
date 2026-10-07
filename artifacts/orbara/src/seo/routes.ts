@@ -95,7 +95,15 @@ export const NOT_FOUND: RouteMeta = {
   noindex: true,
 };
 
-export const ROUTES: RouteMeta[] = [HOME, ...CASE_SEO.map(caseMeta)];
+/** Página de obrigado do formulário: fora do Google (noindex) e fora do sitemap. */
+export const THANKS: RouteMeta = {
+  path: "/obrigado",
+  title: "Recebemos seu contato | Orbara",
+  description: "Obrigado pelo contato. Um especialista da Orbara responde em até 24h úteis.",
+  noindex: true,
+};
+
+export const ROUTES: RouteMeta[] = [HOME, ...CASE_SEO.map(caseMeta), THANKS];
 
 export function metaFor(path: string): RouteMeta {
   const clean = path.split(/[?#]/)[0].replace(/\/+$/, "") || "/";

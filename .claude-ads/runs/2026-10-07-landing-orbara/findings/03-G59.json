@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0.0",
+  "control_id": "G59",
+  "title": "Velocidade da landing no celular",
+  "status": "fail",
+  "severity": "high",
+  "confidence": "medium",
+  "source_classification": "evidence_based",
+  "evidence": [
+    {
+      "type": "lab_measurement",
+      "locator": "evidence-lighthouse.json"
+    },
+    {
+      "type": "code",
+      "locator": "artifacts/orbara/src/components/MotionShowcase.tsx",
+      "detail": "<video preload='metadata'>"
+    }
+  ],
+  "observation": "Lighthouse mobile (3 rodadas, build local): Performance 47/62/72 (mediana 62); LCP 5,3/3,5/3,5 s; TBT 1,6/2,2/0,7 s; CLS 0. O elemento de LCP é o parágrafo da hero, com 91% do tempo em atraso de renderização (JavaScript). No carregamento inicial o navegador baixa o vídeo do Clube do Med de 1,9 MB, que fica muito abaixo da dobra.",
+  "diagnosis": "LCP acima de 2,5 s e bloqueio alto da thread principal no celular, onde está a maior parte do tráfego pago. Medição de laboratório sem gtag nem o vídeo de fundo externo, então o real tende a ser pior. Falta dado de campo (CrUX/Search Console).",
+  "recommendation": "1) preload='none' nos vídeos do case de motion e carregá-los só perto da tela. 2) Não esconder o parágrafo da hero atrás da animação do GSAP (o subtítulo já chega visível, mas o JS atrasa a pintura). 3) Carregar as seções abaixo da dobra sob demanda (React.lazy). 4) Conferir os dados de campo no Search Console depois do deploy.",
+  "score_contribution": null
+}

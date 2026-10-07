@@ -1,0 +1,42 @@
+{
+  "tool": "lighthouse@12 (mobile, simulated throttling)",
+  "target": "build local de produção (vite preview) do commit 6adb758 / c8b903f",
+  "runs": 3,
+  "performance": [
+    47,
+    62,
+    72
+  ],
+  "lcp_ms": [
+    5284,
+    3463,
+    3454
+  ],
+  "tbt_ms": [
+    1614,
+    2173,
+    741
+  ],
+  "fcp_ms": [
+    2189,
+    1552,
+    1654
+  ],
+  "cls": [
+    0,
+    0,
+    0
+  ],
+  "accessibility_run1": 95,
+  "seo_run1": 100,
+  "best_practices_run1": 96,
+  "lcp_element_run1": "p.hero-sub (91% render delay)",
+  "largest_initial_transfer": "motion/clube-do-med-sp-16x9.mp4 1.948.373 bytes",
+  "caveat": "gtag.js e vídeo de fundo externo não carregam neste ambiente (rede bloqueada); resultado real tende a ser pior. Laboratório, não dados de campo.",
+  "median": {
+    "performance": 62,
+    "lcp_ms": 3463,
+    "tbt_ms": 1614,
+    "fcp_ms": 1654
+  }
+}

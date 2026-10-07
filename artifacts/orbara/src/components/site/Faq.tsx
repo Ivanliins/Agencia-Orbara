@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { Plus, MessageCircle } from "lucide-react";
 import { gsap, ScrollTrigger, useGSAP, revealIn } from "@/lib/motion";
-import { tokens, WHATSAPP_URL } from "./tokens";
+import { tokens, whatsappUrl } from "./tokens";
 
 const FAQS = [
   {
@@ -95,7 +95,7 @@ export function Faq({ isDark }: { isDark: boolean }) {
           <div className={`fade-up mt-10 rounded-[28px] p-7 ${isDark ? "bg-[#ff5d00]/10 border border-[#ff5d00]/25" : "bg-[#0d0101] text-[#fffafa]"}`}>
             <p className={`font-black text-xl mb-2 ${isDark ? "text-[#fffafa]" : ""}`}>Ainda ficou alguma dúvida?</p>
             <p className={`text-sm mb-5 ${isDark ? "text-[#fffafa]/60" : "text-[#fffafa]/65"}`}>Fale direto com a gente — respondemos rapidinho.</p>
-            <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-[#ff5d00] text-[#0d0101] font-black text-sm uppercase tracking-wider px-6 py-3.5 rounded-full hover:bg-[#ff7020] transition-colors">
+            <a href={whatsappUrl("faq")} data-wa-source="faq" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 bg-[#ff5d00] text-[#0d0101] font-black text-sm uppercase tracking-wider px-6 py-3.5 rounded-full hover:bg-[#ff7020] transition-colors">
               <MessageCircle size={17} /> Chamar no WhatsApp
             </a>
           </div>

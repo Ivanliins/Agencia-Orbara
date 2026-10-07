@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0.0",
+  "control_id": "LP-SEC-01",
+  "title": "Segurança do formulário",
+  "status": "fail",
+  "severity": "medium",
+  "confidence": "high",
+  "source_classification": "evidence_based",
+  "evidence": [
+    {
+      "type": "code",
+      "locator": "api/contact.ts:22-31",
+      "detail": "interpolação sem escape"
+    }
+  ],
+  "observation": "api/contact.ts insere nome, e-mail, WhatsApp, site e serviço direto no HTML do e-mail, sem escapar caracteres. Não há honeypot, captcha nem limite de envios.",
+  "diagnosis": "Qualquer pessoa pode injetar links ou HTML no e-mail que chega na caixa da Orbara (risco de phishing interno), e o formulário fica exposto a spam, o que também sujaria a conversão do G42 quando ela existir.",
+  "recommendation": "Escapar os campos antes de montar o HTML, adicionar honeypot, limitar envios por IP e validar o formato de e-mail e WhatsApp no servidor. Só disparar a conversão depois de uma resposta 200.",
+  "score_contribution": null
+}

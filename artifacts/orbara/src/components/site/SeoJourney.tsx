@@ -1,18 +1,35 @@
 import { useRef } from "react";
-import { Search, TrendingUp, MousePointerClick, Users, DollarSign, Repeat2, ArrowUpRight, ArrowRight } from "lucide-react";
+import { Search, Target, ArrowUpToLine, LayoutTemplate, MessageCircle, LineChart, ArrowUpRight, ArrowRight } from "lucide-react";
 import { gsap, ScrollTrigger, useGSAP, revealIn, scrollToId } from "@/lib/motion";
 import { Magnetic } from "@/components/motion-fx";
 import { BackgroundOrb } from "@/components/BackgroundOrb";
-import { tokens } from "./tokens";
+import { tokens, whatsappUrl } from "./tokens";
 
-const STEPS = [
-  { icon: Search, title: "Intenção de busca", desc: "Seu cliente não sabe que você existe, mas sabe que tem um problema. Ele abre o Google e digita." },
-  { icon: TrendingUp, title: "Palavra-chave estratégica", desc: "Mapeamos exatamente o que seu cliente ideal digita quando está pronto para comprar — não só quando está curioso." },
-  { icon: MousePointerClick, title: "Ranking no Top 3", desc: "83% dos cliques vão para os três primeiros resultados. Construímos a autoridade que coloca você lá." },
-  { icon: Users, title: "Tráfego orgânico", desc: "Sem custo por visita. Ao contrário dos anúncios, esse tráfego é seu — e cresce mês a mês." },
-  { icon: DollarSign, title: "Página que converte", desc: "A visita vira interesse. Copy + design estratégico transformam leitores em pessoas que querem falar com você." },
-  { icon: Repeat2, title: "Lead qualificado", desc: "Um potencial cliente que chegou até você por vontade própria, com dor real e intenção de resolver. O ciclo se fecha — e se repete." },
+type Channel = "Google Ads" | "SEO" | "Site" | "WhatsApp" | "Medição";
+
+const STEPS: { icon: typeof Search; title: string; desc: string; channels: Channel[] }[] = [
+  { icon: Search, title: "Busca com intenção", desc: "Seu cliente tem um problema e digita no Google. É o momento mais quente da compra — e dura poucos segundos.", channels: ["Google Ads", "SEO"] },
+  { icon: Target, title: "Palavras que vendem", desc: "Mapeamos o que seu cliente digita quando está pronto para contratar e deixamos de fora as buscas de curioso.", channels: ["Google Ads", "SEO"] },
+  { icon: ArrowUpToLine, title: "Topo da página", desc: "O anúncio coloca você no topo desde os primeiros dias de campanha. O SEO constrói a posição orgânica que fica.", channels: ["Google Ads", "SEO"] },
+  { icon: LayoutTemplate, title: "Página que converte", desc: "Rápida no celular, clara e com prova: em poucos segundos a visita entende o que você faz e por que confiar.", channels: ["Site"] },
+  { icon: MessageCircle, title: "Contato no WhatsApp", desc: "Um toque e o cliente já está falando com você, com a mensagem pronta dizendo o que procura.", channels: ["WhatsApp"] },
+  { icon: LineChart, title: "Medir e otimizar", desc: "Cada formulário e cada clique no WhatsApp é medido. Investimos mais no que traz cliente e cortamos o que não traz.", channels: ["Medição", "Google Ads"] },
 ];
+
+const CHANNEL_STYLE: Record<Channel, string> = {
+  "Google Ads": "bg-[#ff5d00] text-[#0d0101]",
+  SEO: "bg-[#0d0101] text-[#ffaa60] ring-1 ring-[#ff5d00]/40",
+  Site: "bg-[#ffaa60]/20 text-[#ff5d00]",
+  WhatsApp: "bg-[#25d366]/15 text-[#1a9e4b]",
+  Medição: "bg-[#ff5d00]/10 text-[#ff5d00]",
+};
+
+/** Resultado de busca simulado: o anúncio (Google Ads) e o 1º orgânico (SEO) da mesma empresa. */
+const SERP = [
+  { kind: "ad", tag: "Patrocinado", url: "suaempresa.com.br", title: "Dentista em Campinas — agende hoje sua avaliação", note: "Google Ads · desde os primeiros dias" },
+  { kind: "seo", tag: "1º orgânico", url: "suaempresa.com.br › implante", title: "Implante dentário em Campinas: como funciona e quanto custa", note: "SEO · cresce mês a mês" },
+  { kind: "rival", tag: "", url: "concorrente.com.br", title: "Clínica odontológica — saiba mais", note: "" },
+] as const;
 
 export function SeoJourney({ isDark }: { isDark: boolean }) {
   const ref = useRef<HTMLElement>(null);
@@ -72,6 +89,10 @@ export function SeoJourney({ isDark }: { isDark: boolean }) {
     });
 
     mm.add("(prefers-reduced-motion: no-preference)", () => {
+      gsap.fromTo(".serp-row", { x: 40, opacity: 0 }, {
+        x: 0, opacity: 1, stagger: 0.15, duration: 0.8, ease: "expo.out",
+        scrollTrigger: { trigger: ".serp", start: "top 85%", once: true },
+      });
       gsap.from(".seo-insight", {
         y: 60, opacity: 0, scale: 0.96, duration: 1, ease: "expo.out",
         scrollTrigger: { trigger: ".seo-insight", start: "top 88%", once: true },
@@ -95,17 +116,41 @@ export function SeoJourney({ isDark }: { isDark: boolean }) {
             </h2>
           </div>
           <div className="flex flex-col justify-center">
-            <p className={`fade-up text-lg md:text-xl leading-relaxed ${t.fgMuted} mb-6`}>
+            <p className={`fade-up text-lg md:text-xl leading-relaxed ${t.fgMuted} mb-4`}>
               Neste exato momento, alguém digita no Google o serviço que você oferece. A pergunta é:{" "}
               <strong className={t.fg}>sua empresa aparece — ou é o concorrente?</strong>
             </p>
             <p className={`fade-up text-lg md:text-xl leading-relaxed ${t.fgMuted} mb-8`}>
-              O SEO não compra visibilidade. Ele a conquista — e essa conquista tem juros compostos. Quanto mais tempo de investimento, maior o retorno.
+              Trabalhamos as <strong className={t.fg}>duas portas de entrada da busca</strong>: o anúncio no topo, que traz contatos desde os primeiros dias, e o resultado orgânico, que leva meses para amadurecer e depois traz cliente sem custo por clique.
             </p>
-            {/* Barra de busca simulada */}
-            <div className={`fade-up flex items-center gap-3 rounded-full px-5 py-3.5 ${isDark ? "bg-white/[0.05] border border-white/10" : "bg-white border border-black/[0.07] shadow-sm"}`}>
-              <Search size={18} className="text-[#ff5d00] shrink-0" />
-              <span className={`text-sm font-medium truncate ${t.fg}`}>68% das experiências online começam com uma busca no Google</span>
+
+            {/* Busca simulada: anúncio + orgânico da mesma empresa */}
+            <div className={`serp fade-up rounded-[28px] p-4 md:p-5 ${isDark ? "bg-white/[0.04] border border-white/10" : "bg-white border border-black/[0.07] shadow-[0_20px_60px_-30px_rgba(13,1,1,0.35)]"}`} aria-label="Exemplo de resultado de busca com anúncio e resultado orgânico da mesma empresa">
+              <div className={`flex items-center gap-3 rounded-full px-4 py-2.5 mb-3 ${isDark ? "bg-white/[0.06]" : "bg-[#f4f2f2]"}`}>
+                <Search size={16} className="text-[#ff5d00] shrink-0" />
+                <span className={`text-sm font-medium ${t.fg}`}>dentista em campinas</span>
+              </div>
+              <ul className="flex flex-col gap-2">
+                {SERP.map((r) => (
+                  <li
+                    key={r.url + r.kind}
+                    className={`serp-row rounded-2xl px-4 py-3 ${
+                      r.kind === "rival"
+                        ? "opacity-40"
+                        : r.kind === "ad"
+                          ? "ring-2 ring-[#ff5d00] bg-[#ff5d00]/[0.06]"
+                          : `ring-1 ring-[#ff5d00]/40 ${isDark ? "bg-white/[0.03]" : "bg-[#fffaf6]"}`
+                    }`}
+                  >
+                    <div className="flex items-center gap-2 text-[11px] font-semibold">
+                      {r.tag && <span className={`px-1.5 py-0.5 rounded-md font-black uppercase tracking-wider text-[9px] ${r.kind === "ad" ? "bg-[#0d0101] text-[#fffafa]" : "bg-[#ff5d00]/15 text-[#ff5d00]"}`}>{r.tag}</span>}
+                      <span className={t.fgFaint}>{r.url}</span>
+                    </div>
+                    <div className={`mt-1 text-sm md:text-[15px] font-bold leading-snug ${r.kind === "rival" ? t.fgMuted : isDark ? "text-[#8ab4f8]" : "text-[#1a0dab]"}`}>{r.title}</div>
+                    {r.note && <div className="mt-1.5 text-[11px] font-black uppercase tracking-wider text-[#ff5d00]">{r.note}</div>}
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         </div>
@@ -141,6 +186,11 @@ export function SeoJourney({ isDark }: { isDark: boolean }) {
                     <span className="block font-black text-[#ff5d00] text-sm tabular-nums mb-2">0{i + 1} / 06</span>
                     <h3 className={`font-black text-2xl mb-3 ${t.fg}`}>{step.title}</h3>
                     <p className={`text-base leading-relaxed ${t.fgMuted}`}>{step.desc}</p>
+                    <div className="relative z-10 mt-6 flex flex-wrap gap-1.5">
+                      {step.channels.map((c) => (
+                        <span key={c} className={`text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-full ${CHANNEL_STYLE[c]}`}>{c}</span>
+                      ))}
+                    </div>
                     <span
                       className="absolute -right-3 -bottom-8 font-black leading-none select-none pointer-events-none text-transparent"
                       style={{ fontSize: "9rem", WebkitTextStroke: `1.5px ${isDark ? "rgba(255,93,0,0.18)" : "rgba(255,93,0,0.2)"}` }}
@@ -161,23 +211,34 @@ export function SeoJourney({ isDark }: { isDark: boolean }) {
           <div className="absolute -right-24 -top-24 w-72 h-72 rounded-full bg-[radial-gradient(circle,rgba(255,93,0,0.35),transparent_70%)] blur-2xl" />
           <div className="relative max-w-2xl">
             <h3 className="font-black text-2xl md:text-3xl mb-3">
-              O lead orgânico é o lead mais barato — <span className="text-[#ff5d00] italic">e o mais qualificado.</span>
+              Anúncio para vender agora. <span className="text-[#ff5d00] italic">SEO para vender sempre.</span>
             </h3>
             <p className="text-base md:text-lg text-[#fffafa]/65 leading-relaxed">
-              São 3 a 6 meses para os primeiros resultados consistentes. E anos de liderança para quem começa primeiro. Cada mês de atraso é um mês a mais que seu concorrente leva de vantagem.
+              Começamos pelo que traz contato mais rápido e usamos os dados das campanhas para escolher as palavras do SEO. Na nossa experiência, o orgânico leva de 3 a 6 meses para dar resultado consistente — e depois continua trazendo cliente sem pagar por clique.
             </p>
           </div>
-          <Magnetic className="relative shrink-0">
-            <button
-              onClick={() => scrollToId("contato")}
-              className="group inline-flex items-center gap-3 bg-[#ff5d00] text-[#0d0101] font-black text-sm pl-7 pr-2.5 py-2.5 rounded-full uppercase tracking-wide"
+          <div className="relative shrink-0 flex flex-col sm:flex-row lg:flex-col xl:flex-row items-stretch sm:items-center gap-3">
+            <Magnetic>
+              <button
+                onClick={() => scrollToId("auditoria-instantanea")}
+                className="group w-full inline-flex items-center justify-between gap-3 bg-[#ff5d00] text-[#0d0101] font-black text-sm pl-7 pr-2.5 py-2.5 rounded-full uppercase tracking-wide"
+              >
+                Diagnóstico grátis do meu site
+                <span className="w-10 h-10 rounded-full bg-[#0d0101] text-[#ff5d00] flex items-center justify-center transition-transform duration-500 group-hover:rotate-45">
+                  <ArrowUpRight size={17} />
+                </span>
+              </button>
+            </Magnetic>
+            <a
+              href={whatsappUrl("seo")}
+              data-wa-source="seo"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 px-6 py-4 text-sm font-black uppercase tracking-wide hover:border-[#25d366] hover:text-[#25d366] transition-colors"
             >
-              Começar agora
-              <span className="w-10 h-10 rounded-full bg-[#0d0101] text-[#ff5d00] flex items-center justify-center transition-transform duration-500 group-hover:rotate-45">
-                <ArrowUpRight size={17} />
-              </span>
-            </button>
-          </Magnetic>
+              <MessageCircle size={17} /> Falar no WhatsApp
+            </a>
+          </div>
         </div>
       </div>
     </section>

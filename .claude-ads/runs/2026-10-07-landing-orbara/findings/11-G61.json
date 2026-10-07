@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0.0",
+  "control_id": "G61",
+  "title": "Dados estruturados",
+  "status": "pass",
+  "severity": "low",
+  "confidence": "high",
+  "source_classification": "evidence_based",
+  "evidence": [
+    {
+      "type": "code",
+      "locator": "artifacts/orbara/index.html:30-100",
+      "detail": "JSON-LD"
+    }
+  ],
+  "observation": "JSON-LD em @graph com ProfessionalService, WebSite, 4 Services, Offers e VideoObject, presentes no HTML pré-renderizado.",
+  "diagnosis": "Os dados estruturados estão completos para este tipo de negócio.",
+  "recommendation": "Manter; atualizar o VideoObject sempre que trocar vídeo.",
+  "score_contribution": null
+}

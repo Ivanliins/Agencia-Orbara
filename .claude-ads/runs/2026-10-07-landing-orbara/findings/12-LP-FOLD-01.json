@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0.0",
+  "control_id": "LP-FOLD-01",
+  "title": "Primeira tela e CTA",
+  "status": "pass",
+  "severity": "low",
+  "confidence": "high",
+  "source_classification": "practitioner",
+  "evidence": [
+    {
+      "type": "lab_measurement",
+      "locator": "evidence-ux.json"
+    },
+    {
+      "type": "lab_measurement",
+      "locator": "evidence-lighthouse.json"
+    }
+  ],
+  "observation": "O CTA principal aparece na primeira tela em 390×844 (y≈497) e em 1440×900 (y≈656). O H1 fala de 'Sites' e o subtítulo de 'leads em clientes'. O botão flutuante do WhatsApp aparece 1,5 s depois do carregamento. CLS 0. Acessibilidade Lighthouse 95.",
+  "diagnosis": "A primeira tela tem uma proposta clara e uma ação visível.",
+  "recommendation": "Manter. Pequeno ajuste: contraste dos rótulos em preto/60% sobre laranja e no letreiro rolante (Lighthouse color-contrast).",
+  "score_contribution": null
+}
