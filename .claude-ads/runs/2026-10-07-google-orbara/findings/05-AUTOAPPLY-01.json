@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0.0",
+  "control_id": "AUTOAPPLY-01",
+  "title": "Recomendações aplicadas sozinhas removeram palavras-chave",
+  "status": "fail",
+  "severity": "medium",
+  "confidence": "high",
+  "source_classification": "evidence_based",
+  "evidence": [
+    {
+      "type": "api_read",
+      "source": "Google Ads API v22 (somente leitura)",
+      "query": "change_event",
+      "detail": "AD_GROUP_CRITERION REMOVE x5, client GOOGLE_ADS_RECOMMENDATIONS",
+      "retrieved": "2026-10-07"
+    }
+  ],
+  "observation": "Em 18/09 04:15, o cliente GOOGLE_ADS_RECOMMENDATIONS removeu 5 palavras-chave do G01: 'desenvolvimento de landing page' [frase] e [exata], 'criar site para empresa' [exata], 'orçamento criação de site' [frase] e [exata].",
+  "diagnosis": "A aplicação automática de recomendações está mudando a conta sem revisão. Duas dessas palavras eram de intenção de compra ('orçamento…').",
+  "recommendation": "Desligar a aplicação automática (Recomendações → Aplicação automática) e decidir se as palavras-chave de orçamento voltam.",
+  "score_contribution": null
+}

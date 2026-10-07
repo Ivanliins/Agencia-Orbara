@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0.0",
+  "control_id": "G36",
+  "title": "Lance e orçamento",
+  "status": "fail",
+  "severity": "medium",
+  "confidence": "medium",
+  "source_classification": "practitioner",
+  "evidence": [
+    {
+      "type": "api_read",
+      "source": "Google Ads API v22 (somente leitura)",
+      "query": "change_event",
+      "detail": "histórico de cpcBidCeilingMicros",
+      "retrieved": "2026-10-07"
+    },
+    {
+      "type": "api_read",
+      "source": "Google Ads API v22 (somente leitura)",
+      "query": "campaign segments.date",
+      "detail": "CPC médio por dia",
+      "retrieved": "2026-10-07"
+    }
+  ],
+  "observation": "Lance 'Maximizar cliques' com teto de CPC que passou por R$ 4,50 → 0,99 (13/09) → 1,70 (18/09) → 2,50 (20/09) → 3,00 (22/09). O CPC médio real enquanto rodava foi de cerca de R$ 3,05 (R$ 3,33 em 03/09). O orçamento é de R$ 10/dia.",
+  "diagnosis": "O teto de R$ 0,99 entre 13 e 18/09 não permitiria ganhar leilões, mas naquele momento o limite pré-pago já tinha acabado. O teto atual de R$ 3,00 está próximo do CPC de mercado observado e limita o volume. R$ 10/dia compram cerca de 3 cliques por dia.",
+  "recommendation": "Manter 'Maximizar cliques' com teto de R$ 3,50 a 4,00 enquanto não há conversões. Depois de cerca de 15 a 30 conversões, avaliar 'Maximizar conversões'. Decidir o orçamento pelo número de leads desejado.",
+  "score_contribution": null
+}

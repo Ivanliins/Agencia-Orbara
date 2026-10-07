@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0.0",
+  "control_id": "G16",
+  "title": "Gasto em buscas sem intenção de compra",
+  "status": "fail",
+  "severity": "high",
+  "confidence": "high",
+  "source_classification": "evidence_based",
+  "evidence": [
+    {
+      "type": "api_read",
+      "source": "Google Ads API v22 (somente leitura)",
+      "query": "search_term_view",
+      "detail": "172 termos, R$ 60,56 visíveis; detalhe no relatório",
+      "retrieved": "2026-10-07"
+    }
+  ],
+  "observation": "Dos R$ 60,56 com termo de pesquisa visível, R$ 7,41 (12%) foram em buscas claras de contratação ('especialista em criação de sites', 'empresa que faz site profissional'). O resto foi em buscas informativas ou fora do serviço: 'o que é desenvolvimento de sites', 'como montar um site de vendas', 'site', 'website(s)', 'landing page', 'modelo de site', 'google meu negócio', 'parallax site', 'site com carrossel', entre outras. Foram 172 termos distintos, 19 com clique.",
+  "diagnosis": "Correspondência ampla em 5 palavras-chave, mais 'Maximizar cliques' sem dados de conversão, levou o Google a buscas genéricas. Parte desses termos já virou negativa, mas o padrão continua.",
+  "recommendation": "Revisar a lista de termos com custo (relatório). Alguns são do negócio da Orbara: 'google meu negócio' casa com SEO local, então não negativar sem decidir. Trocar as 5 palavras-chave amplas por frase/exata até existirem conversões medidas.",
+  "score_contribution": null
+}

@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0.0",
+  "control_id": "G11",
+  "title": "Alcance geográfico",
+  "status": "unknown",
+  "severity": "low",
+  "confidence": "medium",
+  "source_classification": "practitioner",
+  "evidence": [
+    {
+      "type": "api_read",
+      "source": "Google Ads API v22 (somente leitura)",
+      "query": "campaign_criterion / geographic_view",
+      "detail": "2 cidades; AREA_OF_INTEREST 174 de 482 impressões",
+      "retrieved": "2026-10-07"
+    }
+  ],
+  "observation": "A segmentação é São Paulo e Guarulhos, com 'Presença ou interesse'. 36% das impressões vieram de pessoas fora dessas cidades interessadas nelas. Os idiomas incluem inglês e espanhol, além de português.",
+  "diagnosis": "O site diz que atende remotamente o Brasil todo. Restringir a SP e Guarulhos e ao mesmo tempo aceitar 'interesse' mistura duas estratégias.",
+  "recommendation": "Decidir: atender só SP e Guarulhos ('Presença') ou o Brasil todo. Remover inglês e espanhol.",
+  "score_contribution": null
+}

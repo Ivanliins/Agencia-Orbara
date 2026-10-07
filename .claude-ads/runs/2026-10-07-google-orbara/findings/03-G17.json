@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0.0",
+  "control_id": "G17",
+  "title": "Correspondência ampla sem sinal de conversão",
+  "status": "fail",
+  "severity": "high",
+  "confidence": "high",
+  "source_classification": "practitioner",
+  "evidence": [
+    {
+      "type": "api_read",
+      "source": "Google Ads API v22 (somente leitura)",
+      "query": "keyword_view",
+      "detail": "5 BROAD, 18 PHRASE, 8 EXACT",
+      "retrieved": "2026-10-07"
+    }
+  ],
+  "observation": "Há 5 palavras-chave amplas no G01 e elas geraram a maior parte das impressões: 'criação de sites profissionais' (209 impressões, R$ 35,72), 'desenvolvedor de sites' (154, R$ 25,45). O lance é 'Maximizar cliques' e não havia nenhuma conversão medida até hoje.",
+  "diagnosis": "A correspondência ampla depende de sinal de conversão para escolher buscas boas. Sem esse sinal, ela otimiza por clique barato e traz buscas genéricas.",
+  "recommendation": "Pausar as variantes amplas e manter frase/exata até ter cerca de 15 a 30 conversões. Reavaliar depois.",
+  "score_contribution": null
+}
