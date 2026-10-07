@@ -12,7 +12,8 @@ import { Magnetic } from "@/components/motion-fx";
 import { BackgroundOrb } from "@/components/BackgroundOrb";
 import { OrbitDecoration } from "@/components/OrbitDecoration";
 import { OrbaraLogo } from "./Chrome";
-import { tokens, NAV_ITEMS, WHATSAPP_URL, INSTAGRAM_URL } from "./tokens";
+import { tokens, NAV_ITEMS, whatsappUrl, INSTAGRAM_URL } from "./tokens";
+import { trackConversion } from "@/lib/tracking";
 
 // ── Visão / Missão ───────────────────────────────────────────────────────
 
@@ -83,6 +84,7 @@ const formSchema = z.object({
   site: z.string().optional(),
   servico: z.string().min(5, "Descreva seu serviço/produto"),
   faturamento: z.string().min(1, "Selecione uma opção"),
+  website: z.string().optional(), // armadilha para robôs: fica invisível e precisa chegar vazio
 });
 
 const NEXT_STEPS = [
@@ -96,14 +98,16 @@ const inputCls = "bg-white/45 border-0 rounded-2xl h-14 px-5 text-[#0d0101] plac
 export function Contact({ isDark }: { isDark: boolean }) {
   const ref = useRef<HTMLElement>(null);
   const [done, setDone] = useState(false);
+  const [sendError, setSendError] = useState(false);
   const t = tokens(isDark);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: { nome: "", email: "", whatsapp: "", site: "", servico: "", faturamento: "" },
+    defaultValues: { nome: "", email: "", whatsapp: "", site: "", servico: "", faturamento: "", website: "" },
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    setSendError(false);
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
@@ -111,9 +115,10 @@ export function Contact({ isDark }: { isDark: boolean }) {
         body: JSON.stringify(values),
       });
       if (!res.ok) throw new Error("server error");
+      trackConversion("lead", "formulario");
       setDone(true);
     } catch {
-      alert("Erro ao enviar formulário. Tente novamente.");
+      setSendError(true);
     }
   };
 
@@ -158,7 +163,7 @@ export function Contact({ isDark }: { isDark: boolean }) {
                 </div>
               ))}
             </div>
-            <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="fade-up inline-flex items-center gap-2 font-black text-sm uppercase tracking-wider text-[#0d0101] underline underline-offset-8 decoration-[#0d0101]/30 hover:decoration-[#0d0101]">
+            <a href={whatsappUrl("contato")} data-wa-source="contato" target="_blank" rel="noopener noreferrer" className="fade-up inline-flex items-center gap-2 font-black text-sm uppercase tracking-wider text-[#0d0101] underline underline-offset-8 decoration-[#0d0101]/30 hover:decoration-[#0d0101]">
               <MessageCircle size={18} /> Prefere WhatsApp? (11) 98168-0809
             </a>
           </div>
@@ -174,7 +179,7 @@ export function Contact({ isDark }: { isDark: boolean }) {
               </div>
             ) : (
               <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="contact-form space-y-5">
+                <form onSubmit={form.handleSubmit(onSubmit)} className="contact-form relative space-y-5">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                     {[
                       { name: "nome" as const, label: "Nome completo", placeholder: "Seu nome", type: "text", testid: "input-nome" },
@@ -225,6 +230,21 @@ export function Contact({ isDark }: { isDark: boolean }) {
                       <FormMessage className="text-[#4a0000] font-semibold text-xs" />
                     </FormItem>
                   )} />
+                  {/* Armadilha para robôs: invisível para pessoas e leitores de tela */}
+                  <div aria-hidden className="absolute -left-[9999px] w-px h-px overflow-hidden">
+                    <label>
+                      Não preencha este campo
+                      <input type="text" tabIndex={-1} autoComplete="off" {...form.register("website")} />
+                    </label>
+                  </div>
+                  {sendError && (
+                    <p role="alert" className="form-field rounded-2xl bg-[#0d0101] text-[#fffafa] px-5 py-4 text-sm font-semibold">
+                      Não conseguimos enviar agora. Tente de novo em instantes ou{" "}
+                      <a href={whatsappUrl("contato")} data-wa-source="contato-erro" target="_blank" rel="noopener noreferrer" className="text-[#ff5d00] underline underline-offset-4">
+                        fale com a gente no WhatsApp
+                      </a>.
+                    </p>
+                  )}
                   <button
                     type="submit"
                     disabled={form.formState.isSubmitting}
@@ -313,7 +333,7 @@ export function Footer() {
             <span className="block text-xs font-black uppercase tracking-[0.3em] text-[#fffafa]/35 mb-5">Contato</span>
             <ul className="flex flex-col gap-3 text-sm font-semibold text-[#fffafa]/65">
               <li>
-                <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 hover:text-[#ff5d00] transition-colors">
+                <a href={whatsappUrl("rodape")} data-wa-source="rodape" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 hover:text-[#ff5d00] transition-colors">
                   <MessageCircle size={16} /> (11) 98168-0809
                 </a>
               </li>

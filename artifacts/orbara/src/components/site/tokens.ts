@@ -1,5 +1,22 @@
 export const ORANGE = "#ff5d00";
-export const WHATSAPP_URL = "https://wa.me/5511981680809";
+const WHATSAPP_NUMBER = "5511981680809";
+
+/** Mensagens prontas por ponto de contato: quem atende sabe de onde o lead veio. */
+export const WHATSAPP_MESSAGES = {
+  fab: "Olá! Vim pelo site da Orbara e quero falar sobre um projeto.",
+  menu: "Olá! Vim pelo site da Orbara e gostaria de um orçamento.",
+  contato: "Olá! Estava no formulário do site da Orbara e prefiro conversar por aqui.",
+  faq: "Olá! Li as perguntas frequentes no site da Orbara e fiquei com uma dúvida.",
+  rodape: "Olá! Vim pelo site da Orbara.",
+  planos: "Olá! Vi os planos no site da Orbara e quero entender qual é o ideal para mim.",
+} as const;
+
+export type WhatsAppSource = keyof typeof WHATSAPP_MESSAGES | "auditoria";
+
+export function whatsappUrl(source: WhatsAppSource, text?: string) {
+  const msg = text ?? WHATSAPP_MESSAGES[source as keyof typeof WHATSAPP_MESSAGES];
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
+}
 export const INSTAGRAM_URL = "https://www.instagram.com/agenciaorbara";
 
 export const NAV_ITEMS = [

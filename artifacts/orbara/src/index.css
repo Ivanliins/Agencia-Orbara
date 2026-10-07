@@ -172,3 +172,9 @@ html.lenis, html.lenis body { height: auto; }
     @apply font-sans antialiased bg-background text-foreground;
   }
 }
+
+/* Barra indeterminada da auditoria instantânea (sem porcentagem inventada) */
+@keyframes audit-bar {
+  0% { left: -35%; }
+  100% { left: 100%; }
+}

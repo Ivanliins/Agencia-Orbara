@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Menu, X, Sun, Moon, MessageCircle, ArrowUpRight } from "lucide-react";
 import { gsap, ScrollTrigger, useGSAP, scrollToId, scrollToTop, getLenis } from "@/lib/motion";
-import { NAV_ITEMS, WHATSAPP_URL } from "./tokens";
+import { NAV_ITEMS, whatsappUrl } from "./tokens";
 
 /** Cursor customizado: ponto + anel que cresce sobre elementos clicáveis. */
 export function Cursor() {
@@ -199,7 +199,7 @@ export function Navbar({ isDark, toggleTheme }: { isDark: boolean; toggleTheme: 
           </div>
         ))}
         <div className="overflow-hidden mt-10">
-          <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="mobile-link inline-flex items-center gap-3 bg-[#0d0101] text-[#ff5d00] font-black uppercase tracking-wider text-sm px-7 py-4 rounded-full">
+          <a href={whatsappUrl("menu")} data-wa-source="menu" target="_blank" rel="noopener noreferrer" className="mobile-link inline-flex items-center gap-3 bg-[#0d0101] text-[#ff5d00] font-black uppercase tracking-wider text-sm px-7 py-4 rounded-full">
             <MessageCircle size={18} /> Chamar no WhatsApp
           </a>
         </div>
@@ -211,12 +211,14 @@ export function Navbar({ isDark, toggleTheme }: { isDark: boolean; toggleTheme: 
 export function WhatsAppFab() {
   const ref = useRef<HTMLAnchorElement>(null);
   useGSAP(() => {
-    gsap.from(ref.current, { scale: 0, rotation: -90, duration: 0.9, delay: 1.5, ease: "back.out(2)" });
+    // fromTo com valores finais explícitos: com "from", o botão podia terminar com escala 0 (invisível)
+    gsap.fromTo(ref.current, { scale: 0, rotation: -90 }, { scale: 1, rotation: 0, duration: 0.9, delay: 1.5, ease: "back.out(2)" });
   });
   return (
     <a
       ref={ref}
-      href={WHATSAPP_URL}
+      href={whatsappUrl("fab")}
+      data-wa-source="fab"
       target="_blank"
       rel="noopener noreferrer"
       className="group fixed bottom-6 right-6 z-50 bg-[#ff5d00] text-[#0d0101] rounded-full pl-4 pr-5 py-3 flex items-center gap-2 shadow-2xl shadow-[#ff5d00]/30 hover:scale-105 transition-transform"

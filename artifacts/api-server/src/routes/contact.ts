@@ -3,6 +3,9 @@ import { getUncachableResendClient } from "../lib/resend.js";
 
 const contactRouter = Router();
 
+const escapeHtml = (v: unknown) =>
+  String(v ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+
 contactRouter.post("/contact", async (req, res) => {
   const { nome, email, whatsapp, site, servico, faturamento } = req.body ?? {};
 
@@ -17,12 +20,12 @@ contactRouter.post("/contact", async (req, res) => {
     const html = `
       <h2>Novo contato via site da Orbara</h2>
       <table cellpadding="8" style="border-collapse:collapse;font-family:sans-serif;">
-        <tr><td><strong>Nome</strong></td><td>${nome}</td></tr>
-        <tr><td><strong>E-mail</strong></td><td>${email}</td></tr>
-        <tr><td><strong>WhatsApp</strong></td><td>${whatsapp}</td></tr>
-        <tr><td><strong>Site atual</strong></td><td>${site || "—"}</td></tr>
-        <tr><td><strong>Serviço/produto</strong></td><td>${servico}</td></tr>
-        <tr><td><strong>Faturamento</strong></td><td>${faturamento}</td></tr>
+        <tr><td><strong>Nome</strong></td><td>${escapeHtml(nome)}</td></tr>
+        <tr><td><strong>E-mail</strong></td><td>${escapeHtml(email)}</td></tr>
+        <tr><td><strong>WhatsApp</strong></td><td>${escapeHtml(whatsapp)}</td></tr>
+        <tr><td><strong>Site atual</strong></td><td>${escapeHtml(site) || "—"}</td></tr>
+        <tr><td><strong>Serviço/produto</strong></td><td>${escapeHtml(servico)}</td></tr>
+        <tr><td><strong>Faturamento</strong></td><td>${escapeHtml(faturamento)}</td></tr>
       </table>
     `;
 
@@ -30,7 +33,7 @@ contactRouter.post("/contact", async (req, res) => {
       from: "Orbara <contato@orbara.com.br>",
       to: ["contato@orbara.com.br"],
       replyTo: email,
-      subject: `Novo contato: ${nome}`,
+      subject: `Novo contato: ${String(nome).replace(/[\r\n]+/g, " ")}`,
       html,
     });
 

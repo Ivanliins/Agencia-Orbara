@@ -65,3 +65,17 @@ Os detalhes e as evidências de cada item estão em `findings/*.json`.
 - [Políticas — Misrepresentation](https://support.google.com/adspolicy/answer/6020955) e [Misleading representation](https://support.google.com/adspolicy/answer/15936666) (07/10/2026)
 - [Políticas — Destination requirements](https://support.google.com/adspolicy/answer/6368661) (07/10/2026)
 - CDC (Lei 8.078/1990), art. 37 — conteúdo confirmado por fontes secundárias; ler o [texto oficial](https://www.planalto.gov.br/ccivil_03/leis/l8078compilado.htm)
+
+---
+
+## Status da implementação (07/10/2026, branch `claude/kind-hopper-lwifu6`)
+
+| Ação | Status | O que foi feito |
+|---|---|---|
+| 1 — Conversões (G42) | ✅ código pronto · ⏳ falta preencher os rótulos | `src/lib/tracking.ts`: conversão de lead no envio bem-sucedido do formulário e de WhatsApp em qualquer clique em link wa.me, com a origem (`data-wa-source`). Tudo vai para o `dataLayer`; a conversão do Google Ads só é enviada depois que os rótulos forem preenchidos em `CONVERSION_LABELS`. |
+| 2 — Auditoria instantânea (LP-POLICY-01) | ✅ | Nota e "falhas" simuladas removidas. `api/audit.ts` baixa a página com segurança (só endereços públicos, IP fixado, redirecionamentos validados, limites de tempo e tamanho) e roda 12 checagens reais. `api/pagespeed.ts` mede a velocidade pela API oficial do Google (configure `PAGESPEED_API_KEY` na Vercel para ter mais cota). O texto "IA" saiu. |
+| 4 — Formulário (LP-SEC-01) | ✅ | Escape de HTML, validação de e-mail e WhatsApp no servidor, campo-armadilha anti-robô, limite de 5 envios a cada 10 min por IP, erro mostrado na própria página no lugar de `alert()`. |
+| 8 — WhatsApp (LP-WA-01) | ✅ | Mensagem pronta em cada ponto de contato (botão flutuante, menu, contato, FAQ, rodapé, planos, auditoria). |
+| Extra — botão flutuante do WhatsApp | ✅ corrigido | Ele ficava com escala 0 (invisível) depois da animação de entrada. Agora a animação usa valores finais explícitos. |
+
+**Verificação:** 11 grupos de testes da API e da proteção de rede; teste de ponta a ponta no navegador (desktop e celular) com respostas simuladas da API; `tsc` e build com prerender ok. **Não testei** a busca de sites externos nem o PageSpeed real, porque a rede daqui não sai para a internet; o teste é no preview da Vercel.
