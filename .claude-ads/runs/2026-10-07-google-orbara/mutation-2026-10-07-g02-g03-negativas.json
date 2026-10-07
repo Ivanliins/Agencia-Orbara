@@ -1,0 +1,46 @@
+{
+  "schema_note": "Registro de alteração aplicada (não contém credenciais)",
+  "applied_at": "2026-10-07",
+  "platform": "google",
+  "account": { "customer_id": "4645826023", "name": "Agência Orbara" },
+  "campaign": { "id": "24204808268", "name": "[PESQUISA] - Captação de Leads - Orbara" },
+  "approved_by": "dono da conta (no chat: 'pode fazer o G02 e G03 com as negativas'), seguindo o plano-campanha.md",
+  "validate_only_first": true,
+  "atomic": "uma única chamada googleAds:mutate com 120 operações (tudo ou nada)",
+  "changes": {
+    "shared_negative_list": {
+      "created": "sharedSets/12260045655 'Orbara - Negativas gerais (emprego, curso, faça você mesmo)', 89 palavras em correspondência ampla",
+      "source": "as 84 negativas que existiam só no G01, copiadas (as do G01 continuam lá)",
+      "new_terms": ["como ser", "como se tornar", "mentoria", "certificado", "formacao"],
+      "new_terms_reason": "público de curso e carreira que busca 'gestor de tráfego'",
+      "attached_to": "campaignSharedSets/24204808268~12260045655"
+    },
+    "g02": {
+      "ad_group": "adGroups/198514755006",
+      "name": { "before": "G02 - SEO Local & Auditoria de Sites", "after": "G02 - SEO para Empresas" },
+      "paused_keywords": ["1445593237174", "2225737232533", "2458341689671", "2494398390904", "2497782235627", "2497782236627", "2497782236867", "2497782237067", "2497782237107", "2497782237267", "2497782237307"],
+      "new_keywords_phrase": {
+        "agência de seo": "9087928681", "empresa de seo": "6983216681", "consultoria de seo": "14737595046", "seo para empresas": "329240089844",
+        "seo local": "295968859420", "otimização google meu negócio": "427258636456", "gestão google meu negócio": "1114098452771"
+      },
+      "paused_ad": "823093879807 (anúncio técnico antigo, URL final home)",
+      "new_ad": "827184350122 (RSA, URL final https://orbara.com.br/seo, caminho seo/empresas; textos do plano-campanha.md seção 5)"
+    },
+    "g03": {
+      "ad_group": "adGroups/200222161425 'G03 - Gestão de Google Ads' (criado, ativo)",
+      "new_keywords_phrase": {
+        "gestão de google ads": "496927994589", "agência de google ads": "398474650716", "agência de tráfego pago": "943759219356",
+        "empresa de tráfego pago": "1063467991190", "contratar gestor de tráfego": "835628589337", "gestão de tráfego pago": "942399120911"
+      },
+      "keyword_note": "'gestor de tráfego pago' do plano trocado por 'contratar gestor de tráfego', porque a busca sem 'contratar' é dominada por quem procura vaga ou curso",
+      "new_ad": "827184371671 (RSA, URL final https://orbara.com.br/google-ads, caminho google-ads/gestao; textos do plano-campanha.md seção 5)"
+    }
+  },
+  "unchanged": "orçamento (R$ 10/dia), estratégia de lance, teto de CPC, segmentação, idiomas, G01 e suas negativas, negativas de campanha",
+  "verification": "Lido de volta na conta: 3 grupos ativos; anúncios novos do G02 e G03 em análise; 7 + 6 palavras-chave novas em análise; 11 antigas do G02 pausadas; anúncio antigo do G02 pausado; lista com 89 itens vinculada à campanha.",
+  "rollback": [
+    "G03: pausar adGroups/200222161425 (ou remover)",
+    "G02: reativar o anúncio 823093879807 e as 11 palavras-chave antigas; pausar o anúncio 827184350122 e as 7 palavras-chave novas; renomear para 'G02 - SEO Local & Auditoria de Sites'",
+    "Negativas: remover campaignSharedSets/24204808268~12260045655 (desvincula a lista) e, se quiser, remover sharedSets/12260045655"
+  ]
+}
