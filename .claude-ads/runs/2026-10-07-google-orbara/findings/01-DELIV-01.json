@@ -1,0 +1,50 @@
+{
+  "schema_version": "1.0.0",
+  "control_id": "DELIV-01",
+  "title": "Veiculação parada desde 11/09",
+  "status": "fail",
+  "severity": "critical",
+  "confidence": "high",
+  "source_classification": "evidence_based",
+  "evidence": [
+    {
+      "type": "api_read",
+      "source": "Google Ads API v22 (somente leitura)",
+      "query": "account_budget_proposal",
+      "detail": "limites aprovados: 50 (02/09), 90 (07/09), 130 (18/09)",
+      "retrieved": "2026-10-07"
+    },
+    {
+      "type": "api_read",
+      "source": "Google Ads API v22 (somente leitura)",
+      "query": "account_budget",
+      "detail": "aprovado 130,00; servido 89,48",
+      "retrieved": "2026-10-07"
+    },
+    {
+      "type": "api_read",
+      "source": "Google Ads API v22 (somente leitura)",
+      "query": "campaign segments.date",
+      "detail": "impressões só de 02 a 10/09; dados de parcela de impressões até 18/09; nenhuma linha a partir de 19/09",
+      "retrieved": "2026-10-07"
+    },
+    {
+      "type": "api_read",
+      "source": "Google Ads API v22 (somente leitura)",
+      "query": "campaign/ad_group/ad_group_ad/keyword_view",
+      "detail": "primary_status ELIGIBLE, sem motivos",
+      "retrieved": "2026-10-07"
+    },
+    {
+      "type": "api_read",
+      "source": "Google Ads API v22 (somente leitura)",
+      "query": "IdentityVerificationService",
+      "detail": "BILLING_NOT_ON_MONTHLY_INVOICING",
+      "retrieved": "2026-10-07"
+    }
+  ],
+  "observation": "Impressões só de 02 a 10/09 (482 no total). A conta é pré-paga e o limite de gastos foi recarregado assim: R$ 50 em 02/09 (esgotado em 03/09: R$ 50,00 gastos), R$ 90 em 07/09 (esgotado em 10/09: R$ 89,48 acumulados) e R$ 130 em 18/09. Restam R$ 40,52. De 11 a 18/09 a campanha aparece elegível, com 0 impressões. A partir de 19/09 ela não entra em nenhum leilão: nenhum dia tem dados de parcela de impressões. Isso continua mesmo depois de o grupo G01 ter sido reativado em 21/09 e o teto de CPC ter subido para R$ 3,00 em 22/09.",
+  "diagnosis": "A parada de 11 a 18/09 é explicada pelo esgotamento do limite pré-pago (R$ 90). Depois da recarga de 18/09, a API mostra campanha, grupos, anúncios e palavras-chave todos 'Qualificados', sem nenhum motivo de bloqueio, e mesmo assim não há participação em leilões. Ausência total de leilões com tudo qualificado indica um bloqueio de conta que a API não expõe para contas pré-pagas: verificação de pagamento ou de anunciante, pagamento em análise, ou aviso de política/conta. Não foi possível confirmar qual deles: a API de verificação só responde para contas com faturamento mensal (BILLING_NOT_ON_MONTHLY_INVOICING).",
+  "recommendation": "Na interface do Google Ads, conferir: 1) o sino de notificações e a faixa vermelha no topo; 2) Faturamento → Resumo (pagamento pendente, em análise ou recusado); 3) Administrador → Verificação do anunciante; 4) a coluna Status da campanha (passar o mouse); 5) Ferramentas → Solução de problemas → Visualização e diagnóstico de anúncios, buscando 'criação de sites' em São Paulo, que mostra o motivo exato. Recarregar antes do saldo acabar: R$ 40 duram cerca de 4 dias com R$ 10/dia.",
+  "score_contribution": null
+}

@@ -1,0 +1,29 @@
+{
+  "schema_note": "Registro de alteração aplicada (não contém credenciais)",
+  "applied_at": "2026-10-07",
+  "platform": "google",
+  "account": { "customer_id": "4645826023", "name": "Agência Orbara" },
+  "campaign": { "id": "24204808268", "name": "[PESQUISA] - Captação de Leads - Orbara" },
+  "approved_by": "dono da conta (no chat: 'pode aplicar as mudanças pela API')",
+  "validate_only_first": true,
+  "changes": [
+    { "op": "update", "resource": "campaign", "field": "ai_max_setting.enable_ai_max", "before": true, "after": false },
+    { "op": "update", "resource": "campaign", "field": "asset_automation_settings.TEXT_ASSET_AUTOMATION", "before": "OPTED_IN", "after": "OPTED_OUT" },
+    { "op": "update", "resource": "campaign", "field": "asset_automation_settings.FINAL_URL_EXPANSION_TEXT_ASSET_AUTOMATION", "before": "OPTED_IN", "after": "OPTED_OUT" },
+    { "op": "update", "resource": "campaign", "field": "target_spend.cpc_bid_ceiling_micros", "before": "R$ 3,00", "after": "R$ 3,50" },
+    { "op": "update", "resource": "adGroupCriteria/198523034543~669834749", "keyword": "desenvolvedor de sites [ampla]", "before": "ENABLED", "after": "PAUSED" },
+    { "op": "update", "resource": "adGroupCriteria/198523034543~962354097", "keyword": "empresa de criação de sites [ampla]", "before": "ENABLED", "after": "PAUSED" },
+    { "op": "update", "resource": "adGroupCriteria/198523034543~962354457", "keyword": "criação de sites profissionais [ampla]", "before": "ENABLED", "after": "PAUSED" },
+    { "op": "update", "resource": "adGroupCriteria/198523034543~4254046896", "keyword": "orçamento criação de site [ampla]", "before": "ENABLED", "after": "PAUSED" },
+    { "op": "update", "resource": "adGroupCriteria/198523034543~302554687653", "keyword": "desenvolvimento de landing page [ampla]", "before": "ENABLED", "after": "PAUSED" },
+    { "op": "create", "resource": "adGroupCriteria/198523034543~297316897802", "keyword": "orçamento criação de site [frase]", "reason": "repõe a versão removida pelo Google em 18/09" },
+    { "op": "create", "resource": "adGroupCriteria/198523034543~326120222812", "keyword": "desenvolvimento de landing page [frase]", "reason": "repõe a versão removida pelo Google em 18/09" }
+  ],
+  "not_changed": ["orçamento diário (R$ 10)", "estratégia de lance (Maximizar cliques)", "segmentação", "anúncios", "grupo G02", "negativas"],
+  "verified_remote_state": "AI Max desligado; automações OPTED_OUT; teto R$ 3,50; 5 amplas PAUSED; 2 frases novas ENABLED (em revisão)",
+  "rollback": [
+    "Campanha → Configurações: religar AI Max e as automações de texto/URL; teto de CPC de volta a R$ 3,00",
+    "Reativar as 5 palavras-chave amplas e remover as 2 frases novas (IDs acima)"
+  ],
+  "verification_window": "Revisar termos de pesquisa 7 dias depois que a campanha voltar a ter impressões."
+}

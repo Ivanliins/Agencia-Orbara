@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0.0",
+  "run_id": "2026-10-07-google-orbara",
+  "started_at": "2026-10-07T04:05:00Z",
+  "scopes": [
+    "google"
+  ],
+  "adapters": [
+    {
+      "platform": "google",
+      "mode": "live_read",
+      "customer_id": "4645826023",
+      "api_version": "v22"
+    }
+  ],
+  "sources": [
+    "google-ads-api:v22:4645826023"
+  ],
+  "privacy_class": "public",
+  "privacy_note": "Somente configurações e métricas agregadas da conta da própria Orbara; sem dados pessoais, credenciais ou listas de clientes.",
+  "data_lifecycle": {
+    "schema_version": "1.0.0",
+    "lifecycle_id": "2026-10-07-google-orbara-lifecycle",
+    "classification": "public",
+    "retention": {
+      "minimum_seconds": 0,
+      "mode": "operator-defined",
+      "delete_after": "2027-04-07T00:00:00Z",
+      "purpose": "Auditoria da conta Google Ads da Orbara; manter até a reauditoria",
+      "exception_reason": null
+    },
+    "encryption": {
+      "at_rest": "not-applicable",
+      "in_transit": "not-applicable",
+      "evidence_refs": []
+    },
+    "access": {
+      "owner": "Orbara",
+      "authorized_roles": [
+        "dono do repositório"
+      ],
+      "access_log_locator": null
+    },
+    "deletion": {
+      "status": "scheduled",
+      "method": "remover a pasta da execução do repositório",
+      "verification_required": true,
+      "verification_artifact_locator": null
+    },
+    "incident": {
+      "owner": "Orbara",
+      "reporting_channel": "issues do repositório no GitHub",
+      "status": "not-triggered",
+      "record_locator": null
+    }
+  },
+  "worker_status": {
+    "conductor": "completed",
+    "api_read": "completed",
+    "identity_verification": "failed"
+  },
+  "completeness": "partial",
+  "partial_reasons": [
+    "status de verificação/pagamento não disponível pela API para conta pré-paga",
+    "sem dados de conversão históricos (configurados hoje)"
+  ],
+  "health_score": null,
+  "health_score_reason": "sem dados de conversão e com veiculação parada; nota de saúde não seria comparável"
+}

@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0.0",
+  "control_id": "G50",
+  "title": "Sitelinks e frases de destaque",
+  "status": "pass",
+  "severity": "low",
+  "confidence": "high",
+  "source_classification": "practitioner",
+  "evidence": [
+    {
+      "type": "api_read",
+      "source": "Google Ads API v22 (somente leitura)",
+      "query": "campaign_asset",
+      "detail": "6 SITELINK, 4 CALLOUT",
+      "retrieved": "2026-10-07"
+    }
+  ],
+  "observation": "6 sitelinks e 4 frases de destaque, todos qualificados.",
+  "diagnosis": "Cobertura boa.",
+  "recommendation": "Faltam recurso de ligação/WhatsApp, snippets estruturados, imagens e logotipo/nome da empresa.",
+  "score_contribution": null
+}

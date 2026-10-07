@@ -6,7 +6,7 @@ import { tokens, whatsappUrl } from "./tokens";
 const FAQS = [
   {
     q: "Quanto tempo leva para o site ficar no ar?",
-    a: "Em média 30 dias corridos a partir da aprovação da estratégia. O processo inclui briefing, wireframe, design, desenvolvimento e testes. Projetos mais complexos (como e-commerce ou plataformas) podem levar até 45-60 dias.",
+    a: "De 3 a 5 dias a partir da aprovação do briefing: o plano Essencial fica pronto em até 3 dias e o Aceleração, em até 5. O processo inclui briefing, estrutura, design, desenvolvimento e testes. E-commerce e plataformas sob medida têm o prazo definido na proposta.",
   },
   {
     q: "Quando começo a ver resultado no Google Ads?",

@@ -10,6 +10,9 @@ export const WHATSAPP_MESSAGES = {
   rodape: "Olá! Vim pelo site da Orbara.",
   planos: "Olá! Vi os planos no site da Orbara e quero entender qual é o ideal para mim.",
   seo: "Olá! Vim pelo site da Orbara e quero atrair clientes pelo Google (SEO e anúncios).",
+  sites: "Olá! Vim pela página de criação de sites da Orbara e quero um orçamento.",
+  googleads: "Olá! Vim pela página de Google Ads da Orbara e quero falar sobre minhas campanhas.",
+  motion: "Olá! Vim pela página de motion graphics da Orbara e quero um orçamento de vídeo.",
   obrigado: "Olá! Acabei de enviar o formulário no site da Orbara e queria adiantar a conversa.",
 } as const;
 

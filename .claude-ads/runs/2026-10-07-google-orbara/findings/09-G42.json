@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0.0",
+  "control_id": "G42",
+  "title": "Conversões configuradas (hoje)",
+  "status": "pass",
+  "severity": "high",
+  "confidence": "high",
+  "source_classification": "evidence_based",
+  "evidence": [
+    {
+      "type": "api_read",
+      "source": "Google Ads API v22 (somente leitura)",
+      "query": "conversion_action",
+      "detail": "7826507223, 7826507226 incluídas",
+      "retrieved": "2026-10-07"
+    }
+  ],
+  "observation": "Desde 07/10 existem 'Lead — Formulário do site' e 'Contato — WhatsApp', principais, e o site envia as duas.",
+  "diagnosis": "Até hoje a conta não tinha nenhuma conversão funcionando.",
+  "recommendation": "Conferir em 7 dias se os números batem com os leads reais. Avaliar conversões otimizadas para leads (G43).",
+  "score_contribution": null
+}

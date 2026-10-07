@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0.0",
+  "control_id": "AIMAX-01",
+  "title": "AI Max e expansão de URL ligados sem dados",
+  "status": "fail",
+  "severity": "high",
+  "confidence": "medium",
+  "source_classification": "practitioner",
+  "evidence": [
+    {
+      "type": "api_read",
+      "source": "Google Ads API v22 (somente leitura)",
+      "query": "campaign.ai_max_setting / asset_automation_settings",
+      "detail": "enableAiMax=true; TEXT e FINAL_URL_EXPANSION OPTED_IN",
+      "retrieved": "2026-10-07"
+    },
+    {
+      "type": "api_read",
+      "source": "Google Ads API v22 (somente leitura)",
+      "query": "change_event",
+      "detail": "20/09 22:37",
+      "retrieved": "2026-10-07"
+    }
+  ],
+  "observation": "Em 20/09 foram ativados o AI Max, a automação de textos e a expansão de URL final (FINAL_URL_EXPANSION_TEXT_ASSET_AUTOMATION).",
+  "diagnosis": "O AI Max amplia a correspondência além das palavras-chave, e sem conversões amplia o mesmo problema do G16. A expansão de URL pode mandar visitas para páginas como /obrigado ou cases, em vez da página principal.",
+  "recommendation": "Desligar o AI Max e a expansão de URL até a medição de conversões ter dados, ou no mínimo excluir /obrigado das URLs.",
+  "score_contribution": null
+}

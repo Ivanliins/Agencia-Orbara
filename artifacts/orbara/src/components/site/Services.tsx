@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import { Link } from "wouter";
 import { Clapperboard } from "lucide-react";
 import { Monitor, Target, TrendingUp, ArrowUpRight } from "lucide-react";
 import { gsap, ScrollTrigger, useGSAP, revealIn, scrollToId } from "@/lib/motion";
@@ -7,6 +8,7 @@ import { BackgroundOrb } from "@/components/BackgroundOrb";
 import { tokens } from "./tokens";
 
 const SERVICES: {
+  slug: string;
   num: string;
   heading: string;
   desc: string;
@@ -19,6 +21,7 @@ const SERVICES: {
   badge?: string;
 }[] = [
   {
+    slug: "criacao-de-sites",
     num: "01",
     heading: "Sites que convertem",
     desc: "Um site lento, confuso ou desatualizado custa vendas todos os dias. Projetamos cada página como uma vitrine estratégica: arquitetura de conversão, hierarquia visual clara e copy que guia o visitante até o sim.",
@@ -26,6 +29,7 @@ const SERVICES: {
     Icon: Monitor,
   },
   {
+    slug: "google-ads",
     num: "02",
     heading: "Google Ads cirúrgico",
     desc: "Aparecer quando o cliente já está pronto para comprar é a forma mais eficiente de investir em marketing. Campanhas de busca com segmentação precisa, landing pages dedicadas e otimização diária do custo por lead.",
@@ -33,6 +37,7 @@ const SERVICES: {
     Icon: Target,
   },
   {
+    slug: "seo",
     num: "03",
     heading: "SEO que sustenta",
     desc: "Ads trazem tráfego enquanto você paga. O SEO constrói um ativo que trabalha 24h por dia, sem custo por clique — e cresce com o tempo. É o canal com maior ROI no longo prazo, se feito do jeito certo.",
@@ -40,6 +45,7 @@ const SERVICES: {
     Icon: TrendingUp,
   },
   {
+    slug: "motion-graphics",
     num: "04",
     heading: "Motion Graphics",
     desc: "Vídeos e animações que prendem a atenção nos primeiros segundos: comerciais, vinhetas, anúncios animados e conteúdo para redes — entregues nos formatos horizontal e vertical, prontos para site, YouTube, Reels e Stories.",
@@ -143,6 +149,9 @@ function ServiceCard({ s, isDark, index }: { s: (typeof SERVICES)[number]; isDar
           {s.video ? "Ver cases de motion" : "Quero esse serviço"}
           <ArrowUpRight size={16} className="transition-transform duration-500 group-hover:rotate-45" />
         </button>
+        <Link href={`/${s.slug}`} className={`mt-4 self-start text-sm font-bold underline underline-offset-4 decoration-[#ff5d00]/50 ${t.fgMuted} group-hover:text-[#0d0101] transition-colors duration-500`}>
+          Saiba mais sobre o serviço
+        </Link>
         </div>
       </div>
     </div>

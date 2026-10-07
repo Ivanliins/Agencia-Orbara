@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0.0",
+  "control_id": "G29",
+  "title": "Anúncios responsivos",
+  "status": "pass",
+  "severity": "low",
+  "confidence": "high",
+  "source_classification": "practitioner",
+  "evidence": [
+    {
+      "type": "api_read",
+      "source": "Google Ads API v22 (somente leitura)",
+      "query": "ad_group_ad",
+      "detail": "2 RSA, GOOD, APPROVED",
+      "retrieved": "2026-10-07"
+    }
+  ],
+  "observation": "1 anúncio responsivo por grupo, com 12 títulos e 4 descrições, força 'Boa', sem fixação, aprovados.",
+  "diagnosis": "Estrutura correta. O problema do G02 é a mensagem, não o formato.",
+  "recommendation": "Ter 2 anúncios por grupo para comparar e levar cada grupo a uma página do serviço.",
+  "score_contribution": null
+}

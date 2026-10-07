@@ -7,7 +7,7 @@ import { LeadPhone } from "./LeadPhone";
 
 
 
-const TRUST = ["Design Exclusivo", "Sem fidelidade", "Resultados a partir de 30 dias", "Atendimento exclusivo"];
+const TRUST = ["Design Exclusivo", "Sem fidelidade", "Site no ar em 3 a 5 dias", "Atendimento exclusivo"];
 
 export function Hero() {
   const ref = useRef<HTMLElement>(null);

@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0.0",
+  "control_id": "G03",
+  "title": "Grupo G02 (SEO técnico) nunca rodou",
+  "status": "fail",
+  "severity": "medium",
+  "confidence": "high",
+  "source_classification": "practitioner",
+  "evidence": [
+    {
+      "type": "api_read",
+      "source": "Google Ads API v22 (somente leitura)",
+      "query": "keyword_view",
+      "detail": "RARELY_SERVED 7/11 no G02",
+      "retrieved": "2026-10-07"
+    },
+    {
+      "type": "api_read",
+      "source": "Google Ads API v22 (somente leitura)",
+      "query": "ad_group segments.date",
+      "detail": "só o G01 tem impressões",
+      "retrieved": "2026-10-07"
+    }
+  ],
+  "observation": "O G02 nunca teve impressão. 7 de 11 palavras-chave estão como 'pouco volume de pesquisa' (crawl budget, schema markup, engenharia de seo…). O anúncio usa jargão técnico ('Crawl Budget', 'Arquitetura de Dados Schema') e leva para a home. O grupo ficou pausado de 09 a 21/09.",
+  "diagnosis": "As palavras-chave e o texto estão na linguagem de quem faz SEO, não de quem contrata. Quase ninguém busca assim em SP e Guarulhos.",
+  "recommendation": "Reescrever o G02 na linguagem de quem compra (ex.: 'empresa de seo', 'agência de seo', 'aparecer no google'), com uma página de destino de SEO. Até lá, concentrar o orçamento no G01.",
+  "score_contribution": null
+}

@@ -9,6 +9,7 @@ const Home = lazy(() => import("@/pages/Home"));
 const CaseDetail = lazy(() => import("@/pages/CaseDetail"));
 const NotFound = lazy(() => import("@/pages/not-found"));
 const Thanks = lazy(() => import("@/pages/Thanks"));
+const ServicePage = lazy(() => import("@/pages/ServicePage"));
 
 const queryClient = new QueryClient();
 
@@ -21,6 +22,10 @@ function Router() {
         <Route path="/" component={Home} />
         <Route path="/cases/:slug" component={CaseDetail} />
         <Route path="/obrigado" component={Thanks} />
+        <Route path="/criacao-de-sites">{() => <ServicePage slug="criacao-de-sites" />}</Route>
+        <Route path="/seo">{() => <ServicePage slug="seo" />}</Route>
+        <Route path="/google-ads">{() => <ServicePage slug="google-ads" />}</Route>
+        <Route path="/motion-graphics">{() => <ServicePage slug="motion-graphics" />}</Route>
         <Route component={NotFound} />
       </Switch>
     </Suspense>
