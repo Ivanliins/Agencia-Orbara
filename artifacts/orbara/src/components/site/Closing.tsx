@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { ArrowUpRight, ArrowUp, Check, MessageCircle, Instagram, Clock, Search as SearchIcon, FileText, Loader2 } from "lucide-react";
+import { ArrowUpRight, ArrowUp, MessageCircle, Instagram, Clock, Search as SearchIcon, FileText, Loader2 } from "lucide-react";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -14,6 +14,7 @@ import { OrbitDecoration } from "@/components/OrbitDecoration";
 import { OrbaraLogo } from "./Chrome";
 import { tokens, NAV_ITEMS, whatsappUrl, INSTAGRAM_URL } from "./tokens";
 import { trackConversion } from "@/lib/tracking";
+import { useLocation } from "wouter";
 
 // ── Visão / Missão ───────────────────────────────────────────────────────
 
@@ -97,8 +98,8 @@ const inputCls = "bg-white/45 border-0 rounded-2xl h-14 px-5 text-[#0d0101] plac
 
 export function Contact({ isDark }: { isDark: boolean }) {
   const ref = useRef<HTMLElement>(null);
-  const [done, setDone] = useState(false);
   const [sendError, setSendError] = useState(false);
+  const [, setLocation] = useLocation();
   const t = tokens(isDark);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -116,7 +117,7 @@ export function Contact({ isDark }: { isDark: boolean }) {
       });
       if (!res.ok) throw new Error("server error");
       trackConversion("lead", "formulario");
-      setDone(true);
+      setLocation("/obrigado");
     } catch {
       setSendError(true);
     }
@@ -135,9 +136,6 @@ export function Contact({ isDark }: { isDark: boolean }) {
     });
   }, { scope: ref });
 
-  useGSAP(() => {
-    if (done) gsap.from(".done-anim > *", { y: 30, opacity: 0, scale: 0.9, stagger: 0.12, duration: 0.8, ease: "back.out(2)" });
-  }, { dependencies: [done], scope: ref });
 
   return (
     <section id="contato" ref={ref} className={`py-6 md:py-10 ${t.bg}`}>
@@ -169,15 +167,6 @@ export function Contact({ isDark }: { isDark: boolean }) {
           </div>
 
           <div className="rounded-[32px] bg-[#0d0101]/[0.06] p-5 md:p-8">
-            {done ? (
-              <div className="done-anim flex flex-col items-center justify-center h-full py-16 text-center text-[#0d0101]">
-                <div className="w-20 h-20 bg-[#0d0101] rounded-full flex items-center justify-center mb-8">
-                  <Check size={36} className="text-[#ff5d00]" />
-                </div>
-                <h3 className="font-black text-3xl md:text-4xl mb-4">Sua mensagem entrou em órbita.</h3>
-                <p className="text-xl font-semibold opacity-65">Retornamos em até 24h com um diagnóstico.</p>
-              </div>
-            ) : (
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="contact-form relative space-y-5">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -255,7 +244,6 @@ export function Contact({ isDark }: { isDark: boolean }) {
                   </button>
                 </form>
               </Form>
-            )}
           </div>
         </div>
       </div>

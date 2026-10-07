@@ -79,3 +79,29 @@ Os detalhes e as evidências de cada item estão em `findings/*.json`.
 | Extra — botão flutuante do WhatsApp | ✅ corrigido | Ele ficava com escala 0 (invisível) depois da animação de entrada. Agora a animação usa valores finais explícitos. |
 
 **Verificação:** 11 grupos de testes da API e da proteção de rede; teste de ponta a ponta no navegador (desktop e celular) com respostas simuladas da API; `tsc` e build com prerender ok. **Não testei** a busca de sites externos nem o PageSpeed real, porque a rede daqui não sai para a internet; o teste é no preview da Vercel.
+
+### Atualização (07/10/2026, 2ª rodada)
+
+- **Botão flutuante do WhatsApp:** confirmado que ele sumia logo depois de carregar no site publicado. A correção está no branch e o botão fica visível do topo ao rodapé.
+- **Seção "SEO & Geração de Leads":**
+  - Saíram as estatísticas sem fonte ("83% dos cliques…", "68% das experiências…") e a frase contra anúncios.
+  - Entrou uma busca simulada com o anúncio e o 1º orgânico da mesma empresa, mais uma jornada em 6 etapas com os canais de cada uma (Google Ads, SEO, Site, WhatsApp, Medição).
+  - Os CTAs agora são "Diagnóstico grátis do meu site" e WhatsApp com mensagem pronta.
+- **Página `/obrigado`** (noindex, fora do sitemap): o formulário redireciona para ela depois do envio. Com isso, a conversão de lead pode ser criada no Google Ads só pela URL, sem rótulo.
+
+## Como criar as ações de conversão no Google Ads
+
+Os rótulos são gerados pelo próprio Google Ads quando a ação é criada; não dá para inventá-los nem criá-los de fora da conta. O caminho é **Metas → Conversões → Resumo → + Nova ação de conversão → Site**, informando `orbara.com.br`.
+
+| | Ação 1 | Ação 2 |
+|---|---|---|
+| Nome | **Lead — Formulário do site** | **Contato — WhatsApp** |
+| Categoria | Enviar formulário de lead | Contato |
+| Como configurar | **Sem código:** "Carregamento de página", URL **contém** `/obrigado`. Ou "Usar código" e mandar o rótulo. | "Usar código" (evento de clique) e mandar o rótulo (`send_to: AW-18424280462/XXXX`) |
+| Valor | Não usar valor por enquanto (ou o mesmo valor para todas, se já souber quanto vale um lead) | Igual |
+| Contagem | **Uma** (um lead por clique no anúncio) | **Uma** |
+| Janela de conversão | 30 dias (clique) | 30 dias (clique) |
+| Atribuição | Baseada em dados | Baseada em dados |
+| Meta da campanha | Começar como **secundária** por ~2 semanas, conferir com os leads reais e depois promover a **principal** | Igual |
+
+Use **um** dos dois métodos na ação de lead: URL `/obrigado` **ou** rótulo no código. Os dois juntos contam o mesmo lead duas vezes.

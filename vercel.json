@@ -10,6 +10,10 @@
     {
       "source": "/cases/:slug",
       "destination": "/cases/:slug/index.html"
+    },
+    {
+      "source": "/obrigado",
+      "destination": "/obrigado/index.html"
     }
   ],
   "headers": [

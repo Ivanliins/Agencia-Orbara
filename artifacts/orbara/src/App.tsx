@@ -8,6 +8,7 @@ import { lazy, Suspense } from "react";
 const Home = lazy(() => import("@/pages/Home"));
 const CaseDetail = lazy(() => import("@/pages/CaseDetail"));
 const NotFound = lazy(() => import("@/pages/not-found"));
+const Thanks = lazy(() => import("@/pages/Thanks"));
 
 const queryClient = new QueryClient();
 
@@ -19,6 +20,7 @@ function Router() {
       <Switch>
         <Route path="/" component={Home} />
         <Route path="/cases/:slug" component={CaseDetail} />
+        <Route path="/obrigado" component={Thanks} />
         <Route component={NotFound} />
       </Switch>
     </Suspense>
