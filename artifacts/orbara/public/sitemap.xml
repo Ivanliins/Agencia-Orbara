@@ -2,13 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
   <url>
     <loc>https://orbara.com.br/</loc>
-    <lastmod>2026-10-06</lastmod>
+    <lastmod>2026-10-07</lastmod>
     <video:video>
-      <video:thumbnail_loc>https://orbara.com.br/motion/orbara-studio-16x9.jpg</video:thumbnail_loc>
-      <video:title>Manifesto Orbara Studio</video:title>
-      <video:description>Toda marca tem uma história. Poucas sabem colocar ela em movimento. Vídeo manifesto do Orbara Studio.</video:description>
-      <video:content_loc>https://orbara.com.br/motion/orbara-studio-16x9.mp4</video:content_loc>
-      <video:duration>33</video:duration>
+      <video:thumbnail_loc>https://orbara.com.br/motion/orbara-impacto-16x9.jpg</video:thumbnail_loc>
+      <video:title>Orbara Impacto — filme de marca</video:title>
+      <video:description>Tudo começa com um ponto. Filme de marca da Orbara: do primeiro ponto ao 1º lugar do Google, com o WhatsApp sem parar.</video:description>
+      <video:content_loc>https://orbara.com.br/motion/orbara-impacto-16x9.mp4</video:content_loc>
+      <video:duration>30</video:duration>
     </video:video>
     <video:video>
       <video:thumbnail_loc>https://orbara.com.br/motion/clube-do-med-sp-16x9.jpg</video:thumbnail_loc>

@@ -81,7 +81,7 @@ type GridItem =
 const ITEMS: GridItem[] = [
   { kind: "featured", id: "jr-queijo", categories: ["sites"] },
   ...CASES.map((c) => ({ kind: "case" as const, id: c.slug, categories: c.categories, data: c })),
-  { kind: "motion", id: "orbara-studio", categories: ["motion"] },
+  { kind: "motion", id: "orbara", categories: ["motion"] },
   { kind: "motion", id: "clube-do-med", categories: ["motion"] },
   { kind: "cta", id: "cta", categories: ["sites", "motion"] },
 ];
