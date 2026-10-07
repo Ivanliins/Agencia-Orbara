@@ -38,25 +38,26 @@ const CLUBE_DO_MED = {
   ],
 };
 
-const ORBARA_STUDIO = {
-  client: "Orbara Studio",
-  segment: "Branding · Vídeo manifesto",
-  title: "Sua marca em movimento: o filme de lançamento do Orbara Studio",
-  desc: "Vídeo manifesto que apresenta o Orbara Studio, nosso núcleo de motion: vídeos para redes, comerciais, vinhetas e explicativos de produto — sempre no formato certo para cada tela.",
-  tags: ["Manifesto", "Branding em movimento", "16:9 + 9:16"],
+/** Filme de marca da Orbara — também usado no Manifesto da home. */
+export const ORBARA_FILM = {
+  id: "impacto",
+  label: "Filme Orbara Impacto",
+  hook: "“Tudo começa com um ponto.”",
+  duration: "0:30",
+  desktop: "/motion/orbara-impacto-16x9.mp4",
+  desktopPoster: "/motion/orbara-impacto-16x9.jpg",
+  mobile: "/motion/orbara-impacto-9x16.mp4",
+  mobilePoster: "/motion/orbara-impacto-9x16.jpg",
+};
+
+const ORBARA = {
+  client: "Orbara",
+  segment: "Branding · Filme de marca",
+  title: "Orbara Impacto: do primeiro ponto ao 1º lugar do Google",
+  desc: "Nosso filme de marca em 30 segundos: um ponto vira partículas, as partículas desenham um site, o site sobe do fundo da busca até o topo e o WhatsApp não para. Narração, trilha original e animação feitas pelo nosso núcleo de motion, nos formatos horizontal e vertical.",
+  tags: ["Filme de marca", "Partículas + 3D", "16:9 + 9:16"],
   reverse: true,
-  videos: [
-    {
-      id: "manifesto",
-      label: "Manifesto Orbara Studio",
-      hook: "“Toda marca tem uma história. Poucas sabem colocar ela em movimento.”",
-      duration: "0:32",
-      desktop: "/motion/orbara-studio-16x9.mp4",
-      desktopPoster: "/motion/orbara-studio-16x9.jpg",
-      mobile: "/motion/orbara-studio-9x16.mp4",
-      mobilePoster: "/motion/orbara-studio-9x16.jpg",
-    },
-  ],
+  videos: [ORBARA_FILM],
 };
 
 export type MotionCase = {
@@ -70,12 +71,12 @@ export type MotionCase = {
 };
 
 export const MOTION_CASES: Record<string, MotionCase> = {
-  "orbara-studio": ORBARA_STUDIO,
+  orbara: ORBARA,
   "clube-do-med": CLUBE_DO_MED,
 };
 
 type Video = MotionCase["videos"][number];
-type Format = "desktop" | "mobile";
+export type Format = "desktop" | "mobile";
 
 function Laptop({ video, vref }: { video: Video; vref: React.RefObject<HTMLVideoElement | null> }) {
   return (
@@ -128,7 +129,7 @@ function Phone({ video, vref }: { video: Video; vref: React.RefObject<HTMLVideoE
   );
 }
 
-function Lightbox({ client, video, format, onFormat, onClose }: { client: string; video: Video; format: Format; onFormat: (f: Format) => void; onClose: () => void }) {
+export function Lightbox({ client, video, format, onFormat, onClose }: { client: string; video: Video; format: Format; onFormat: (f: Format) => void; onClose: () => void }) {
   const ref = useRef<HTMLDivElement>(null);
 
   const close = () => gsap.to(ref.current, { opacity: 0, duration: 0.25, onComplete: onClose });
