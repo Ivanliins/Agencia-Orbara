@@ -75,7 +75,7 @@ export function Hero() {
     <section
       id="inicio"
       ref={ref}
-      className="min-h-[100dvh] flex flex-col justify-center pt-32 pb-24 px-5 md:px-10 relative overflow-hidden bg-[#050510]"
+      className="min-h-[100svh] flex flex-col justify-center pt-28 pb-16 md:pt-32 md:pb-20 px-5 md:px-10 relative overflow-hidden bg-[#050510]"
     >
       <div className="hero-video absolute inset-0 will-change-transform">
         <video autoPlay muted loop playsInline preload="none" poster="/hero-bg.webp" className="absolute inset-0 w-full h-full object-cover" style={{ opacity: 0.85 }}>
@@ -109,25 +109,26 @@ export function Hero() {
       </div>
 
       <div className="hero-content container mx-auto max-w-7xl relative z-10">
-        <div className="hero-eyebrow inline-flex items-center gap-3 mb-8 md:mb-10 rounded-full border border-white/15 bg-white/[0.05] backdrop-blur px-4 py-2">
+        <div className="hero-eyebrow inline-flex items-center gap-3 mb-6 md:mb-8 rounded-full border border-white/15 bg-white/[0.05] backdrop-blur px-4 py-2">
           <span className="relative flex w-2 h-2">
             <span className="absolute inset-0 rounded-full bg-[#ff5d00] animate-ping" />
             <span className="relative w-2 h-2 rounded-full bg-[#ff5d00]" />
           </span>
-          <span className="text-[11px] font-bold uppercase tracking-[0.3em] text-white/70">Agência Direta · Sem Dar Voltas</span>
+          <span className="text-[10px] md:text-[11px] font-bold uppercase tracking-[0.18em] md:tracking-[0.3em] text-white/70 whitespace-nowrap">Agência Direta · Sem Dar Voltas</span>
         </div>
 
-        <h1 aria-label="Sites que orbitam resultado." className="font-black leading-[0.88] tracking-[-0.04em] lg:max-w-[62%]" style={{ fontSize: "clamp(3.6rem, 10.5vw, 12.5rem)" }}>
-          <span className="hero-line block text-white">Sites que</span>
-          <span className="hero-line block text-[#ff5d00] italic pr-4">orbitam</span>
-          <span className="hero-line block text-white">resultado.</span>
+        {/* Cada linha fica inteira (sem quebrar no meio da palavra) e o tamanho acompanha a largura e a altura da tela */}
+        <h1 aria-label="Sites que orbitam resultado." className="font-black leading-[0.9] tracking-[-0.04em] text-[clamp(2.6rem,min(14vw,9vh),5rem)] md:text-[clamp(3rem,min(7.4vw,12.5vh),9rem)]">
+          <span className="hero-line block whitespace-nowrap text-white">Sites que</span>
+          <span className="hero-line block whitespace-nowrap text-[#ff5d00] italic pr-4">orbitam</span>
+          <span className="hero-line block whitespace-nowrap text-white">resultado.</span>
         </h1>
 
-        <p className="hero-sub mt-8 md:mt-10 text-lg md:text-xl text-white/70 max-w-lg font-normal leading-relaxed">
+        <p className="hero-sub mt-6 md:mt-8 text-base md:text-lg text-white/70 max-w-xl font-normal leading-relaxed">
           Do primeiro clique a potenciais clientes de interesse nos produtos ou serviços da sua empresa. Construímos a presença digital que transforma <strong className="text-white font-semibold">leads em clientes</strong>.
         </p>
 
-        <div className="hero-cta mt-10 flex flex-col sm:flex-row items-start sm:items-center gap-6">
+        <div className="hero-cta mt-8 flex flex-col sm:flex-row items-start sm:items-center gap-6">
           <Magnetic>
             <button
               onClick={() => scrollToId("contato")}
@@ -149,7 +150,7 @@ export function Hero() {
           </button>
         </div>
 
-        <div className="hero-trust mt-14 md:mt-16 flex flex-wrap gap-2.5">
+        <div className="hero-trust mt-8 md:mt-10 flex flex-wrap gap-2.5">
           {TRUST.map((t) => (
             <span key={t} className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] backdrop-blur px-4 py-2 text-white/70 text-xs md:text-sm font-medium">
               <span className="w-1.5 h-1.5 rounded-full bg-[#ff5d00]" />
@@ -162,7 +163,7 @@ export function Hero() {
       {/* Indicador de scroll */}
       <button
         onClick={() => scrollToId("auditoria-instantanea")}
-        className="hero-scroll absolute bottom-8 left-1/2 -translate-x-1/2 z-10 hidden md:flex flex-col items-center gap-3 text-white/50 hover:text-white transition-colors"
+        className="hero-scroll absolute bottom-8 left-1/2 -translate-x-1/2 z-10 hidden [@media(min-width:768px)_and_(min-height:880px)]:flex flex-col items-center gap-3 text-white/50 hover:text-white transition-colors"
         aria-label="Rolar para baixo"
       >
         <span className="w-6 h-10 rounded-full border-2 border-current flex justify-center pt-2">
