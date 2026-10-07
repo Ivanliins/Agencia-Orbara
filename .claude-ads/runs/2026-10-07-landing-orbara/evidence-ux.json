@@ -1,0 +1,23 @@
+{
+  "run_id": "2026-10-07-landing-orbara",
+  "viewports": {
+    "390x844": {
+      "cta_top_px": 497,
+      "cta_in_first_view": true,
+      "form_top_px": 26610,
+      "page_height_px": 28709,
+      "form_fields": 7,
+      "whatsapp_links": 6,
+      "privacy_links": 0,
+      "tel_links": 0,
+      "cnpj_present": false
+    },
+    "1440x900": {
+      "cta_top_px": 656,
+      "cta_in_first_view": true,
+      "form_top_px": 19727,
+      "page_height_px": 21618
+    }
+  },
+  "tool": "playwright (chromium) sobre o build local"
+}

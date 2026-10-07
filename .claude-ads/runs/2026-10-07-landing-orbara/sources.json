@@ -1,0 +1,45 @@
+{
+  "S1": {
+    "title": "Google Ads Help — Track clicks on your website as conversions",
+    "url": "https://support.google.com/google-ads/answer/6331304",
+    "retrieved": "2026-10-07",
+    "refresh_due": "2027-01-07",
+    "class": "evidence_based"
+  },
+  "S2": {
+    "title": "Google Ads Help — Use the Google tag for Google Ads conversion tracking",
+    "url": "https://support.google.com/google-ads/answer/7548399",
+    "retrieved": "2026-10-07",
+    "refresh_due": "2027-01-07",
+    "class": "evidence_based"
+  },
+  "S3": {
+    "title": "Advertising Policies Help — Misrepresentation",
+    "url": "https://support.google.com/adspolicy/answer/6020955",
+    "retrieved": "2026-10-07",
+    "refresh_due": "2027-01-07",
+    "class": "evidence_based"
+  },
+  "S4": {
+    "title": "Advertising Policies Help — Misleading representation",
+    "url": "https://support.google.com/adspolicy/answer/15936666",
+    "retrieved": "2026-10-07",
+    "refresh_due": "2027-01-07",
+    "class": "evidence_based"
+  },
+  "S5": {
+    "title": "Advertising Policies Help — Destination requirements",
+    "url": "https://support.google.com/adspolicy/answer/6368661",
+    "retrieved": "2026-10-07",
+    "refresh_due": "2027-01-07",
+    "class": "evidence_based"
+  },
+  "S6": {
+    "title": "Lei 8.078/1990 (CDC), art. 37 — publicidade enganosa (texto via resumo de busca; leitura do texto oficial no Planalto pendente)",
+    "url": "https://www.planalto.gov.br/ccivil_03/leis/l8078compilado.htm",
+    "retrieved": "2026-10-07",
+    "refresh_due": "2027-10-07",
+    "class": "evidence_based",
+    "note": "conteúdo confirmado por fontes secundárias nesta execução"
+  }
+}

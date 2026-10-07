@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0.0",
+  "control_id": "LP-TRUST-01",
+  "title": "Sinais de confiança e comprovação",
+  "status": "fail",
+  "severity": "medium",
+  "confidence": "medium",
+  "source_classification": "practitioner",
+  "evidence": [
+    {
+      "type": "lab_measurement",
+      "locator": "evidence-ux.json"
+    },
+    {
+      "type": "code",
+      "locator": "artifacts/orbara/src/components/site/Audience.tsx:68-70",
+      "detail": "estatísticas"
+    },
+    {
+      "type": "source",
+      "source_id": "S3",
+      "url": "https://support.google.com/adspolicy/answer/6020955",
+      "retrieved": "2026-10-07",
+      "refresh_due": "2027-01-07"
+    }
+  ],
+  "observation": "A página não mostra CNPJ, razão social, endereço/cidade, telefone clicável ou um 'Quem somos'. Há números sem fonte visível ('+180% leads — média dos últimos 12 clientes', '-40% custo por aquisição', 'Top 3 no Google') e depoimentos com resultados. As fotos dos cases são marcadas como ilustrativas.",
+  "diagnosis": "Para quem chega por anúncio e não conhece a marca, faltam sinais de que a empresa existe e é verificável. Pelo CDC, cabe ao anunciante provar o que afirma, então números sem comprovação são risco regulatório e de política (alegações não confiáveis).",
+  "recommendation": "Colocar CNPJ, razão social e cidade no rodapé; criar um bloco 'Quem somos' com as pessoas responsáveis; guardar um dossiê de comprovação para cada número (relatórios dos clientes) ou suavizar as frases ('até', 'no caso X'); pedir autorização por escrito para os depoimentos com nome.",
+  "score_contribution": null
+}

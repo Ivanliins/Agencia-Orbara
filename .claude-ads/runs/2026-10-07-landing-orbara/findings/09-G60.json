@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0.0",
+  "control_id": "G60",
+  "title": "Mensagem do anúncio × página",
+  "status": "unknown",
+  "severity": "high",
+  "confidence": "none",
+  "source_classification": "practitioner",
+  "evidence": [
+    {
+      "type": "code",
+      "locator": "artifacts/orbara/index.html:7-8",
+      "detail": "title e description"
+    }
+  ],
+  "observation": "Não recebi os anúncios, palavras-chave e URLs finais da conta. A página se posiciona como 'Criação de Sites de Alta Performance e SEO' (title/meta), enquanto o comercial de Google Ads promete 'Google Ads que traz cliente'. Não existem páginas dedicadas por serviço (/google-ads, /criacao-de-sites, /seo).",
+  "diagnosis": "Sem a lista de anúncios e palavras-chave não dá para afirmar se a mensagem do anúncio bate com a da página. Se anúncios de 'gestão de Google Ads' caem na home, a promessa não aparece na primeira tela.",
+  "recommendation": "Enviar a exportação de anúncios e palavras-chave (ou acesso de leitura). Hipótese a testar: uma landing por serviço com H1 igual ao do grupo de anúncios.",
+  "score_contribution": null
+}

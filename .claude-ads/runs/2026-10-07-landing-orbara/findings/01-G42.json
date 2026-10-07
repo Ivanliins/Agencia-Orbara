@@ -1,0 +1,44 @@
+{
+  "schema_version": "1.0.0",
+  "control_id": "G42",
+  "title": "Conversões não medidas",
+  "status": "fail",
+  "severity": "critical",
+  "confidence": "high",
+  "source_classification": "evidence_based",
+  "evidence": [
+    {
+      "type": "code",
+      "locator": "artifacts/orbara/index.html:106-113",
+      "detail": "somente gtag config"
+    },
+    {
+      "type": "code",
+      "locator": "artifacts/orbara/src/components/site/Closing.tsx:106-118",
+      "detail": "onSubmit sem evento de conversão"
+    },
+    {
+      "type": "code",
+      "locator": "artifacts/orbara/src/components/site/tokens.ts:2",
+      "detail": "WHATSAPP_URL sem rastreio"
+    },
+    {
+      "type": "source",
+      "source_id": "S1",
+      "url": "https://support.google.com/google-ads/answer/6331304",
+      "retrieved": "2026-10-07",
+      "refresh_due": "2027-01-07"
+    },
+    {
+      "type": "source",
+      "source_id": "S2",
+      "url": "https://support.google.com/google-ads/answer/7548399",
+      "retrieved": "2026-10-07",
+      "refresh_due": "2027-01-07"
+    }
+  ],
+  "observation": "A tag AW-18424280462 só executa gtag('config'). Não existe nenhum gtag('event','conversion', …) no código: o envio do formulário (/api/contact), os 6 links wa.me (botão flutuante, menu, contato, rodapé, planos, auditoria) e o CTA da auditoria instantânea não registram conversão.",
+  "diagnosis": "O Google Ads não recebe nenhum sinal de lead vindo do site. Não dá para medir custo por lead e lances inteligentes (Maximizar conversões / CPA desejado) ficam sem dados para otimizar.",
+  "recommendation": "Criar no Google Ads duas ações de conversão: 'Lead — formulário' (principal, disparada só depois de res.ok) e 'Clique no WhatsApp' (secundária ou principal, a decidir). Disparar gtag('event','conversion',{send_to:'AW-18424280462/<rótulo>'}) nesses pontos. Avaliar conversões otimizadas para leads com e-mail/WhatsApp do formulário. Validar com o Tag Assistant antes de mudar a estratégia de lances.",
+  "score_contribution": null
+}

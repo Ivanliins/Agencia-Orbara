@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0.0",
+  "control_id": "LP-POLICY-01",
+  "title": "Auditoria instantânea com resultado simulado",
+  "status": "fail",
+  "severity": "critical",
+  "confidence": "high",
+  "source_classification": "evidence_based",
+  "evidence": [
+    {
+      "type": "code",
+      "locator": "artifacts/orbara/src/components/InstantAudit.tsx:87-89",
+      "detail": "nota derivada do tamanho da URL"
+    },
+    {
+      "type": "code",
+      "locator": "artifacts/orbara/src/components/InstantAudit.tsx:~230-330",
+      "detail": "falhas fixas e texto 'especialistas compilaram'"
+    },
+    {
+      "type": "source",
+      "source_id": "S3",
+      "url": "https://support.google.com/adspolicy/answer/6020955",
+      "retrieved": "2026-10-07",
+      "refresh_due": "2027-01-07"
+    },
+    {
+      "type": "source",
+      "source_id": "S4",
+      "url": "https://support.google.com/adspolicy/answer/15936666",
+      "retrieved": "2026-10-07",
+      "refresh_due": "2027-01-07"
+    },
+    {
+      "type": "source",
+      "source_id": "S6",
+      "url": "https://www.planalto.gov.br/ccivil_03/leis/l8078compilado.htm",
+      "retrieved": "2026-10-07",
+      "refresh_due": "2027-10-07"
+    }
+  ],
+  "observation": "A 'Auditoria instantânea' calcula a nota com Math.floor(48 + (tamanho da URL × 3) % 24) — sempre entre 48 e 71 — e mostra, para qualquer site digitado, as mesmas três 'Falhas imediatas detectadas' (falta de Schema LocalBusiness, metatags sem intenção comercial, bloqueios de renderização), além de 'Nossos especialistas compilaram a correção exata de código'. Nenhuma análise real acontece.",
+  "diagnosis": "O resultado parece um diagnóstico real, mas não é. Isso pode ser enquadrado como publicidade enganosa (CDC art. 37 §1º) e como deturpação nas políticas do Google Ads, colocando em risco a aprovação dos anúncios que levam para a página. Também prejudica a confiança de quem testa um site que já está bem feito e recebe 'Crítico'.",
+  "recommendation": "Opção A (recomendada): transformar em análise real com uma função serverless que consulta a PageSpeed Insights API e checa title, meta description, H1 e JSON-LD da URL, mostrando só o que foi de fato medido. Opção B: tirar a nota e as 'falhas detectadas' e reposicionar como 'Peça um pré-diagnóstico gratuito' (URL + WhatsApp). Até decidir, não usar a seção como destino de anúncio.",
+  "score_contribution": null
+}

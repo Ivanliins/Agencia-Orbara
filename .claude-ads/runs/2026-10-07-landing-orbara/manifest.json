@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.0.0",
+  "run_id": "2026-10-07-landing-orbara",
+  "started_at": "2026-10-07T02:44:00Z",
+  "scopes": [
+    "landing"
+  ],
+  "adapters": [],
+  "sources": [
+    "S1",
+    "S2",
+    "S3",
+    "S4",
+    "S5",
+    "S6",
+    "lab:lighthouse",
+    "lab:playwright",
+    "repo:Ivanliins/Agencia-Orbara@6adb758"
+  ],
+  "privacy_class": "public",
+  "data_lifecycle": {
+    "schema_version": "1.0.0",
+    "lifecycle_id": "2026-10-07-landing-orbara-lifecycle",
+    "classification": "public",
+    "retention": {
+      "minimum_seconds": 0,
+      "mode": "operator-defined",
+      "delete_after": "2027-04-07T00:00:00Z",
+      "purpose": "Auditoria da landing page para campanhas de Google Ads da Orbara; manter até a reauditoria (6 meses)",
+      "exception_reason": null
+    },
+    "encryption": {
+      "at_rest": "not-applicable",
+      "in_transit": "not-applicable",
+      "evidence_refs": []
+    },
+    "access": {
+      "owner": "Orbara",
+      "authorized_roles": [
+        "dono do repositório"
+      ],
+      "access_log_locator": null
+    },
+    "deletion": {
+      "status": "scheduled",
+      "method": "remover a pasta da execução do repositório quando não for mais necessária",
+      "verification_required": true,
+      "verification_artifact_locator": null
+    },
+    "incident": {
+      "owner": "Orbara",
+      "reporting_channel": "issues do repositório no GitHub",
+      "status": "not-triggered",
+      "record_locator": null
+    }
+  },
+  "worker_status": {
+    "conductor": "completed",
+    "live_fetch": "failed",
+    "lab_lighthouse": "completed",
+    "lab_ux": "completed",
+    "policy_sources": "completed"
+  },
+  "completeness": "partial",
+  "partial_reasons": [
+    "verificação ao vivo bloqueada pela rede do ambiente",
+    "sem dados da conta (anúncios, palavras-chave, conversões) — sem nota de saúde",
+    "dispositivos da LGPD e do CDC art. 38 não conferidos no texto oficial"
+  ],
+  "health_score": null,
+  "health_score_reason": "auditoria só da landing, sem snapshot da conta; o motor de pontuação exige dados da conta",
+  "privacy_note": "Sem dados pessoais: achados derivam do site público e do código do repositório; nenhuma credencial, lead ou dado de conta foi coletado."
+}

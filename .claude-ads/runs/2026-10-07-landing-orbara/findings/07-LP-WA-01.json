@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0.0",
+  "control_id": "LP-WA-01",
+  "title": "Origem dos leads no WhatsApp",
+  "status": "fail",
+  "severity": "medium",
+  "confidence": "high",
+  "source_classification": "practitioner",
+  "evidence": [
+    {
+      "type": "code",
+      "locator": "artifacts/orbara/src/components/site/tokens.ts:2",
+      "detail": "https://wa.me/5511981680809"
+    },
+    {
+      "type": "code",
+      "locator": "artifacts/orbara/src/components/PlansShowcase.tsx:349",
+      "detail": "wa.me sem texto"
+    }
+  ],
+  "observation": "5 dos 6 links de WhatsApp abrem a conversa sem mensagem pronta (só o da auditoria tem texto).",
+  "diagnosis": "No WhatsApp, não dá para saber de qual página ou anúncio o lead veio, nem separar lead pago de orgânico na hora de atender.",
+  "recommendation": "Mensagem pronta por ponto de contato (ex.: 'Olá! Vim pelo site da Orbara — quero falar sobre {serviço}'). Junto com a conversão do G42, isso permite cruzar cliques com conversas.",
+  "score_contribution": null
+}

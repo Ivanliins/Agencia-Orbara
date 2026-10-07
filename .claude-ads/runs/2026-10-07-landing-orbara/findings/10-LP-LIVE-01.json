@@ -1,0 +1,23 @@
+{
+  "schema_version": "1.0.0",
+  "control_id": "LP-LIVE-01",
+  "title": "Verificação ao vivo",
+  "status": "unknown",
+  "severity": "medium",
+  "confidence": "none",
+  "source_classification": "practitioner",
+  "evidence": [
+    {
+      "type": "blocked_fetch",
+      "url": "https://orbara.com.br/",
+      "timestamp": "2026-10-07T02:46:35Z",
+      "guard_decision": "allowed_public",
+      "outcome": "egress_denied_by_environment",
+      "request_sent": true
+    }
+  ],
+  "observation": "A busca protegida de https://orbara.com.br/ não completou: a rede deste ambiente bloqueia o domínio (o proxy recusou a conexão; o fetcher com IP fixo falhou no TLS). request_sent: true, response: none.",
+  "diagnosis": "Não verifiquei ao vivo os redirecionamentos, o status HTTP para o AdsBot, os cabeçalhos de produção nem os tempos reais. A auditoria usou o código do commit publicado (6adb758) e o build local.",
+  "recommendation": "Conferir no Google Ads (Diagnóstico da página de destino / relatório de páginas de destino) e no PageSpeed Insights de produção.",
+  "score_contribution": null
+}
