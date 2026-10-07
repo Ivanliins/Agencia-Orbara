@@ -106,3 +106,21 @@ Os detalhes e as evidências de cada item estão em `findings/*.json`.
 | 3 | Recursos: ligação/WhatsApp, snippets estruturados, imagens, logo; 2º anúncio por grupo | Eu | Taxa de cliques (CTR) |
 
 **Como desfazer:** todas as mudanças de campanha propostas são reversíveis (ligar de novo, reativar, mudar o teto de volta). Nada foi alterado nesta auditoria.
+
+---
+
+## Alterações aplicadas via API (07/10/2026)
+
+Aprovadas pelo dono da conta, validadas antes sem gravar nada e conferidas depois na conta. O registro completo, com o que mudou e como desfazer, está em `mutation-2026-10-07-campaign.json`.
+
+| Alteração | Antes | Depois |
+|---|---|---|
+| AI Max | ligado | **desligado** |
+| Automação de textos e expansão de URL final | ligadas | **desligadas** (estado anterior a 20/09) |
+| Teto de CPC (Maximizar cliques) | R$ 3,00 | **R$ 3,50** |
+| 5 palavras-chave em correspondência ampla (G01) | ativas | **pausadas** |
+| "orçamento criação de site" e "desenvolvimento de landing page" em frase | removidas pelo Google em 18/09 | **recolocadas** (em revisão) |
+
+**Não mudou:** orçamento, estratégia de lance, segmentação, anúncios, grupo G02 e negativas.
+
+**Ainda pendente com você:** ver o motivo do bloqueio da conta (seção "Por que a campanha está parada"), recarregar o saldo e desligar a aplicação automática de recomendações.
