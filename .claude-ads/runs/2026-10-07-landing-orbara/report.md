@@ -105,3 +105,16 @@ Os rótulos são gerados pelo próprio Google Ads quando a ação é criada; nã
 | Meta da campanha | Começar como **secundária** por ~2 semanas, conferir com os leads reais e depois promover a **principal** | Igual |
 
 Use **um** dos dois métodos na ação de lead: URL `/obrigado` **ou** rótulo no código. Os dois juntos contam o mesmo lead duas vezes.
+
+### Atualização (07/10/2026, 3ª rodada): conversões criadas via API
+
+Plano aprovado e aplicado na conta "Agência Orbara" (464-582-6023), depois de uma validação prévia sem gravar nada. O registro completo, com o que mudou e como desfazer, está em `mutation-2026-10-07-conversions.json`.
+
+**O que mudou:**
+- Novas ações **Lead — Formulário do site** (rótulo `QVovCNeL_JMdEI7rsNFE`) e **Contato — WhatsApp** (rótulo `f7kyCNqL_JMdEI7rsNFE`). Ambas principais, contagem "Uma", janela de 30 dias e atribuição baseada em dados.
+- A meta "Clique de saída" saiu do padrão da conta. A ação automática antiga continua existindo, mas não entra mais nas conversões. A API não permite editá-la diretamente.
+- Os rótulos foram colocados em `src/lib/tracking.ts`. Testado no navegador: os dois eventos saem com o `send_to` correto.
+
+**O que não mudou:** campanha, orçamento e lances.
+
+**Situação da conta antes da mudança (últimos 30 dias):** 257 impressões, 14 cliques, R$ 39,48 e 0 conversões, com lance "Maximizar cliques".

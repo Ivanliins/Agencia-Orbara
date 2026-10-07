@@ -1,0 +1,26 @@
+{
+  "schema_note": "Registro de alteração aplicada (não contém credenciais)",
+  "applied_at": "2026-10-07",
+  "platform": "google",
+  "account": { "customer_id": "4645826023", "name": "Agência Orbara", "conversion_tracking_id": "AW-18424280462" },
+  "approved_by": "dono da conta (aprovação explícita no chat: 'Aprovar tudo')",
+  "idempotency": "criação condicionada à inexistência de ação com o mesmo nome",
+  "validate_only_first": true,
+  "changes": [
+    { "op": "create", "resource": "conversionActions/7826507223", "name": "Lead — Formulário do site", "type": "WEBPAGE", "category": "SUBMIT_LEAD_FORM", "counting": "ONE_PER_CLICK", "click_window_days": 30, "view_window_days": 1, "attribution": "DATA_DRIVEN", "primary_for_goal": true, "label": "QVovCNeL_JMdEI7rsNFE" },
+    { "op": "create", "resource": "conversionActions/7826507226", "name": "Contato — WhatsApp", "type": "WEBPAGE", "category": "CONTACT", "counting": "ONE_PER_CLICK", "click_window_days": 30, "view_window_days": 1, "attribution": "DATA_DRIVEN", "primary_for_goal": true, "label": "f7kyCNqL_JMdEI7rsNFE" },
+    { "op": "update", "resource": "customerConversionGoals/OUTBOUND_CLICK~WEBSITE", "field": "biddable", "before": true, "after": false, "reason": "a ação automática 7775963958 (Clique de saída, WEBPAGE_CODELESS) não aceita edição via API; tirar a meta do padrão da conta evita contar o WhatsApp em dobro" }
+  ],
+  "not_changed": ["campanhas", "orçamentos", "lances (Maximizar cliques)", "ação 7775963958 continua existindo"],
+  "verified_remote_state": {
+    "7826507223": { "include_in_conversions_metric": true },
+    "7826507226": { "include_in_conversions_metric": true },
+    "7775963958": { "include_in_conversions_metric": false }
+  },
+  "rollback": [
+    "Remover ou pausar as ações 7826507223 e 7826507226 em Metas → Conversões",
+    "Reativar a meta 'Clique de saída' como meta padrão da conta (biddable=true)",
+    "Esvaziar CONVERSION_LABELS em artifacts/orbara/src/lib/tracking.ts"
+  ],
+  "verification_window": "Conversões aparecem no Google Ads em até 24–48 h após o primeiro lead; conferir após 7 dias se os números batem com os leads reais."
+}

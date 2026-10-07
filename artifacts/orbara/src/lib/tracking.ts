@@ -1,16 +1,15 @@
 /**
  * Medição de conversões do Google Ads (tag AW-18424280462, carregada no index.html).
  *
- * Preencha os rótulos com os das ações de conversão criadas no Google Ads
- * (Metas → Conversões → ação → "Configurar tag" → send_to: "AW-18424280462/<rótulo>").
- * Enquanto um rótulo estiver vazio, o evento vai só para o dataLayer (útil para depurar
- * e para uma futura configuração no GA4/GTM) e nenhuma conversão é enviada.
+ * Rótulos das ações de conversão da conta "Agência Orbara" (464-582-6023), criadas em 07/10/2026
+ * (send_to: "AW-18424280462/<rótulo>"). Todo evento também vai para o dataLayer.
+ * Se um rótulo ficar vazio, nenhuma conversão é enviada para aquela ação.
  */
 export const GOOGLE_ADS_ID = "AW-18424280462";
 
 export const CONVERSION_LABELS: Record<ConversionKind, string> = {
-  lead: "", // ação "Lead — formulário"
-  whatsapp: "", // ação "Clique no WhatsApp"
+  lead: "QVovCNeL_JMdEI7rsNFE", // ação "Lead — Formulário do site" (id 7826507223)
+  whatsapp: "f7kyCNqL_JMdEI7rsNFE", // ação "Contato — WhatsApp" (id 7826507226)
 };
 
 export type ConversionKind = "lead" | "whatsapp";
