@@ -183,7 +183,13 @@ export default function ServicePage({ slug }: { slug: ServiceSlug }) {
                   <li key={c.slug}>
                     <Link href={`/cases/${c.slug}`} className={`group block h-full rounded-3xl p-7 transition-colors hover:border-[#ff5d00] ${t.card}`}>
                       <span className="text-[11px] font-black uppercase tracking-widest text-[#ff5d00]">Case</span>
-                      <h3 className={`mt-3 font-black text-xl ${t.fg}`}>{c.client}</h3>
+                      <p className="mt-4 font-black leading-none tracking-tight text-[#ff5d00]" style={{ fontSize: "clamp(2.6rem, 5vw, 3.6rem)" }}>
+                        +{c.result.value}%
+                      </p>
+                      <p className={`mt-2 text-sm font-bold ${t.fg}`}>
+                        {c.result.label} <span className={t.fgMuted}>{c.result.period}</span>
+                      </p>
+                      <h3 className={`mt-5 font-black text-xl ${t.fg}`}>{c.client}</h3>
                       <p className={`mt-2 text-base leading-relaxed ${t.fgMuted}`}>{c.headline}</p>
                       <span className={`mt-6 inline-flex items-center gap-2 text-sm font-black uppercase tracking-wider ${t.fg} group-hover:text-[#ff5d00]`}>
                         Ver case <ArrowUpRight size={15} className="transition-transform group-hover:rotate-45" />

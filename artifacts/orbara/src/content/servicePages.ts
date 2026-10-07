@@ -2,9 +2,8 @@
  * Conteúdo das páginas de serviço (/criacao-de-sites, /seo, /google-ads, /motion-graphics).
  *
  * Cada página é o destino de um grupo de anúncios: o título repete a busca do anúncio.
- * Só usamos afirmações que o site já faz em outros lugares (planos, FAQ, cases); prazos
- * de entrega ficam de fora até o site ter uma versão única (FAQ fala em ~30 dias,
- * os planos em 3–5 dias).
+ * Só usamos afirmações que o site já faz em outros lugares (planos, FAQ, cases):
+ * prazo de 3 a 5 dias para sites e os resultados originais de cada case.
  */
 import type { WhatsAppSource } from "@/components/site/tokens";
 
@@ -43,12 +42,12 @@ export const SERVICE_PAGES: ServicePage[] = [
     serviceType: "Criação de sites e landing pages",
     seoTitle: "Criação de Sites Profissionais e Landing Pages | Orbara",
     seoDescription:
-      "Criação de sites e landing pages rápidos, prontos para o Google e integrados ao WhatsApp. Landing page a partir de R$ 1.490 em até 6x. Diagnóstico grátis do seu site.",
+      "Sites e landing pages rápidos, prontos para o Google e integrados ao WhatsApp. No ar em 3 a 5 dias, a partir de R$ 1.490 em até 6x. Diagnóstico grátis do seu site.",
     kicker: "Criação de sites e landing pages",
     h1: "Criação de sites profissionais",
     h1Accent: "que geram clientes.",
     sub: "Sites e landing pages rápidos no celular, prontos para o Google e integrados ao WhatsApp, pensados para transformar visita em pedido de orçamento.",
-    chips: ["A partir de R$ 1.490", "Em até 6x", "Sem fidelidade", "Diagnóstico grátis"],
+    chips: ["No ar em 3 a 5 dias", "A partir de R$ 1.490", "Em até 6x", "Sem fidelidade", "Diagnóstico grátis"],
     waSource: "sites",
     included: [
       { title: "Landing pages e sites institucionais", desc: "Uma página focada numa oferta ou o site completo da empresa. E-commerce e plataformas sob medida." },
@@ -62,7 +61,7 @@ export const SERVICE_PAGES: ServicePage[] = [
       { title: "Diagnóstico gratuito", desc: "Olhamos seu site atual (ou seu negócio, se ainda não tem site) e o que está travando os contatos." },
       { title: "Estratégia e estrutura", desc: "Definimos as páginas, a mensagem principal e o caminho até o contato." },
       { title: "Design e desenvolvimento", desc: "Layout exclusivo, texto e programação com foco em velocidade e conversão." },
-      { title: "No ar e medindo", desc: "Publicação, integração com WhatsApp e medição de leads desde o primeiro dia." },
+      { title: "No ar em 3 a 5 dias", desc: "Publicação, integração com WhatsApp e medição de leads desde o primeiro dia." },
     ],
     pricing: {
       title: "Planos que cabem no momento da sua empresa",
@@ -74,6 +73,10 @@ export const SERVICE_PAGES: ServicePage[] = [
       {
         q: "Quanto custa um site?",
         a: "O plano Essencial (landing page otimizada) custa R$ 1.490 e o Aceleração R$ 2.995, ambos em até 6x. Projetos sob medida, como e-commerce e plataformas, são orçados depois do diagnóstico gratuito.",
+      },
+      {
+        q: "Quanto tempo leva para o site ficar no ar?",
+        a: "De 3 a 5 dias a partir da aprovação do briefing: o plano Essencial fica pronto em até 3 dias e o Aceleração, em até 5. E-commerce e plataformas sob medida têm o prazo definido na proposta.",
       },
       {
         q: "Já tenho um site. Vocês refazem ou otimizam?",

@@ -6,7 +6,7 @@ import { tokens } from "./tokens";
 const STEPS = [
   { title: "Escuta", icon: Ear, desc: "Mergulhamos no seu negócio, no seu cliente ideal e na concorrência. Sem entender o contexto, qualquer estratégia é chute." },
   { title: "Estratégia", icon: Compass, desc: "Desenhamos a arquitetura de conversão, o plano de mídia e as palavras-chave que vão mover o ponteiro — não só gerar tráfego." },
-  { title: "Execução", icon: Rocket, desc: "Site, campanhas e SEO entram em órbita em até 30 dias. Sem enrolação, sem meses esperando aprovação." },
+  { title: "Execução", icon: Rocket, desc: "Seu site entra em órbita em 3 a 5 dias, e campanhas e SEO começam em seguida. Sem enrolação, sem meses esperando aprovação." },
   { title: "Otimização", icon: BarChart3, desc: "Medimos tudo, ajustamos o que não performa e escalamos o que funciona. Todo mês você recebe um relatório claro, sem jargão." },
 ];
 

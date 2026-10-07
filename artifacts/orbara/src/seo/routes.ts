@@ -27,7 +27,16 @@ const HOME: RouteMeta = {
     "Agência especializada em Criação de Sites e Auditoria SEO Técnica. Transforme sua presença digital e domine as buscas com a Orbara.",
 };
 
-type CaseSeo = { slug: string; client: string; title: string; description: string; image: string; headline: string };
+type CaseSeo = {
+  slug: string;
+  client: string;
+  title: string;
+  description: string;
+  image: string;
+  headline: string;
+  /** Resultado original do case, igual ao da home e da página do case. */
+  result: { value: number; label: string; period: string };
+};
 
 export const CASE_SEO: CaseSeo[] = [
   {
@@ -38,6 +47,7 @@ export const CASE_SEO: CaseSeo[] = [
       "Como a Orbara posicionou a Voltari como referência em mobilidade elétrica: site focado em conversão, SEO por categoria e tráfego pago segmentado. +138% em vendas online em 3 meses.",
     image: `${SITE_URL}/case-voltari.jpg`,
     headline: "Do nicho ao mainstream da mobilidade elétrica",
+    result: { value: 138, label: "em vendas online", period: "em 3 meses" },
   },
   {
     slug: "camila-nogueira",
@@ -47,6 +57,7 @@ export const CASE_SEO: CaseSeo[] = [
       "Site de autoridade, blog jurídico, SEO local e Google Ads dentro das normas da OAB para o escritório da Dra. Camila Nogueira. +91% em novos clientes por mês em 3 meses.",
     image: `${SITE_URL}/case-camila.jpg`,
     headline: "Autoridade digital dentro das normas da OAB",
+    result: { value: 91, label: "em novos clientes/mês", period: "em 3 meses" },
   },
   {
     slug: "central-park",
@@ -56,6 +67,7 @@ export const CASE_SEO: CaseSeo[] = [
       "Google Meu Negócio otimizado, campanhas geolocalizadas num raio de 3 km e conteúdo local levaram o Estacionamento Central Park a +68% de ocupação mensal em 2 meses.",
     image: `${SITE_URL}/case-central-park.jpg`,
     headline: "Do desconhecido ao ponto de referência da região",
+    result: { value: 68, label: "em ocupação mensal", period: "em 2 meses" },
   },
 ];
 

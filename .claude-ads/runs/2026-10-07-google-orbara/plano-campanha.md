@@ -2,18 +2,17 @@
 
 **Base:** o site publicado em 07/10/2026 (serviços, planos, FAQ, cases, auditoria gratuita, `/obrigado`) cruzado com a conta Google Ads 464-582-6023. Este documento é só proposta: nada foi alterado na conta.
 
-## 1. Antes de anunciar: o site se contradiz
+## 1. Antes de anunciar: o site se contradizia (resolvido em 07/10)
 
-Esses pontos precisam de uma versão única, porque anúncio e página têm que dizer a mesma coisa. Se não disserem, o Google pode reprovar o anúncio (deturpação) e o cliente se sente enganado.
+Anúncio e página têm que dizer a mesma coisa; se não disserem, o Google pode reprovar o anúncio (deturpação) e o cliente se sente enganado.
 
-| Tema | O site diz | Onde | Decidir |
-|---|---|---|---|
-| Prazo do site | "Em média **30 dias**" | FAQ | Qual prazo vale? Só anunciar prazo depois de decidir |
-| | "Entrega em até **3 dias**" (Essencial) e "**5 dias**" (Aceleração) | Planos | |
-| Resultado | "Resultados a partir de **30 dias**" | Hero | Alinhar com o FAQ |
-| | Google Ads: consistentes entre **60 e 90 dias**; SEO: **3 a 4 meses** | FAQ | |
-| Preço | Aceleração "**De R$ 5.990 por R$ 2.995 (50% OFF)**" | Planos | Só pode usar em anúncio se o preço de R$ 5.990 foi de fato praticado (CDC e política de preços do Google) |
-| Parcelamento | "em até 6x" (não diz se tem juros) | Planos | Não anunciar "sem juros" sem confirmar |
+| Tema | Decisão | Onde o site diz agora |
+|---|---|---|
+| Prazo do site | **3 a 5 dias** (Essencial até 3, Aceleração até 5; e-commerce e plataformas com prazo na proposta) | Hero, Processo, FAQ, Planos e `/criacao-de-sites` |
+| Resultado | Chip do hero trocado de "Resultados a partir de 30 dias" para "Site no ar em 3 a 5 dias". Prazos de resultado ficam só no FAQ (Google Ads 60–90 dias, SEO 3–4 meses) | Hero, FAQ |
+| Cases | Usar os resultados originais: **Voltari +138% em vendas online em 3 meses**, **Camila Nogueira +91% em novos clientes/mês em 3 meses**, **Central Park +68% em ocupação mensal em 2 meses** | Home, páginas dos cases e páginas de serviço |
+| Preço | Aceleração "De R$ 5.990 por R$ 2.995 (50% OFF)": só usar em anúncio se o preço de R$ 5.990 foi de fato praticado (CDC e política de preços do Google) | Planos |
+| Parcelamento | "em até 6x" (não diz se tem juros): não anunciar "sem juros" sem confirmar | Planos |
 
 ## 2. Estrutura proposta (Rede de Pesquisa)
 
@@ -60,9 +59,11 @@ O próprio FAQ da Orbara recomenda verba a partir de R$ 1.500/mês para os clien
 ## 5. Anúncios propostos (limites do Google conferidos: título ≤ 30, descrição ≤ 90)
 
 **G01 Criação de Sites:** títulos "Criação de Sites Profissionais", "Site Profissional p/ Empresas", "Landing Page desde R$ 1.490", "Parcele em Até 6x", "Sites Rápidos no Celular", "Integração com WhatsApp", "Sem Contrato de Fidelidade", "Diagnóstico Grátis do Seu Site", "Orçamento Rápido no WhatsApp", "Sites Feitos para Gerar Leads", "Empresa de Criação de Sites", "Agência Orbara".
+Títulos extras (agora comprovados na página): "Site no Ar em 3 a 5 Dias", "+138% em Vendas Online (Case)".
 Descrições: "Sites e landing pages rápidos, prontos para o Google e integrados ao WhatsApp." · "Landing page a partir de R$ 1.490 em até 6x. Peça seu orçamento pelo WhatsApp." · "Faça o diagnóstico grátis do seu site atual e veja o que está travando suas vendas." · "Sem fidelidade: após o projeto, o acompanhamento é mês a mês. Fale com a Orbara."
 
 **G02 SEO:** títulos "Agência de SEO para Empresas", "Consultoria de SEO", "Tráfego Orgânico no Google", "SEO Local e Google Meu Negócio", "SEO Técnico e de Conteúdo", "Diagnóstico de SEO Grátis", "Plano de SEO Mês a Mês", "Sem Contrato de Fidelidade", "SEO para Negócios Locais", "Fale com um Especialista", "Mais Clientes pelo Google", "Agência Orbara".
+Título extra: "+91% de Novos Clientes (Case)".
 Descrições: "SEO técnico, local e de conteúdo para sua empresa aparecer quando o cliente procura." · "Otimizamos seu site e seu Perfil da Empresa no Google. Primeiros resultados em meses." · "Faça o diagnóstico grátis do seu site e receba o que corrigir primeiro." · "Acompanhamento mês a mês, sem fidelidade. Fale com a Orbara pelo WhatsApp."
 
 **G03 Gestão de Google Ads:** títulos "Gestão de Google Ads", "Agência de Google Ads", "Gestor de Tráfego Pago", "Campanhas no Google Pesquisa", "Custo por Lead Sob Controle", "Conversões Medidas de Verdade", "Leads no WhatsApp", "Landing Page Pronta p/ Anúncio", "Sem Contrato de Fidelidade", "Fale com um Especialista", "Pare de Desperdiçar Cliques", "Agência Orbara".
@@ -71,7 +72,7 @@ Descrições: "Campanhas de pesquisa com medição de leads, landing page dedica
 **G04 Motion Graphics:** títulos "Vídeo Animado para Empresas", "Motion Graphics", "Comercial Animado", "Vídeos para Reels e Stories", "Vídeo Institucional Animado", "Formatos 16:9 e 9:16", "Animação para Anúncios", "Veja Nossos Cases em Vídeo", "Peça um Orçamento", "Agência Orbara".
 Descrições: "Comerciais e vídeos animados para site, YouTube, Reels e Stories, em 16:9 e 9:16." · "Vídeos que prendem a atenção nos primeiros segundos. Veja cases e peça um orçamento." · "Roteiro, animação, trilha e narração em um só lugar. Fale com a Orbara no WhatsApp."
 
-Os textos evitam números que o site não comprova ("+138%", "1º lugar", "50% OFF") e "sem juros".
+Os números dos cases (+138%, +91%, +68%) aparecem na própria página de destino de cada grupo, com o período, e podem ir nos anúncios. Continuam fora: "1º lugar", "50% OFF" (até confirmar o preço cheio) e "sem juros".
 
 ## 6. Maior ganho fora da conta: uma página por serviço
 
