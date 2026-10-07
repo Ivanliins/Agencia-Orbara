@@ -14,7 +14,8 @@ import { OrbitDecoration } from "@/components/OrbitDecoration";
 import { OrbaraLogo } from "./Chrome";
 import { tokens, NAV_ITEMS, whatsappUrl, INSTAGRAM_URL } from "./tokens";
 import { trackConversion } from "@/lib/tracking";
-import { useLocation } from "wouter";
+import { Link, useLocation } from "wouter";
+import { SERVICE_PAGES } from "@/content/servicePages";
 
 // ── Visão / Missão ───────────────────────────────────────────────────────
 
@@ -296,7 +297,7 @@ export function Footer() {
           </Magnetic>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-10 pb-14 border-b border-white/[0.08]">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-10 pb-14 border-b border-white/[0.08]">
           <div className="col-span-2">
             <div className="flex items-center gap-2 mb-4">
               <OrbaraLogo stroke="#fffafa" />
@@ -309,10 +310,23 @@ export function Footer() {
             <ul className="flex flex-col gap-3">
               {NAV_ITEMS.map(({ id, label }) => (
                 <li key={id}>
-                  <a href={`#${id}`} onClick={(e) => { e.preventDefault(); scrollToId(id); }} className="group inline-flex items-center text-sm font-semibold text-[#fffafa]/65 hover:text-[#ff5d00] transition-colors">
+                  <a href={`/#${id}`} onClick={(e) => { if (document.getElementById(id)) { e.preventDefault(); scrollToId(id); } }} className="group inline-flex items-center text-sm font-semibold text-[#fffafa]/65 hover:text-[#ff5d00] transition-colors">
                     <span className="w-0 group-hover:w-4 group-hover:mr-2 h-px bg-[#ff5d00] transition-all duration-300" />
                     {label}
                   </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <span className="block text-xs font-black uppercase tracking-[0.3em] text-[#fffafa]/35 mb-5">Serviços</span>
+            <ul className="flex flex-col gap-3">
+              {SERVICE_PAGES.map((s) => (
+                <li key={s.slug}>
+                  <Link href={`/${s.slug}`} className="group inline-flex items-center text-sm font-semibold text-[#fffafa]/65 hover:text-[#ff5d00] transition-colors">
+                    <span className="w-0 group-hover:w-4 group-hover:mr-2 h-px bg-[#ff5d00] transition-all duration-300" />
+                    {s.name}
+                  </Link>
                 </li>
               ))}
             </ul>

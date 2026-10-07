@@ -14,6 +14,22 @@
     {
       "source": "/obrigado",
       "destination": "/obrigado/index.html"
+    },
+    {
+      "source": "/criacao-de-sites",
+      "destination": "/criacao-de-sites/index.html"
+    },
+    {
+      "source": "/seo",
+      "destination": "/seo/index.html"
+    },
+    {
+      "source": "/google-ads",
+      "destination": "/google-ads/index.html"
+    },
+    {
+      "source": "/motion-graphics",
+      "destination": "/motion-graphics/index.html"
     }
   ],
   "headers": [

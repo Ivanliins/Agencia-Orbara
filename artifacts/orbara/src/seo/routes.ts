@@ -4,6 +4,8 @@
  *   title/description/canonical/OG/JSON-LD direto no HTML de cada página;
  * - no navegador, pelo hook useSeo, ao navegar entre páginas sem recarregar.
  */
+import { SERVICE_PAGES, type ServicePage } from "@/content/servicePages";
+
 export const SITE_URL = "https://orbara.com.br";
 
 export type RouteMeta = {
@@ -103,7 +105,44 @@ export const THANKS: RouteMeta = {
   noindex: true,
 };
 
-export const ROUTES: RouteMeta[] = [HOME, ...CASE_SEO.map(caseMeta), THANKS];
+/** Páginas de serviço: destino dos grupos de anúncios e páginas indexáveis para cada serviço. */
+const PLAN_OFFERS = [
+  { name: "Essencial", price: "1490" },
+  { name: "Aceleração", price: "2995" },
+];
+
+const serviceMeta = (s: ServicePage): RouteMeta => ({
+  path: `/${s.slug}`,
+  title: s.seoTitle,
+  description: s.seoDescription,
+  jsonLd: {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Service",
+        "@id": `${SITE_URL}/${s.slug}#service`,
+        name: s.name,
+        serviceType: s.serviceType,
+        description: s.seoDescription,
+        url: `${SITE_URL}/${s.slug}`,
+        provider: { "@id": `${SITE_URL}/#org` },
+        areaServed: { "@type": "Country", name: "Brasil" },
+        ...(s.slug === "criacao-de-sites"
+          ? { offers: PLAN_OFFERS.map((o) => ({ "@type": "Offer", name: o.name, price: o.price, priceCurrency: "BRL" })) }
+          : {}),
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Início", item: `${SITE_URL}/` },
+          { "@type": "ListItem", position: 2, name: s.name, item: `${SITE_URL}/${s.slug}` },
+        ],
+      },
+    ],
+  },
+});
+
+export const ROUTES: RouteMeta[] = [HOME, ...SERVICE_PAGES.map(serviceMeta), ...CASE_SEO.map(caseMeta), THANKS];
 
 export function metaFor(path: string): RouteMeta {
   const clean = path.split(/[?#]/)[0].replace(/\/+$/, "") || "/";

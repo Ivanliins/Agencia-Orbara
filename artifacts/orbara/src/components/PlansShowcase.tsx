@@ -20,7 +20,7 @@ const brl = (v: number, cents = false) =>
     maximumFractionDigits: cents ? 2 : 0,
   });
 
-type Plan = {
+export type Plan = {
   id: string;
   name: string;
   icon: typeof Rocket;
@@ -32,7 +32,7 @@ type Plan = {
   featured?: boolean;
 };
 
-const PLANS: Plan[] = [
+export const PLANS: Plan[] = [
   {
     id: "essencial",
     name: "Essencial",
