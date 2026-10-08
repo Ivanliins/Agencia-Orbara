@@ -48,6 +48,23 @@
   <div style="position:absolute;left:70px;top:200px;font-size:110px;font-weight:900;line-height:.95;letter-spacing:-.03em">Um site que<br>faz <span class="o">barulho.</span></div>
   <div class="chip" style="position:absolute;left:70px;bottom:70px;font-size:30px;padding:16px 30px">Filme de marca · 30s</div>
 </div>
+<!-- MINIATURAS SHORTS 1080x1920 -->
+<div id="short-gads" class="frame" style="width:1080px;height:1920px">
+  <img src="../assets/frames/gads-v-10.jpg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">
+  <div style="position:absolute;inset:0;background:linear-gradient(180deg,#0d0101 30%,rgba(13,1,1,.1) 48%,rgba(13,1,1,.1) 66%,#0d0101 82%)"></div>
+  <div style="position:absolute;left:80px;top:140px" class="logo" data-size="44">LOGO</div>
+  <div style="position:absolute;left:80px;right:60px;top:290px;font-size:132px;font-weight:900;line-height:.95;letter-spacing:-.03em">Seu cliente está no <span class="o">Google.</span></div>
+  <div style="position:absolute;left:80px;right:80px;bottom:300px;font-size:64px;font-weight:800;line-height:1.1">E você não aparece?</div>
+  <div class="chip" style="position:absolute;left:80px;bottom:170px;font-size:38px;padding:20px 36px">Google Ads · Orbara</div>
+</div>
+<div id="short-impacto" class="frame" style="width:1080px;height:1920px">
+  <img src="../assets/frames/impacto-v-22.jpg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.75">
+  <div style="position:absolute;inset:0;background:linear-gradient(180deg,#0d0101 34%,rgba(13,1,1,.25) 52%,rgba(13,1,1,.25) 68%,#0d0101 84%)"></div>
+  <div style="position:absolute;left:80px;top:140px" class="logo" data-size="44">LOGO</div>
+  <div style="position:absolute;left:80px;right:60px;top:290px;font-size:132px;font-weight:900;line-height:.95;letter-spacing:-.03em">Um site que faz o telefone <span class="o">não parar.</span></div>
+  <div style="position:absolute;left:80px;right:80px;bottom:300px;font-size:64px;font-weight:800;line-height:1.1">Sites que fazem barulho.</div>
+  <div class="chip" style="position:absolute;left:80px;bottom:170px;font-size:38px;padding:20px 36px">Criação de sites · Orbara</div>
+</div>
 <script>
 const mk=(s,stroke="#fffafa")=>`<svg width="${s}" height="${s}" viewBox="-4 -4 32 32" fill="none" style="overflow:visible"><circle cx="12" cy="12" r="10.5" stroke="${stroke}" stroke-width="1.6"/><circle cx="19.5" cy="4.5" r="3" fill="#ff5d00"/><circle cx="19.5" cy="4.5" r="1.5" fill="#ffaa60"/></svg>`;
 document.querySelectorAll(".logo").forEach(e=>{const fs=+e.dataset.size||parseFloat(getComputedStyle(e).fontSize);e.style.fontSize=fs+"px";e.innerHTML=mk(fs*1.25)+"<span>ORBARA</span>"});
