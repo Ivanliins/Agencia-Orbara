@@ -1,0 +1,17 @@
+{
+  "schema_note": "Registro de alteração aplicada (não contém credenciais)",
+  "applied_at": "2026-10-08",
+  "platform": "google",
+  "account": { "customer_id": "4645826023", "name": "Agência Orbara" },
+  "approved_by": "dono da conta (no chat: 'pode negativar sim')",
+  "validate_only_first": true,
+  "changes": [
+    { "op": "create", "resource": "sharedCriteria/12260045655~986120530", "keyword": "inspo [ampla, negativa]" },
+    { "op": "create", "resource": "sharedCriteria/12260045655~253883998", "keyword": "inspiração [ampla, negativa]" },
+    { "op": "create", "resource": "sharedCriteria/12260045655~15023862", "keyword": "trabalhar [ampla, negativa]" },
+    { "op": "create", "resource": "sharedCriteria/12260045655~297068464544", "keyword": "como trabalhar [ampla, negativa]" }
+  ],
+  "reason": "Termos de pesquisa de 07/10: 'landing page inspo' e 'como trabalhar com gestor de trafego' (sem intenção de contratar).",
+  "verification": "Lista 'Orbara - Negativas gerais' passou de 89 para 93 itens.",
+  "rollback": "sharedCriteria:mutate remove dos 4 resourceNames acima"
+}

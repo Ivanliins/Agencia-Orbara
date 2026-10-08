@@ -1,0 +1,22 @@
+{
+  "schema_note": "Registro de alteração aplicada (não contém credenciais)",
+  "applied_at": "2026-10-07",
+  "platform": "google",
+  "account": { "customer_id": "4645826023", "name": "Agência Orbara" },
+  "campaign": { "id": "24204808268", "name": "[PESQUISA] - Captação de Leads - Orbara" },
+  "approved_by": "dono da conta (no chat: 'aprovado' ao plano de apontar o G01 para /criacao-de-sites; depois 'faça aqui')",
+  "validate_only_first": true,
+  "changes": [
+    {
+      "op": "update",
+      "resource": "customers/4645826023/ads/823044151824",
+      "ad_group": "G01 - Criação de Sites & Landing Pages (198523034543)",
+      "field": "final_urls",
+      "before": ["https://orbara.com.br/"],
+      "after": ["https://orbara.com.br/criacao-de-sites"]
+    }
+  ],
+  "unchanged": "textos do anúncio, caminho de exibição criacao/sites, palavras-chave (nenhuma tem URL final própria), lances, orçamento, G02",
+  "verification": "Lido de volta na conta após aplicar: final_urls = https://orbara.com.br/criacao-de-sites; anúncio em análise (REVIEW_IN_PROGRESS), como esperado após trocar a URL.",
+  "rollback": "ads:mutate update customers/4645826023/ads/823044151824 com finalUrls = [\"https://orbara.com.br/\"], updateMask final_urls (ou editar a URL final do anúncio do G01 na interface)."
+}

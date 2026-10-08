@@ -1,0 +1,15 @@
+{
+  "schema_note": "Registro de alteração aplicada (não contém credenciais)",
+  "applied_at": "2026-10-08",
+  "platform": "google",
+  "account": { "customer_id": "4645826023", "name": "Agência Orbara" },
+  "campaign": { "id": "24204808268", "name": "[PESQUISA] - Captação de Leads - Orbara" },
+  "approved_by": "dono da conta (no chat: 'aumente o valor do cpc para ver se dar uma movimentada')",
+  "validate_only_first": true,
+  "changes": [
+    { "op": "update", "resource": "campaign", "field": "target_spend.cpc_bid_ceiling_micros", "before": "R$ 3,50", "after": "R$ 5,00" }
+  ],
+  "context": "Teste: a campanha não entra em leilões desde 18/09. Se continuar com zero impressões com teto de R$ 5,00, fica descartado que o lance seja a causa. Orçamento diário (R$ 10) não mudou, então o gasto máximo por dia continua o mesmo.",
+  "verification": "Lido de volta na conta: teto R$ 5,00. Saldo disponível no momento: R$ 80,52.",
+  "rollback": "campaigns:mutate update target_spend.cpc_bid_ceiling_micros = 3500000"
+}
