@@ -1,0 +1,22 @@
+{
+  "schema_note": "Registro de alteração aplicada (não contém credenciais)",
+  "applied_at": "2026-10-09",
+  "platform": "google",
+  "account": { "customer_id": "4645826023", "name": "Agência Orbara" },
+  "campaign": { "id": "24204808268", "name": "[PESQUISA] - Captação de Leads - Orbara" },
+  "approved_by": "dono da conta (no chat: 'sim pode')",
+  "validate_only_first": true,
+  "changes": [
+    { "op": "create+link", "field_type": "AD_IMAGE", "assets": {
+      "428890319392": "Orbara - Leads no celular (horizontal 1200x628)",
+      "428787320528": "Orbara - Leads no celular (quadrada 1080x1080)",
+      "428787313298": "Orbara - Topo do Google (horizontal 1200x628)",
+      "428974824474": "Orbara - Topo do Google (quadrada 1080x1080)",
+      "428787320600": "Orbara - Site em 3 a 5 dias (horizontal 1200x628)",
+      "428974882182": "Orbara - Site em 3 a 5 dias (quadrada 1080x1080)" },
+      "source_files": "criativos/out/" }
+  ],
+  "not_applied": "Desligar imagens dinâmicas: a API recusou GENERATE_IMAGE_EXTRACTION para campanha de Pesquisa (ENUM_VALUE_NOT_PERMITTED). Precisa ser feito na interface.",
+  "verification": "6 campaign_assets AD_IMAGE ENABLED, status PENDING (em análise).",
+  "rollback": "campaignAssets:mutate remove de cada vínculo (ou pausar na interface em Recursos → Imagens)"
+}
