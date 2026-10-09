@@ -1,0 +1,14 @@
+{
+  "schema_note": "Registro de alteração aplicada (não contém credenciais)",
+  "applied_at": "2026-10-09",
+  "platform": "google",
+  "account": { "customer_id": "4645826023", "name": "Agência Orbara" },
+  "approved_by": "dono da conta (no chat: 'sim')",
+  "changes": [
+    { "op": "create", "resource": "sharedCriteria/12260045655~11413781", "keyword": "como [ampla, negativa]", "validate_only_first": true },
+    { "op": "apply_recommendation", "type": "DYNAMIC_IMAGE_EXTENSION_OPT_IN", "effect": "imagens dinâmicas (o Google usa imagens do site nos anúncios)", "validate_only_first": false, "note": "a API não oferece teste sem gravar para aplicar recomendações" }
+  ],
+  "not_applied": "SEARCH_PARTNERS_OPT_IN (parceiros de pesquisa) — recusado por qualidade de tráfego",
+  "verification": "Lista de negativas com 103 itens; recomendação de imagens dinâmicas saiu da lista de pendentes.",
+  "rollback": "Remover sharedCriteria/12260045655~11413781; imagens dinâmicas: Google Ads → Recursos → Imagens dinâmicas → desativar"
+}
