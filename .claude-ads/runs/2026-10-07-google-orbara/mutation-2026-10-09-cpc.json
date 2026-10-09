@@ -1,0 +1,15 @@
+{
+  "schema_note": "Registro de alteração aplicada (não contém credenciais)",
+  "applied_at": "2026-10-09",
+  "platform": "google",
+  "account": { "customer_id": "4645826023", "name": "Agência Orbara" },
+  "campaign": { "id": "24204808268", "name": "[PESQUISA] - Captação de Leads - Orbara" },
+  "approved_by": "dono da conta (no chat: 'opção b' = subir o teto em R$ 2,00)",
+  "validate_only_first": true,
+  "changes": [
+    { "op": "update", "resource": "campaign", "field": "target_spend.cpc_bid_ceiling_micros", "before": "R$ 7,00 (definido pelo dono em 08/10 12:16)", "after": "R$ 9,00" }
+  ],
+  "context": "CPC médio em 09/10: R$ 2,86; 82% das impressões perdidas por classificação. Orçamento diário continua R$ 10.",
+  "verification": "Lido de volta na conta: teto R$ 9,00.",
+  "rollback": "campaigns:mutate update target_spend.cpc_bid_ceiling_micros = 7000000"
+}
