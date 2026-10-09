@@ -1,0 +1,18 @@
+{
+  "schema_note": "Registro de alteração aplicada (não contém credenciais)",
+  "applied_at": "2026-10-09",
+  "platform": "google",
+  "account": { "customer_id": "4645826023", "name": "Agência Orbara" },
+  "approved_by": "dono da conta (no chat: 'sim')",
+  "validate_only_first": true,
+  "atomic": "uma chamada googleAds:mutate com 11 operações",
+  "changes": [
+    { "op": "create", "resource": "sharedSets/12260045655 (lista 'Orbara - Negativas gerais')", "keywords_broad_negative": ["login", "template", "modelo", "exemplos", "black friday", "tema", "como funciona", "o que faz", "my business"], "criterion_ids": ["11037921", "10099241", "12104743", "43361323", "55695721", "11048752", "299874373", "4050976486", "28477881"] },
+    { "op": "create", "resource": "adGroupCriteria/198523034543~166544656", "keyword": "[landing page] exata, negativa no G01" },
+    { "op": "update", "resource": "adGroupCriteria/198514755006~1114098452771", "keyword": "gestão google meu negócio (frase, G02)", "before": "ENABLED", "after": "PAUSED" }
+  ],
+  "reason": "Termos de pesquisa de 07–09/10: 'landing page' genérico, templates/modelos/exemplos, 'google meu negócio login', 'google my business', buscas informativas.",
+  "verification": "Lista passou de 93 para 102 itens; [landing page] exata negativa criada no G01; palavra-chave do G02 PAUSED.",
+  "unchanged": "Teto de CPC (R$ 7,00, definido pelo dono na interface em 08/10 12:16), orçamento R$ 10/dia",
+  "rollback": "Remover os 9 sharedCriteria e o adGroupCriterion 198523034543~166544656; reativar 198514755006~1114098452771"
+}
