@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8">
+<style>
+@font-face{font-family:Onest;src:url(onest-latin-wght-normal.woff2) format("woff2");font-weight:100 900}
+@font-face{font-family:Onest;src:url(onest-latin-ext-wght-normal.woff2) format("woff2");font-weight:100 900;unicode-range:U+0100-024F}
+:root{--bg:#0d0101;--o:#ff5d00;--o2:#ffaa60;--w:#fffafa}
+*{margin:0;box-sizing:border-box}
+html,body{background:transparent}
+body{font-family:Onest,sans-serif;color:var(--w)}
+#art{position:relative;overflow:hidden;background:var(--bg);display:flex}
+/* fundo: brilho, anéis e grão */
+.glow{position:absolute;border-radius:50%;filter:blur(90px);pointer-events:none}
+.ring{position:absolute;border-radius:50%;border:2px solid rgba(255,93,0,.18);pointer-events:none}
+.grain{position:absolute;inset:0;opacity:.06;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E")}
+/* zonas */
+.text,.visual{position:relative;z-index:2;display:flex}
+.text{flex-direction:column;justify-content:center}
+.visual{align-items:center;justify-content:center}
+.visual>.stage{transform-origin:center center}
+.logo{display:flex;align-items:center;gap:.4em;font-weight:900;letter-spacing:.2em}
+.kicker{color:var(--o);font-weight:800;letter-spacing:.28em;text-transform:uppercase}
+h1{font-weight:900;letter-spacing:-.035em;line-height:.95}
+h1 .o{color:var(--o);font-style:italic}
+.sub{color:rgba(255,250,250,.72);font-weight:500;line-height:1.3}
+.cta{display:inline-flex;align-items:center;gap:.6em;align-self:flex-start;background:var(--o);color:var(--bg);font-weight:900;border-radius:999px;text-transform:uppercase;letter-spacing:.04em;box-shadow:0 0 0 6px rgba(255,93,0,.18),0 18px 50px -10px rgba(255,93,0,.7)}
+.cta i{display:inline-grid;place-items:center;background:var(--bg);color:var(--o);border-radius:50%;font-style:normal}
+.chips{display:flex;flex-wrap:wrap;gap:.5em}
+.chip{border:1.5px solid rgba(255,250,250,.25);border-radius:999px;font-weight:600;color:rgba(255,250,250,.85)}
+.chip b{color:var(--o)}
+.url{color:rgba(255,250,250,.55);font-weight:600;letter-spacing:.04em}
+
+/* ===== visual 1: celular com leads ===== */
+.phone{width:420px;height:860px;border-radius:64px;background:linear-gradient(160deg,#2a1208,#120604 40%,#0a0202);border:3px solid #3a1c10;box-shadow:0 0 0 10px #050101,0 60px 120px -20px rgba(255,93,0,.55),inset 0 0 60px rgba(255,93,0,.12);position:relative;padding:90px 22px 30px}
+.phone:before{content:"";position:absolute;top:22px;left:50%;transform:translateX(-50%);width:120px;height:34px;border-radius:20px;background:#050101}
+.clock{text-align:center;font-weight:800;font-size:96px;letter-spacing:-.04em;line-height:1}
+.date{text-align:center;color:rgba(255,250,250,.6);font-weight:600;font-size:20px;margin:6px 0 40px}
+.note{display:flex;gap:14px;align-items:flex-start;background:rgba(255,250,250,.1);backdrop-filter:blur(8px);border:1px solid rgba(255,250,250,.12);border-radius:26px;padding:16px 18px;margin-bottom:14px}
+.note .ic{flex:none;width:46px;height:46px;border-radius:13px;display:grid;place-items:center}
+.note .ic.wa{background:#25d366}.note .ic.pix{background:#32bcad}.note .ic.or{background:var(--o)}
+.note .t{flex:1;min-width:0}
+.note .h{display:flex;justify-content:space-between;font-size:15px;color:rgba(255,250,250,.6);font-weight:600;text-transform:uppercase;letter-spacing:.05em}
+.note .m{font-size:22px;font-weight:700;margin-top:3px}
+.note .s{font-size:19px;color:rgba(255,250,250,.8);margin-top:1px}
+.note.hot{background:linear-gradient(120deg,rgba(255,93,0,.35),rgba(255,93,0,.12));border-color:rgba(255,93,0,.6);box-shadow:0 10px 40px -8px rgba(255,93,0,.6)}
+.badge{position:absolute;right:-60px;top:-28px;background:var(--o);color:var(--bg);font-weight:900;font-size:30px;border-radius:999px;padding:12px 24px;box-shadow:0 20px 50px -10px rgba(255,93,0,.9);transform:rotate(6deg)}
+
+/* ===== visual 2: busca no Google ===== */
+.serp{width:760px;position:relative}
+.sbar{display:flex;align-items:center;gap:16px;background:#fffafa;color:#3a2a26;border-radius:999px;padding:20px 30px;font-size:26px;font-weight:600;box-shadow:0 20px 60px -20px rgba(0,0,0,.8)}
+.sbar .q{color:#1a0a06}
+.sbar .cur{width:3px;height:30px;background:var(--o)}
+.res{margin-top:22px;border-radius:24px;padding:22px 26px;background:rgba(255,250,250,.05);border:1px solid rgba(255,250,250,.08)}
+.res .l1{height:14px;width:38%;border-radius:8px;background:rgba(255,250,250,.18)}
+.res .l2{height:22px;width:72%;border-radius:8px;background:rgba(255,250,250,.26);margin-top:12px}
+.res .l3{height:14px;width:88%;border-radius:8px;background:rgba(255,250,250,.12);margin-top:12px}
+.res.dim{opacity:.55}
+.res.top{position:relative;background:linear-gradient(120deg,rgba(255,93,0,.28),rgba(255,93,0,.08));border:2px solid var(--o);box-shadow:0 0 0 8px rgba(255,93,0,.12),0 30px 80px -10px rgba(255,93,0,.65);transform:scale(1.04)}
+.res.top .pos{position:absolute;left:-30px;top:50%;transform:translateY(-50%);width:84px;height:84px;border-radius:50%;background:var(--o);color:var(--bg);display:grid;place-items:center;font-weight:900;font-size:40px;box-shadow:0 10px 40px rgba(255,93,0,.8)}
+.res.top .d{padding-left:60px}
+.res.top .u{font-size:20px;color:var(--o2);font-weight:600}
+.res.top .ti{font-size:32px;font-weight:800;margin-top:4px}
+.res.top .de{font-size:20px;color:rgba(255,250,250,.75);margin-top:6px}
+.arrow{position:absolute;right:-20px;top:120px;font-size:120px;color:var(--o);font-weight:900;text-shadow:0 0 40px rgba(255,93,0,.8)}
+
+/* ===== visual 3: site em todas as telas ===== */
+.devs{position:relative;width:900px;height:620px}
+.lap{position:absolute;left:0;top:0;width:760px}
+.lap .scr{height:470px;border-radius:22px 22px 0 0;border:14px solid #1d0d08;border-bottom:none;background:var(--bg);overflow:hidden;box-shadow:0 40px 100px -20px rgba(255,93,0,.45)}
+.lap .base{height:30px;margin:0 -50px;border-radius:0 0 26px 26px;background:linear-gradient(#2a140c,#120604)}
+.site{height:100%;padding:24px 30px;position:relative;background:radial-gradient(circle at 75% 55%,rgba(255,93,0,.45),transparent 45%),var(--bg)}
+.site .nav{display:flex;justify-content:space-between;align-items:center;font-weight:900;font-size:15px;letter-spacing:.2em}
+.site .nav span{width:90px;height:26px;border-radius:999px;background:var(--o)}
+.site .hh{font-weight:900;font-size:46px;line-height:.95;letter-spacing:-.03em;margin-top:44px;width:60%}
+.site .hh em{color:var(--o)}
+.site .bt{margin-top:24px;width:150px;height:40px;border-radius:999px;background:var(--o)}
+.site .orb{position:absolute;right:50px;top:110px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle at 35% 35%,var(--o2),var(--o) 45%,#7a2400);box-shadow:0 0 80px rgba(255,93,0,.7)}
+.mob{position:absolute;right:0;bottom:0;width:230px;height:470px;border-radius:40px;border:10px solid #1d0d08;background:var(--bg);overflow:hidden;box-shadow:0 40px 90px -10px rgba(255,93,0,.55)}
+.mob .site{padding:30px 18px}
+.mob .site .hh{font-size:30px;width:100%;margin-top:30px}
+.mob .site .orb{position:static;width:130px;height:130px;margin:26px auto 0}
+.tag{position:absolute;left:-10px;bottom:30px;background:#fffafa;color:var(--bg);font-weight:900;border-radius:20px;padding:16px 22px;font-size:26px;box-shadow:0 20px 50px -10px rgba(0,0,0,.8);transform:rotate(-5deg)}
+.tag small{display:block;font-size:16px;color:var(--o);letter-spacing:.1em;text-transform:uppercase}
+
+/* ===== visual 4: órbita ===== */
+.orbit{position:relative;width:760px;height:760px}
+.orbit .r{position:absolute;inset:0;border-radius:50%;border:16px solid var(--w);box-shadow:0 0 60px rgba(255,250,250,.25),inset 0 0 60px rgba(255,250,250,.1)}
+.orbit .r2{position:absolute;inset:-70px;border-radius:50%;border:2px dashed rgba(255,93,0,.4)}
+.orbit .r3{position:absolute;inset:-160px;border-radius:50%;border:1.5px solid rgba(255,93,0,.18)}
+.orbit .p{position:absolute;width:190px;height:190px;border-radius:50%;right:40px;top:30px;background:radial-gradient(circle at 38% 35%,#ffd2a8,var(--o2) 30%,var(--o) 60%,#a13200);box-shadow:0 0 0 18px rgba(255,93,0,.15),0 0 120px 30px rgba(255,93,0,.65)}
+.orbit .trail{position:absolute;inset:0;border-radius:50%;border:16px solid transparent;border-top-color:var(--o);border-right-color:rgba(255,93,0,.4);transform:rotate(10deg);filter:drop-shadow(0 0 20px rgba(255,93,0,.8))}
+.spark{position:absolute;border-radius:50%;background:var(--o2);box-shadow:0 0 12px var(--o)}
+</style></head>
+<body><div id="art"></div>
+<script>
+const P = new URLSearchParams(location.search);
+const C = +P.get("c") || 1, F = P.get("f") || "sq";
+const SIZES = { land: [1200, 628], sq: [1080, 1080], port: [1080, 1350], story: [1080, 1920] };
+const [W, H] = SIZES[F];
+const art = document.getElementById("art");
+art.style.width = W + "px"; art.style.height = H + "px";
+const logoSvg = (s) => `<svg width="${s}" height="${s}" viewBox="-4 -4 32 32" fill="none" style="overflow:visible"><circle cx="12" cy="12" r="10.5" stroke="#fffafa" stroke-width="1.7"/><circle cx="19.5" cy="4.5" r="3" fill="#ff5d00"/><circle cx="19.5" cy="4.5" r="1.5" fill="#ffaa60"/></svg>`;
+const wa = `<svg width="26" height="26" viewBox="0 0 24 24" fill="#fff"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2z"/></svg>`;
+
+const CONCEPTS = {
+  1: { kicker: "Sites e landing pages", h: `Seu site deveria <span class="o">fazer isso.</span>`, sub: "Sites rápidos, prontos para o Google e integrados ao WhatsApp.", cta: "Diagnóstico grátis", chips: ["No ar em <b>3 a 5 dias</b>", "Sem fidelidade"],
+    visual: `<div class="phone"><div class="clock">09:41</div><div class="date">Quinta-feira, 9 de outubro</div>
+      <div class="note"><div class="ic wa">${wa}</div><div class="t"><div class="h"><span>WhatsApp</span><span>agora</span></div><div class="m">Novo lead · Mariana</div><div class="s">Oi, quero um orçamento!</div></div></div>
+      <div class="note"><div class="ic wa">${wa}</div><div class="t"><div class="h"><span>WhatsApp</span><span>2 min</span></div><div class="m">Novo lead · Rafael</div><div class="s">Vi seu site no Google 👀</div></div></div>
+      <div class="note hot"><div class="ic or"><b style="font-size:24px;color:#0d0101">✓</b></div><div class="t"><div class="h"><span>Vendas</span><span>5 min</span></div><div class="m">Você vendeu +1</div><div class="s">Proposta aprovada</div></div></div>
+      <div class="note"><div class="ic pix"><b style="font-size:20px;color:#fff">PIX</b></div><div class="t"><div class="h"><span>Banco</span><span>8 min</span></div><div class="m">Pix recebido</div><div class="s">Pagamento confirmado</div></div></div>
+      <div class="badge">+3 leads hoje</div></div>` },
+  2: { kicker: "SEO + Google Ads", h: `Apareça quando o cliente <span class="o">procura.</span>`, sub: "Sua empresa no topo do Google, na hora em que alguém busca o que você vende.", cta: "Fale com a Orbara", chips: ["Diagnóstico <b>grátis</b>", "Mês a mês, sem fidelidade"],
+    visual: `<div class="serp"><div class="sbar"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#ff5d00" stroke-width="2.6"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span class="q">criação de site perto de mim</span><span class="cur"></span></div>
+      <div class="res top"><div class="pos">1º</div><div class="d"><div class="u">suaempresa.com.br</div><div class="ti">Sua empresa — no topo do Google</div><div class="de">Orçamento rápido pelo WhatsApp</div></div></div>
+      <div class="res dim"><div class="l1"></div><div class="l2"></div><div class="l3"></div></div>
+      <div class="res dim" style="opacity:.35"><div class="l1"></div><div class="l2"></div><div class="l3"></div></div>
+      <div class="res dim" style="opacity:.18"><div class="l1"></div><div class="l2"></div></div>
+      <div class="arrow">↑</div></div>` },
+  3: { kicker: "Criação de sites", h: `Site profissional no ar em <span class="o">3 a 5 dias.</span>`, sub: "Design exclusivo, rápido no celular e feito para gerar pedidos de orçamento.", cta: "Peça seu orçamento", chips: ["A partir de <b>R$ 1.490</b>", "Em até <b>6x</b>"],
+    visual: `<div class="devs"><div class="lap"><div class="scr"><div class="site"><div class="nav">SUA MARCA<span></span></div><div class="hh">Seu negócio, <em>impossível</em> de ignorar.</div><div class="bt"></div><div class="orb"></div></div></div><div class="base"></div></div>
+      <div class="mob"><div class="site"><div class="nav" style="font-size:11px">SUA MARCA</div><div class="hh">Seu negócio, <em>impossível</em> de ignorar.</div><div class="orb"></div></div></div>
+      <div class="tag"><small>Entrega</small>3 a 5 dias</div></div>` },
+  4: { kicker: "Agência Orbara", h: `Sites que fazem <span class="o">barulho.</span>`, sub: "Sites, SEO, Google Ads e motion graphics para empresas que querem ser encontradas.", cta: "orbara.com.br", chips: ["Diagnóstico <b>grátis</b>", "Sem fidelidade"],
+    visual: `<div class="orbit"><div class="r3"></div><div class="r2"></div><div class="r"></div><div class="trail"></div><div class="p"></div>
+      ${Array.from({length:18},(_,i)=>{const a=i*20*Math.PI/180, rr=420+((i*37)%140); const s=4+(i%4)*3; return `<div class="spark" style="width:${s}px;height:${s}px;left:${380+rr*Math.cos(a)}px;top:${380+rr*Math.sin(a)}px;opacity:${.3+(i%5)/8}"></div>`}).join("")}</div>` },
+};
+const c = CONCEPTS[C];
+
+// tipografia e espaçamento por formato
+const T = {
+  land:  { pad: 56, logo: 22, kick: 15, h1: 64, sub: 21, cta: 20, chip: 16, gap: 18, textW: 560 },
+  sq:    { pad: 72, logo: 26, kick: 17, h1: 92, sub: 26, cta: 24, chip: 19, gap: 22 },
+  port:  { pad: 80, logo: 28, kick: 18, h1: 98, sub: 28, cta: 26, chip: 20, gap: 24 },
+  story: { pad: 90, logo: 32, kick: 20, h1: 112, sub: 32, cta: 30, chip: 23, gap: 30 },
+}[F];
+
+const bg = `<div class="glow" style="width:${W*.9}px;height:${W*.9}px;right:${-W*.25}px;${F==='land'?'top':'bottom'}:${-W*.3}px;background:rgba(255,93,0,.35)"></div>
+  <div class="glow" style="width:${W*.5}px;height:${W*.5}px;left:${-W*.2}px;top:${-W*.2}px;background:rgba(255,93,0,.12)"></div>
+  <div class="ring" style="width:${W*1.3}px;height:${W*1.3}px;left:${W*.25}px;top:${H*.2}px"></div>
+  <div class="ring" style="width:${W*.8}px;height:${W*.8}px;left:${W*.45}px;top:${H*.35}px;border-style:dashed;opacity:.6"></div>
+  <div class="grain"></div>`;
+
+const text = `<div class="text" style="gap:${T.gap}px;${F==='land'?`width:${T.textW}px;flex:none`:''}">
+  <div class="logo" style="font-size:${T.logo}px">${logoSvg(T.logo*1.3)}<span>ORBARA</span></div>
+  <div style="height:${T.gap*.6}px"></div>
+  <div class="kicker" style="font-size:${T.kick}px">${c.kicker}</div>
+  <h1 style="font-size:${T.h1}px">${c.h}</h1>
+  <div class="sub" style="font-size:${T.sub}px;max-width:${F==='land'?520:W*.82}px">${c.sub}</div>
+  <div class="chips" style="font-size:${T.chip}px">${c.chips.map(x=>`<span class="chip" style="padding:${T.chip*.45}px ${T.chip*.9}px">${x}</span>`).join("")}</div>
+  <div class="cta" style="font-size:${T.cta}px;padding:${T.cta*.7}px ${T.cta*.7}px ${T.cta*.7}px ${T.cta*1.3}px;margin-top:${T.gap*.4}px">${c.cta}<i style="width:${T.cta*1.7}px;height:${T.cta*1.7}px;font-size:${T.cta*.9}px">↗</i></div>
+</div>`;
+
+art.innerHTML = bg + text + `<div class="visual"><div class="stage">${c.visual}</div></div>`;
+art.style.padding = T.pad + "px";
+// stories: respeita as áreas cobertas pela interface do Instagram (topo e rodapé)
+if (F === "story") { art.style.paddingTop = "230px"; art.style.paddingBottom = "300px"; }
+art.style.flexDirection = F === "land" ? "row" : "column";
+art.style.gap = (F === "land" ? 20 : T.gap) + "px";
+const vis = art.querySelector(".visual"), stage = art.querySelector(".stage");
+vis.style.flex = "1"; vis.style.minHeight = "0"; vis.style.minWidth = "0";
+
+// encaixa o visual no espaço que sobrou
+requestAnimationFrame(() => {
+  const vr = vis.getBoundingClientRect(), sr = stage.getBoundingClientRect();
+  let s;
+  if (F === "land" || F === "story") {
+    s = Math.min(vr.width / sr.width, vr.height / sr.height) * (C === 4 ? 0.82 : (F === 'story' ? 1 : 0.94));
+  } else {
+    // formatos verticais: o visual cresce e pode "sangrar" pela borda de baixo
+    s = Math.min(vr.width * (C === 4 ? 0.9 : 0.96) / sr.width, (vr.height + T.pad) * 1.3 / sr.height);
+    vis.style.alignItems = "flex-start";
+    stage.style.transformOrigin = "top center";
+  }
+  stage.style.transform = `scale(${s})`;
+  document.body.dataset.ready = "1";
+});
+</script></body></html>
