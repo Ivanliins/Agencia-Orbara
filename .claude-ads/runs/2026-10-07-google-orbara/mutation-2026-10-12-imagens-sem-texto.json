@@ -1,0 +1,26 @@
+{
+  "schema_note": "Registro de alteração aplicada (não contém credenciais)",
+  "applied_at": "2026-10-12",
+  "platform": "google",
+  "account": { "customer_id": "4645826023", "name": "Agência Orbara" },
+  "campaign": { "id": "24204808268", "name": "[PESQUISA] - Captação de Leads - Orbara" },
+  "approved_by": "dono da conta (no chat: 'sim', item C — refazer as imagens sem texto e trocar as reprovadas)",
+  "validate_only_first": true,
+  "atomic": "uma chamada googleAds:mutate com 18 operações",
+  "changes": {
+    "removed_campaign_assets_AD_IMAGE": { "reason": "todas ASSET_DISAPPROVED / NOT_ELIGIBLE (provavelmente texto sobreposto, logo e botões)", "asset_ids": ["428787313298", "428787320528", "428787320600", "428890319392", "428974824474", "428974882182"] },
+    "new_image_assets_AD_IMAGE": {
+      "source": "criativos/out/google-sem-texto/ (criativo.html com &clean=1: sem texto, sem logo, sem botões)",
+      "assets": {
+        "429400102358": "Orbara - Celular (sem texto) (horizontal)",
+        "429400110803": "Orbara - Celular (sem texto) (quadrada)",
+        "429400102409": "Orbara - Site e celular (sem texto) (horizontal)",
+        "429586470846": "Orbara - Site e celular (sem texto) (quadrada)",
+        "429400111088": "Orbara - Orbita (sem texto) (horizontal)",
+        "429586471089": "Orbara - Orbita (sem texto) (quadrada)"
+      }
+    }
+  },
+  "verification": "Lido de volta: 6 imagens novas ENABLED, primary_status PENDING (em análise); as 6 antigas removidas da campanha",
+  "rollback": ["Remover os campaignAssets 24204808268~<id novo>~AD_IMAGE", "Recriar campaignAssets para os asset_ids antigos (os assets continuam na biblioteca)"]
+}

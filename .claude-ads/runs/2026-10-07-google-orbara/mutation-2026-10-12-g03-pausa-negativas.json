@@ -1,0 +1,16 @@
+{
+  "schema_note": "Registro de alteração aplicada (não contém credenciais)",
+  "applied_at": "2026-10-12",
+  "platform": "google",
+  "account": { "customer_id": "4645826023", "name": "Agência Orbara" },
+  "campaign": { "id": "24204808268", "name": "[PESQUISA] - Captação de Leads - Orbara" },
+  "approved_by": "dono da conta (no chat: 'sim, e o gasto diario deixe 10reais')",
+  "validate_only_first": true,
+  "changes": {
+    "g03": { "ad_group": "adGroups/200222161425", "status": { "before": "ENABLED", "after": "PAUSED" }, "reason": "termos de busca de 07-12/10 eram de quem procura curso/carreira de tráfego pago (pedro sobral, subido, iniciantes, o que é...)" },
+    "shared_negative_list": { "set": "sharedSets/12260045655", "terms_before": 103, "terms_after": 118, "new_criterion_ids": ["19912251", "2427904228", "15381740", "339407933", "11054866", "73338020", "91641783", "907905674", "302825351171", "37152543736", "385407201116", "1432505716236", "439089706452", "254881054", "11024310"] }
+  },
+  "unchanged": "orçamento (R$ 10/dia, confirmado), lances, G01, G02, anúncios",
+  "verification": "Lido de volta: G03 PAUSED; lista com 118 itens; orçamento 10.0",
+  "rollback": ["Reativar adGroups/200222161425", "Remover os 15 sharedCriteria acima de sharedSets/12260045655"]
+}

@@ -89,11 +89,23 @@ h1 .o{color:var(--o);font-style:italic}
 .orbit .p{position:absolute;width:190px;height:190px;border-radius:50%;right:40px;top:30px;background:radial-gradient(circle at 38% 35%,#ffd2a8,var(--o2) 30%,var(--o) 60%,#a13200);box-shadow:0 0 0 18px rgba(255,93,0,.15),0 0 120px 30px rgba(255,93,0,.65)}
 .orbit .trail{position:absolute;inset:0;border-radius:50%;border:16px solid transparent;border-top-color:var(--o);border-right-color:rgba(255,93,0,.4);transform:rotate(10deg);filter:drop-shadow(0 0 20px rgba(255,93,0,.8))}
 .spark{position:absolute;border-radius:50%;background:var(--o2);box-shadow:0 0 12px var(--o)}
+/* versão "limpa" para o Google Ads: sem texto, logo nem botões */
+.clean .text{display:none}
+.clean .badge,.clean .tag,.clean .arrow{display:none}
+.clean .clock,.clean .date,.clean .note .h,.clean .note .m,.clean .note .s,.clean .site .nav,.clean .site .hh,.clean .site .hh *,.clean .site *,.clean .note .ic b{color:transparent!important}
+.clean .note .m,.clean .note .s{background:rgba(255,250,250,.22);border-radius:8px;height:16px;margin-top:10px}
+.clean .note .s{width:70%;background:rgba(255,250,250,.12)}
+.clean .note .h{height:10px;width:40%;background:rgba(255,250,250,.12);border-radius:6px}
+.clean .clock{height:80px;width:60%;margin:0 auto;background:rgba(255,250,250,.18);border-radius:16px}
+.clean .date{height:14px;width:45%;margin:16px auto 40px;background:rgba(255,250,250,.1);border-radius:8px}
+.clean .site .hh{background:linear-gradient(rgba(255,250,250,.85),rgba(255,250,250,.85)) 0 0/100% 34% no-repeat,linear-gradient(var(--o),var(--o)) 0 50%/70% 30% no-repeat;border-radius:6px}
+.clean .site .nav{height:18px;background:linear-gradient(rgba(255,250,250,.5),rgba(255,250,250,.5)) 0 0/30% 100% no-repeat}
+.clean .note .ic svg{opacity:1}
 </style></head>
 <body><div id="art"></div>
 <script>
 const P = new URLSearchParams(location.search);
-const C = +P.get("c") || 1, F = P.get("f") || "sq";
+const C = +P.get("c") || 1, F = P.get("f") || "sq", CLEAN = P.get("clean") === "1";
 const SIZES = { land: [1200, 628], sq: [1080, 1080], port: [1080, 1350], story: [1080, 1920] };
 const [W, H] = SIZES[F];
 const art = document.getElementById("art");
@@ -150,6 +162,7 @@ const text = `<div class="text" style="gap:${T.gap}px;${F==='land'?`width:${T.te
   <div class="cta" style="font-size:${T.cta}px;padding:${T.cta*.7}px ${T.cta*.7}px ${T.cta*.7}px ${T.cta*1.3}px;margin-top:${T.gap*.4}px">${c.cta}<i style="width:${T.cta*1.7}px;height:${T.cta*1.7}px;font-size:${T.cta*.9}px">↗</i></div>
 </div>`;
 
+if (CLEAN) art.classList.add("clean");
 art.innerHTML = bg + text + `<div class="visual"><div class="stage">${c.visual}</div></div>`;
 art.style.padding = T.pad + "px";
 // stories: respeita as áreas cobertas pela interface do Instagram (topo e rodapé)
@@ -163,6 +176,7 @@ vis.style.flex = "1"; vis.style.minHeight = "0"; vis.style.minWidth = "0";
 requestAnimationFrame(() => {
   const vr = vis.getBoundingClientRect(), sr = stage.getBoundingClientRect();
   let s;
+  if (CLEAN) { const r = art.getBoundingClientRect(); const s2 = Math.min((r.width - 2*T.pad) / sr.width, (r.height - 2*T.pad) / sr.height) * (C === 4 ? 0.8 : 0.92); stage.style.transform = `scale(${s2})`; document.body.dataset.ready = "1"; return; }
   if (F === "land" || F === "story") {
     s = Math.min(vr.width / sr.width, vr.height / sr.height) * (C === 4 ? 0.82 : (F === 'story' ? 1 : 0.94));
   } else {
