@@ -1,0 +1,19 @@
+{
+  "schema_note": "Registro de alteração aplicada (não contém credenciais)",
+  "applied_at": "2026-10-15",
+  "platform": "google",
+  "account": { "customer_id": "4645826023", "name": "Agência Orbara" },
+  "campaign": { "id": "24204808268", "name": "[PESQUISA] - Captação de Leads - Orbara" },
+  "approved_by": "dono da conta (no chat: 'sim'; avisou que vai oferecer loja virtual, por isso 'nuvem' e 'loja virtual' ficaram de fora)",
+  "validate_only_first": true,
+  "changes": {
+    "shared_negative_list": {
+      "set": "sharedSets/12260045655", "terms_before": 118, "terms_after": 124, "match_type": "BROAD",
+      "new_terms": { "criador de site": "507891969", "estrutura": "47666950", "animation": "10273431", "temas": "19340663", "surfer": "12728206", "posicionamiento": "15399520" },
+      "source": "termos de pesquisa de 12/10: criador de site profissional, estrutura de uma landing page de alta conversão, landing page animation, temas para landing page, surfer seo, posicionamientoweb club"
+    }
+  },
+  "unchanged": "orçamento (R$ 10/dia), teto de CPC (R$ 9), palavras-chave, anúncios",
+  "verification": "Lido de volta: lista com 124 itens",
+  "rollback": ["Remover sharedCriteria 12260045655~{507891969,47666950,10273431,19340663,12728206,15399520}"]
+}
