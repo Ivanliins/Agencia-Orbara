@@ -23,6 +23,7 @@ function Router() {
         <Route path="/cases/:slug" component={CaseDetail} />
         <Route path="/obrigado" component={Thanks} />
         <Route path="/criacao-de-sites">{() => <ServicePage slug="criacao-de-sites" />}</Route>
+        <Route path="/loja-virtual">{() => <ServicePage slug="loja-virtual" />}</Route>
         <Route path="/seo">{() => <ServicePage slug="seo" />}</Route>
         <Route path="/google-ads">{() => <ServicePage slug="google-ads" />}</Route>
         <Route path="/motion-graphics">{() => <ServicePage slug="motion-graphics" />}</Route>

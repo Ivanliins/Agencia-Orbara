@@ -20,6 +20,10 @@
       "destination": "/criacao-de-sites/index.html"
     },
     {
+      "source": "/loja-virtual",
+      "destination": "/loja-virtual/index.html"
+    },
+    {
       "source": "/seo",
       "destination": "/seo/index.html"
     },

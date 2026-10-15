@@ -1,5 +1,5 @@
 /**
- * Conteúdo das páginas de serviço (/criacao-de-sites, /seo, /google-ads, /motion-graphics).
+ * Conteúdo das páginas de serviço (/criacao-de-sites, /loja-virtual, /seo, /google-ads, /motion-graphics).
  *
  * Cada página é o destino de um grupo de anúncios: o título repete a busca do anúncio.
  * Só usamos afirmações que o site já faz em outros lugares (planos, FAQ, cases):
@@ -7,7 +7,7 @@
  */
 import type { WhatsAppSource } from "@/components/site/tokens";
 
-export type ServiceSlug = "criacao-de-sites" | "seo" | "google-ads" | "motion-graphics";
+export type ServiceSlug = "criacao-de-sites" | "loja-virtual" | "seo" | "google-ads" | "motion-graphics";
 
 export type ServicePage = {
   slug: ServiceSlug;
@@ -86,6 +86,54 @@ export const SERVICE_PAGES: ServicePage[] = [
     ],
   },
   {
+    slug: "loja-virtual",
+    name: "Loja Virtual",
+    serviceType: "Criação de loja virtual (e-commerce)",
+    seoTitle: "Criação de Loja Virtual Profissional para Vender Online | Orbara",
+    seoDescription:
+      "Loja virtual rápida no celular, com pagamento, frete e WhatsApp integrados, pronta para o Google e para anúncios. Orçamento depois do diagnóstico grátis.",
+    kicker: "Criação de loja virtual",
+    h1: "Criação de loja virtual",
+    h1Accent: "pronta para vender.",
+    sub: "Uma loja online rápida no celular, com pagamento, frete e WhatsApp integrados, pensada para transformar visita em pedido.",
+    chips: ["Pagamento e frete integrados", "Rápida no celular", "Pronta para o Google", "Diagnóstico grátis"],
+    waSource: "loja",
+    included: [
+      { title: "Loja completa", desc: "Vitrine, páginas de produto, carrinho e checkout, com a identidade da sua marca." },
+      { title: "Pagamento e frete", desc: "Pix, cartão e boleto, e cálculo de frete integrados à loja." },
+      { title: "Rápida no celular", desc: "A maioria das compras começa no celular: layout e performance pensados primeiro para a tela pequena." },
+      { title: "Pronta para o Google", desc: "SEO de base nas categorias e produtos, com dados estruturados para aparecer nas buscas." },
+      { title: "WhatsApp e atendimento", desc: "Botão de WhatsApp com mensagem pronta para tirar dúvidas antes da compra." },
+      { title: "Vendas medidas", desc: "Analytics e conversões configurados para saber de onde vem cada venda." },
+    ],
+    steps: [
+      { title: "Diagnóstico gratuito", desc: "Entendemos seus produtos, volume de pedidos e como você vende hoje." },
+      { title: "Plataforma e estrutura", desc: "Escolhemos a plataforma certa para o seu momento e organizamos categorias e páginas." },
+      { title: "Design e cadastro", desc: "Layout da loja, páginas de produto e integração de pagamento e frete." },
+      { title: "Loja no ar", desc: "Publicação, testes de compra e medição de vendas desde o primeiro dia." },
+    ],
+    pricing: {
+      title: "Orçamento sob medida",
+      desc: "O valor depende do número de produtos, das integrações e da plataforma. Começamos pelo diagnóstico gratuito e mandamos a proposta com o prazo.",
+    },
+    proof: { cases: ["casa-voltari"] },
+    faq: [
+      {
+        q: "Quanto custa uma loja virtual?",
+        a: "Depende do número de produtos, das integrações (pagamento, frete, ERP) e da plataforma. Fazemos um diagnóstico gratuito e mandamos a proposta com valor e prazo.",
+      },
+      {
+        q: "Quanto tempo leva para a loja ficar no ar?",
+        a: "O prazo é definido na proposta, de acordo com o tamanho do catálogo e as integrações.",
+      },
+      {
+        q: "Vocês também trazem clientes para a loja?",
+        a: "Sim. Além de criar a loja, fazemos SEO e Google Ads para ela aparecer para quem já está procurando o que você vende.",
+      },
+      FIDELIDADE,
+    ],
+  },
+  {
     slug: "seo",
     name: "SEO",
     serviceType: "Otimização para mecanismos de busca (SEO)",
@@ -102,7 +150,7 @@ export const SERVICE_PAGES: ServicePage[] = [
       { title: "Auditoria técnica", desc: "Indexação, velocidade, versão mobile e dados estruturados: o que impede o Google de entender seu site." },
       { title: "Palavras com intenção de compra", desc: "Mapeamos o que seu cliente digita quando está pronto para contratar, não só quando está curioso." },
       { title: "Otimização das páginas", desc: "Títulos, descrições, conteúdo e links internos alinhados a essas buscas." },
-      { title: "SEO local", desc: "Perfil da Empresa no Google, Maps e consistência dos dados da empresa na internet." },
+      { title: "SEO local", desc: "Perfil da Empresa no Google (antigo Google Meu Negócio) otimizado, presença no Maps, avaliações e dados da empresa iguais em toda a internet, para aparecer em \"perto de mim\" e nas buscas da sua cidade." },
       { title: "Conteúdo que atrai e converte", desc: "Páginas e artigos que respondem às dúvidas do seu cliente e levam ao contato." },
       { title: "Acompanhamento mês a mês", desc: "Ajustes contínuos com base no que o Google e os visitantes mostram." },
     ],
@@ -125,6 +173,10 @@ export const SERVICE_PAGES: ServicePage[] = [
       {
         q: "Qual a diferença entre SEO e Google Ads?",
         a: "O anúncio coloca você no topo desde os primeiros dias de campanha, mas para quando a verba acaba. O SEO leva meses para amadurecer e depois traz cliente sem custo por clique. Na maioria dos casos, os dois juntos funcionam melhor.",
+      },
+      {
+        q: "Vocês fazem SEO local para negócios da minha cidade?",
+        a: "Sim. Otimizamos o Perfil da Empresa no Google, o Maps e as páginas do site para as buscas da sua região, como \"perto de mim\" e \"serviço + cidade\". Foi o que levou o Estacionamento Central Park a +68% de ocupação em 2 meses.",
       },
       FIDELIDADE,
     ],
