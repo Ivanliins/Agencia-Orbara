@@ -1,0 +1,20 @@
+{
+  "schema_note": "Registro de alteração aplicada (não contém credenciais)",
+  "applied_at": "2026-10-15",
+  "platform": "google",
+  "account": { "customer_id": "4645826023", "name": "Agência Orbara" },
+  "campaign": { "id": "24204808268", "name": "[PESQUISA] - Captação de Leads - Orbara" },
+  "approved_by": "dono da conta (no chat: 'sim')",
+  "validate_only_first": true,
+  "atomic": "uma chamada googleAds:mutate com 4 operações",
+  "changes": {
+    "cpc_bid_ceiling": { "before": "R$ 9,00", "after": "R$ 6,00", "reason": "cliques de 07-12/10 custaram R$ 1,47 a R$ 5,92 (média ~R$ 4); o teto de R$ 6 cobre todos eles" },
+    "g02_keywords": {
+      "paused": { "seo local (frase)": "295968859420", "reason": "Índice de qualidade 3: CTR esperado e experiência na página abaixo da média; busca mais informativa" },
+      "created_phrase": { "agência de seo local": "2276781854387", "seo local para empresas": "343580936377" }
+    }
+  },
+  "unchanged": "orçamento (R$ 10/dia), estratégia (maximizar cliques), negativas, anúncios",
+  "verification": "Lido de volta: teto 6000000 micros; 'seo local' PAUSED; 2 palavras novas ENABLED, em análise",
+  "rollback": ["Teto de CPC de volta para 9000000 micros", "Reativar 198514755006~295968859420 e pausar 198514755006~2276781854387 e ~343580936377"]
+}
