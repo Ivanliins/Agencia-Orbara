@@ -1,0 +1,20 @@
+{
+  "schema_note": "Registro de alteração aplicada (não contém credenciais)",
+  "applied_at": "2026-10-15",
+  "platform": "google",
+  "account": { "customer_id": "4645826023", "name": "Agência Orbara" },
+  "campaign": { "id": "24204808268", "name": "[PESQUISA] - Captação de Leads - Orbara" },
+  "approved_by": "dono da conta (no chat: 'sim, e baixe o valor do clique para 3,00')",
+  "validate_only_first": true,
+  "atomic": "uma chamada googleAds:mutate com 11 operações",
+  "changes": {
+    "negative": { "immobiliare": "sharedCriteria 12260045655~19039971", "reason": "clique em 'landing page immobiliare' (italiano) por R$ 5,38" },
+    "languages": { "before": ["inglês (1000)", "espanhol (1003)", "português (1014)"], "after": ["português (1014)"], "reason": "buscas em espanhol, inglês e italiano entrando" },
+    "geo_target_type": { "before": "PRESENCE_OR_INTEREST", "after": "PRESENCE", "reason": "5 de 24 cliques vieram de 'área de interesse'" },
+    "ad_schedule": { "after": "todos os dias, 06:00-24:00 (criteria 302496..362496)", "before": "o dia todo", "reason": "5 de 24 cliques entre 0h e 2h, sem conversão" },
+    "cpc_bid_ceiling": { "before": "R$ 6,00", "after": "R$ 3,00", "requested_by_owner": true, "warning": "de 07 a 15/10 a maioria dos cliques custou entre R$ 3 e R$ 6; espera-se queda forte de impressões" }
+  },
+  "unchanged": "orçamento (R$ 10/dia), palavras-chave, anúncios, demais negativas",
+  "verification": "Lido de volta: teto 3000000; PRESENCE; só idioma 1014; 7 horários 6-24h; 'immobiliare' na lista",
+  "rollback": ["Teto de CPC para 6000000", "Recriar idiomas 1000 e 1003", "positiveGeoTargetType PRESENCE_OR_INTEREST", "Remover campaignCriteria 24204808268~{302496,312496,322496,332496,342496,352496,362496}", "Remover sharedCriteria 12260045655~19039971"]
+}
